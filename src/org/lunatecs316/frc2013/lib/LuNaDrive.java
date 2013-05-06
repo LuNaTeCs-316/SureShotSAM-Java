@@ -6,6 +6,7 @@ package org.lunatecs316.frc2013.lib;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.RobotDrive;
 
 /**
  * Custom drivetrain class
@@ -35,6 +36,55 @@ public class LuNaDrive {
         m_rearRightMotor = rearRight;
     }
     
+    public void setParameters(double throttleGain, double turnGain, double deadband,
+            double turnBoostGain, double skimGain) {
+        m_throttleGain = throttleGain;
+        m_turnGain = turnGain;
+        m_deadband = deadband;
+        m_turnBoostGain = turnBoostGain;
+        m_skimGain = skimGain;
+    }
+    
+    public void setThrottleGain(double throttleGain) {
+        m_throttleGain = throttleGain;
+    }
+    
+    public void setTurnGain(double turnGain) {
+        m_turnGain = turnGain;
+    }
+    
+    public void setDeadband(double deadband) {
+        m_deadband = deadband;
+    }
+    
+    public void setTurnBoostGain(double turnBoostGain) {
+        m_turnBoostGain = turnBoostGain;
+    }
+    
+    public void setSkimGain(double skimGain) {
+        m_skimGain = skimGain;
+    }
+    
+    public double throttleGain() {
+        return m_throttleGain;
+    }
+    
+    public double turnGain() {
+        return m_turnGain;
+    }
+    
+    public double deadband() {
+        return m_deadband;
+    }
+    
+    public double turnBoostGain() {
+        return m_turnBoostGain;
+    }
+    
+    public double skimGain() {
+        return m_skimGain;
+    }
+    
     /**
      * Skim the excess off of the value and multiply by a constant
      * @param value - the value to be skimmed
@@ -62,23 +112,15 @@ public class LuNaDrive {
         double turn = Util.deadband(-(joystick.getRawAxis(4)), m_deadband);
         turn = (m_turnGain * (turn * turn * turn)) + ((1 - m_turnGain) * turn);
         
-        
-        if (Math.abs(throttle) > 0.5) {
-            turn = turn * (m_turnBoostGain * Math.abs(throttle));
-        }
-        
-        double t_left = throttle + turn;
-        double t_right = throttle - turn;
-        
-        double left = t_left + skim(t_right, m_skimGain);
-        double right = t_right + skim(t_left, m_skimGain);
-        
-        m_frontLeftMotor.set(left);
-        m_rearLeftMotor.set(left);
-        m_frontRightMotor.set(right);
-        m_rearRightMotor.set(right);
+        // Call the main drive function
+        drive(throttle, turn);
     }
     
+    /**
+     * Custom arcade drive control scheme
+     * @param throttle - the forward movement
+     * @param turn - the turn value
+     */
     public void drive(double throttle, double turn) {
         if (Math.abs(throttle) > 0.5) {
             turn = turn * (m_turnBoostGain * Math.abs(throttle));
@@ -90,9 +132,17 @@ public class LuNaDrive {
         double left = t_left + skim(t_right, m_skimGain);
         double right = t_right + skim(t_left, m_skimGain);
         
-        m_frontLeftMotor.set(left);
-        m_rearLeftMotor.set(left);
-        m_frontRightMotor.set(right);
-        m_rearRightMotor.set(right);
+        if (m_frontLeftMotor != null) {
+            m_frontLeftMotor.set(left);
+        }
+        if (m_rearLeftMotor != null) {
+            m_rearLeftMotor.set(left);        
+        }
+        if (m_frontRightMotor != null) {
+            m_frontRightMotor.set(right);    
+        }
+        if (m_rearRightMotor != null) {
+            m_rearRightMotor.set(right);
+        }
     }
 }
