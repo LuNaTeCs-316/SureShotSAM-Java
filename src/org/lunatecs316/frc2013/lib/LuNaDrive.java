@@ -55,20 +55,13 @@ public class LuNaDrive {
      * @param joystick - the driver's joystick (XBox controller only)
      */
     public void drive(Joystick joystick) {
-        double throttle = -(joystick.getY());
-        if (Math.abs(throttle) < m_deadband) {
-            throttle = 0;
-        } else {
-            throttle = (m_throttleGain * (throttle * throttle * throttle)) +
-                    ((1 - m_throttleGain) * throttle);
-        }
+        double throttle = Util.deadband(-(joystick.getY()), m_deadband);
+        throttle = (m_throttleGain * (throttle * throttle * throttle)) + 
+                ((1 - m_throttleGain) * throttle);
         
-        double turn = -(joystick.getRawAxis(4));
-        if (Math.abs(turn) < m_deadband) {
-            turn = 0;
-        } else {
-            turn = (m_turnGain * (turn * turn * turn)) + ((1 - m_turnGain) * turn);
-        }
+        double turn = Util.deadband(-(joystick.getRawAxis(4)), m_deadband);
+        turn = (m_turnGain * (turn * turn * turn)) + ((1 - m_turnGain) * turn);
+        
         
         if (Math.abs(throttle) > 0.5) {
             turn = turn * (m_turnBoostGain * Math.abs(throttle));

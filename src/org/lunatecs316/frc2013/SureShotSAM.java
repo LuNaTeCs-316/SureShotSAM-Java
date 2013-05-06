@@ -10,6 +10,7 @@ package org.lunatecs316.frc2013;
 import org.lunatecs316.frc2013.lib.LuNaDrive;
 import org.lunatecs316.frc2013.lib.Potentiometer;
 import org.lunatecs316.frc2013.lib.Tachometer;
+import org.lunatecs316.frc2013.lib.Util;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -78,6 +79,12 @@ public class SureShotSAM extends IterativeRobot {
     // Robot preferences
     Preferences preferences = Preferences.getInstance();
     
+    // Variables
+    private static final double SHOOTER_TOP_POSITION = 3.41;
+    private static final double SHOOTER_MID_POSITION = SHOOTER_TOP_POSITION - 0.1;
+    private static final double SHOOTER_LOAD_POSITION = 2.0;
+    
+    private int autoMode = 1;
     
     /**
      * This function is run when the robot is first started up and should be
@@ -119,16 +126,113 @@ public class SureShotSAM extends IterativeRobot {
     }
 
     /**
+     * This function is called at the start of autonomous mode
+     */
+    public void autonomousInit() {
+        autoMode = (int) driverStation.getAnalogIn(1);
+    }
+    
+    /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-
+        switch (autoMode) {
+            case 1:
+                autoMode1();
+                break;
+            case 2:
+                autoMode2();
+                break;
+        }
     }
-
+    
+    private void autoMode1() {
+        
+    }
+    
+    private void autoMode2() {
+        
+    }
+    
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+        /**********************************************************************
+         * Drivetrain
+         **********************************************************************/
+        
+        drivetrain.drive(driverController);
+        
+        /**********************************************************************
+         * Pickup
+         **********************************************************************/
+        
+        // Angle control
+        if (driverController.getRawButton(5)) {
+            pickupAngleMotor.set(1.0);
+        } else if (driverController.getRawButton(6)) {
+            pickupAngleMotor.set(-1.0);
+        } else {
+            pickupAngleMotor.set(0.0);
+        }
+        
+        // Belt control
+        if (operatorJoystick.getRawButton(6)) {
+            pickupBeltRelay.set(Relay.Value.kForward);
+            pickupBeltMotor.set(-operatorJoystick.getZ());
+        } else if (operatorJoystick.getRawButton(7)) {
+            pickupBeltRelay.set(Relay.Value.kReverse);
+            pickupBeltMotor.set(operatorJoystick.getZ());
+        } else {
+            pickupBeltRelay.set(Relay.Value.kOff);
+            pickupBeltMotor.set(0.0);
+        }
+        
+        /**********************************************************************
+         * Shooter
+         **********************************************************************/
+        
+        // Angle control
+        if (operatorJoystick.getRawButton(11)) {
+            shooterAngleController.setSetpoint(SHOOTER_TOP_POSITION);
+            shooterAngleController.enable();
+        } else if (operatorJoystick.getRawButton(10)) {
+            shooterAngleController.setSetpoint(SHOOTER_MID_POSITION);
+            shooterAngleController.enable();
+        } else if (operatorJoystick.getRawButton(8)) {
+            shooterAngleController.setSetpoint(SHOOTER_LOAD_POSITION);
+            shooterAngleController.enable();
+        } else {
+            shooterAngleController.disable();
+            shooterAngleMotor.set(Util.deadband(operatorJoystick.getY(), 0.2));
+        }
+        
+        // Motor control
+        if (operatorJoystick.getRawButton(2)) {
+            shooterSpeedController.setSetpoint(3750);
+            shooterSpeedController.enable();
+        } else if (operatorJoystick.getRawButton(5)) {
+            shooterSpeedController.disable();
+            shooterMotor.set(0.5);
+        } else {
+            shooterSpeedController.disable();
+        }
+        
+        // Firing control
+        shooterSolenoid.set(operatorJoystick.getRawButton(1));
+        
+        /**********************************************************************
+         * Climbing
+         **********************************************************************/
+        
+        climbingSolenoid.set(operatorJoystick.getRawButton(4));
+        
+        /**********************************************************************
+         * Misc.
+         **********************************************************************/
+        
+        // Shooter Light
         
     }
     
@@ -137,6 +241,5 @@ public class SureShotSAM extends IterativeRobot {
      */
     public void testPeriodic() {
         LiveWindow.run();
-    }
-    
+    }    
 }
