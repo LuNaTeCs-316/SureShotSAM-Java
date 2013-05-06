@@ -1,6 +1,6 @@
 MIDlet-Name: SureShotSAMIterative
 MIDlet-Version: 1.0.0
 MIDlet-Vendor: FIRST
-MIDlet-1: SureShotSAM, ,  com.lunatecs.SureShotSAM
+MIDlet-1: SureShotSAM, ,  org.lunatecs316.frc2013.SureShotSAM
 MicroEdition-Profile: IMP-1.0
 MicroEdition-Configuration: CLDC-1.1
