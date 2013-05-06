@@ -7,6 +7,7 @@
 
 package org.lunatecs316.frc2013;
 
+import org.lunatecs316.frc2013.lib.LuNaDrive;
 import org.lunatecs316.frc2013.lib.Potentiometer;
 import org.lunatecs316.frc2013.lib.Tachometer;
 
@@ -20,7 +21,6 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Relay;
-import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 
@@ -42,7 +42,7 @@ public class SureShotSAM extends IterativeRobot {
     Victor frontRightDriveMotor = new Victor(RobotMap.FRONT_RIGHT_DRIVE_MOTOR);
     Victor rearLeftDriveMotor = new Victor(RobotMap.REAR_LEFT_DRIVE_MOTOR);
     Victor rearRightDriveMotor = new Victor(RobotMap.REAR_RIGHT_DRIVE_MOTOR);
-    RobotDrive drivetrain = new RobotDrive(frontLeftDriveMotor,
+    LuNaDrive drivetrain = new LuNaDrive(frontLeftDriveMotor,
             frontRightDriveMotor, rearLeftDriveMotor, rearRightDriveMotor);
     Encoder leftDriveEncoder = new Encoder(RobotMap.LEFT_DRIVE_ENCODER_A,
             RobotMap.LEFT_DRIVE_ENCODER_B);
@@ -84,10 +84,6 @@ public class SureShotSAM extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-        // Configure drivetrain
-        drivetrain.setSafetyEnabled(false);
-        drivetrain.setExpiration(0.2);
-        
         // Configure sensors
         leftDriveEncoder.start();
         rightDriveEncoder.start();
