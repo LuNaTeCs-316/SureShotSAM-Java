@@ -98,8 +98,27 @@ public class SureShotSAM extends IterativeRobot {
         compressor.start();
         
         // Setup LiveWindow
+        LiveWindow.addActuator("Drivetrain", "FrontLeftMotor", frontLeftDriveMotor);
+        LiveWindow.addActuator("Drivetrain", "FrontRightMotor", frontRightDriveMotor);
+        LiveWindow.addActuator("Drivetrain", "RearLeftMotor", rearLeftDriveMotor);
+        LiveWindow.addActuator("Drivetrain", "RearRightMotor", rearRightDriveMotor);
+        LiveWindow.addSensor("Drivetrain", "LeftEncoder", leftDriveEncoder);
+        LiveWindow.addSensor("Drivetrain", "RightEncoder", rightDriveEncoder);
         
+        LiveWindow.addActuator("Pickup", "BeltRelay", pickupBeltRelay);
+        LiveWindow.addActuator("Pickup", "AngleMotor", pickupAngleMotor);
+        LiveWindow.addActuator("Pickup", "AngleController", pickupAngleController);
+        LiveWindow.addActuator("Pickup", "BeltMotor", pickupBeltMotor);
+        LiveWindow.addSensor("Pickup", "AnglePot", pickupAnglePot);
         
+        LiveWindow.addActuator("Shooter", "Motor", shooterMotor);
+        LiveWindow.addActuator("Shooter", "SpeedController", shooterSpeedController);
+        LiveWindow.addActuator("Shooter", "AngleMotor", shooterAngleMotor);
+        LiveWindow.addActuator("Shooter", "AngleController", shooterAngleController);
+        LiveWindow.addActuator("Shooter", "Solenoid", shooterSolenoid);
+        LiveWindow.addSensor("Shooter", "AnglePot", shooterAnglePot);
+        LiveWindow.addSensor("Shooter", "SpeedTach", shooterSpeedTach);
+      
         System.out.println("robotInit() Done!");
     }
 
