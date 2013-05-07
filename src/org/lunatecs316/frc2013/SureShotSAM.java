@@ -85,6 +85,8 @@ public class SureShotSAM extends IterativeRobot {
     private static final double SHOOTER_LOAD_POSITION = 2.0;
     
     private int autoMode = 1;
+    private int autoStep = 1;
+    private long autoStartTime = 0;
     
     /**
      * This function is run when the robot is first started up and should be
@@ -130,6 +132,8 @@ public class SureShotSAM extends IterativeRobot {
      */
     public void autonomousInit() {
         autoMode = (int) driverStation.getAnalogIn(1);
+        autoStep = 1;
+        autoStartTime = System.currentTimeMillis();
     }
     
     /**
@@ -143,11 +147,39 @@ public class SureShotSAM extends IterativeRobot {
             case 2:
                 autoMode2();
                 break;
+            default:
+                System.err.println("Error: invalid autonomous mode");
+                break;
         }
     }
     
     private void autoMode1() {
-        
+        System.out.print("[Mode:" + autoMode + "][Step:" + autoStep + "][Time:"
+                + System.currentTimeMillis() + "] ");
+        switch(autoStep) {
+            case 1:
+                // Start the shooter motor
+                shooterSpeedController.setSetpoint(4500);
+                shooterSpeedController.enable();
+                
+                if (shooterSpeedController.getError() < 300) {
+                    autoStartTime = System.currentTimeMillis();
+                    autoStep++;
+                }
+                break;
+            case 2:
+                // Fire the first shot
+                shooterSolenoid.set(true);
+                
+                if (System.currentTimeMillis() - autoStartTime >= 300) {
+                    autoStartTime = System.currentTimeMillis();
+                    autoStep++;
+                }
+                break;
+            default:
+                break;
+        }
+        System.out.println();
     }
     
     private void autoMode2() {
