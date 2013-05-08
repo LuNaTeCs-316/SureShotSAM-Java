@@ -8,6 +8,7 @@
 package org.lunatecs316.frc2013;
 
 import org.lunatecs316.frc2013.subsystems.*;
+import org.lunatecs316.frc2013.auto.*;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -30,9 +31,7 @@ public class SureShotSAM extends IterativeRobot {
             RobotMap.COMPRESSOR_RELAY);
     
     // Autonomous data
-    private int autoMode = 1;
-    private int autoStep = 1;
-    private long autoStartTime = 0;
+    private AutonomousMode autoMode;
     
     /**
      * This function is run when the robot is first started up and should be
@@ -56,22 +55,14 @@ public class SureShotSAM extends IterativeRobot {
      * This function is called at the start of autonomous mode
      */
     public void autonomousInit() {
-        autoMode = (int) driverStation.getAnalogIn(1);
-        autoStep = 1;
-        autoStartTime = System.currentTimeMillis();
+        autoMode.init();
     }
     
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-        switch (autoMode) {
-            case 1:
-                break;
-            default:
-                System.err.println("Error: invalid autonomous mode");
-                break;
-        }
+        autoMode.run();
     }
     
     /**
@@ -89,5 +80,20 @@ public class SureShotSAM extends IterativeRobot {
      */
     public void testPeriodic() {
         LiveWindow.run();
-    }    
+    }
+    
+    public void disabledPeriodic() {
+        // Update our current auto mode
+        switch ((int) driverStation.getAnalogIn(1)) {
+            default:
+            case 0:
+                autoMode = new DoNothingAuto();
+                break;
+            case 1:
+                if (autoMode.getClass() != ThreeDiskAuto.class) {
+                    autoMode = new ThreeDiskAuto();
+                }
+                break;
+        }
+    }
 }

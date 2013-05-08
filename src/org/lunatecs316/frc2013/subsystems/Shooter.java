@@ -59,6 +59,7 @@ public class Shooter {
      */
     public static void init() {
         speedController.setSetpoint(3975);
+        speedController.setAbsoluteTolerance(350);
         speedTach.start();
         
         LiveWindow.addActuator("Shooter", "Motor", motor);
@@ -102,8 +103,12 @@ public class Shooter {
         speedController.disable();
     }
     
+    public static boolean atSpeed() {
+        return speedController.onTarget();
+    }
+    
     /**
-     * Fire the frisbee
+     * Fire the shot
      * @param value - whether to shoot or not
      */
     public static void fire(boolean value) {
