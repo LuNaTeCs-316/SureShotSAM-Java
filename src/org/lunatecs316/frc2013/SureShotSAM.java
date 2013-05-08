@@ -38,6 +38,7 @@ public class SureShotSAM extends IterativeRobot {
     // Robot preferences
     private Preferences preferences = Preferences.getInstance();
     
+    // Autonomous data
     private int autoMode = 1;
     private int autoStep = 1;
     private long autoStartTime = 0;
@@ -157,14 +158,7 @@ public class SureShotSAM extends IterativeRobot {
          * Climbing
          **********************************************************************/
         
-        climbingSolenoid.set(operatorJoystick.getRawButton(4));
-        
-        /**********************************************************************
-         * Misc.
-         **********************************************************************/
-        
-        // Shooter Light
-        
+        Climber.climb(operatorJoystick.getRawButton(4));
     }
     
     /**
