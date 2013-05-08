@@ -40,18 +40,6 @@ public class SureShotSAM extends IterativeRobot {
     private Joystick driverController = new Joystick(RobotMap.DRIVER_JOYSTICK);
     private Joystick operatorJoystick = new Joystick(RobotMap.OPERATOR_JOYSTICK);
     
-    // Drivetrain
-    private Victor frontLeftDriveMotor = new Victor(RobotMap.FRONT_LEFT_DRIVE_MOTOR);
-    private Victor frontRightDriveMotor = new Victor(RobotMap.FRONT_RIGHT_DRIVE_MOTOR);
-    private Victor rearLeftDriveMotor = new Victor(RobotMap.REAR_LEFT_DRIVE_MOTOR);
-    private Victor rearRightDriveMotor = new Victor(RobotMap.REAR_RIGHT_DRIVE_MOTOR);
-    private LuNaDrive drivetrain = new LuNaDrive(frontLeftDriveMotor,
-            frontRightDriveMotor, rearLeftDriveMotor, rearRightDriveMotor);
-    private Encoder leftDriveEncoder = new Encoder(RobotMap.LEFT_DRIVE_ENCODER_A,
-            RobotMap.LEFT_DRIVE_ENCODER_B);
-    private Encoder rightDriveEncoder = new Encoder(RobotMap.RIGHT_DRIVE_ENCODER_A,
-            RobotMap.RIGHT_DRIVE_ENCODER_B);
-    
     // Shooter
     private Victor shooterMotor = new Victor(RobotMap.SHOOTER_MOTOR);
     private Tachometer shooterSpeedTach = new Tachometer(RobotMap.SHOOTER_SPEED_TACH);
@@ -87,11 +75,13 @@ public class SureShotSAM extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+        Drivetrain.init();
         Pickup.init();
+        Shooter.init();
+        Climber.init();
         
         // Configure sensors
-        leftDriveEncoder.start();
-        rightDriveEncoder.start();
+        
         
         shooterSpeedTach.start();
         
@@ -99,12 +89,6 @@ public class SureShotSAM extends IterativeRobot {
         compressor.start();
         
         // Setup LiveWindow
-        LiveWindow.addActuator("Drivetrain", "FrontLeftMotor", frontLeftDriveMotor);
-        LiveWindow.addActuator("Drivetrain", "FrontRightMotor", frontRightDriveMotor);
-        LiveWindow.addActuator("Drivetrain", "RearLeftMotor", rearLeftDriveMotor);
-        LiveWindow.addActuator("Drivetrain", "RearRightMotor", rearRightDriveMotor);
-        LiveWindow.addSensor("Drivetrain", "LeftEncoder", leftDriveEncoder);
-        LiveWindow.addSensor("Drivetrain", "RightEncoder", rightDriveEncoder);
         
         LiveWindow.addActuator("Shooter", "Motor", shooterMotor);
         LiveWindow.addActuator("Shooter", "SpeedController", shooterSpeedController);
@@ -177,7 +161,7 @@ public class SureShotSAM extends IterativeRobot {
          * Drivetrain
          **********************************************************************/
         
-        drivetrain.drive(driverController);
+        Drivetrain.arcadeDrive(driverController);
         
         /**********************************************************************
          * Pickup

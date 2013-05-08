@@ -6,7 +6,6 @@ package org.lunatecs316.frc2013.lib;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.RobotDrive;
 
 /**
  * Custom drivetrain class
@@ -65,23 +64,23 @@ public class LuNaDrive {
         m_skimGain = skimGain;
     }
     
-    public double throttleGain() {
+    public double getThrottleGain() {
         return m_throttleGain;
     }
     
-    public double turnGain() {
+    public double getTurnGain() {
         return m_turnGain;
     }
     
-    public double deadband() {
+    public double getDeadband() {
         return m_deadband;
     }
     
-    public double turnBoostGain() {
+    public double getTurnBoostGain() {
         return m_turnBoostGain;
     }
     
-    public double skimGain() {
+    public double getSkimGain() {
         return m_skimGain;
     }
     
