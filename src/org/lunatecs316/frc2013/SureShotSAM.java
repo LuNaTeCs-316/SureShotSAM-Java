@@ -9,14 +9,10 @@ package org.lunatecs316.frc2013;
 
 import org.lunatecs316.frc2013.subsystems.*;
 
-import org.lunatecs316.frc2013.lib.Util;
-
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.Preferences;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -28,15 +24,10 @@ import edu.wpi.first.wpilibj.Preferences;
 public class SureShotSAM extends IterativeRobot {
     // DS/Joysticks
     private DriverStation driverStation = DriverStation.getInstance();
-    private Joystick driverController = new Joystick(RobotMap.DRIVER_JOYSTICK);
-    private Joystick operatorJoystick = new Joystick(RobotMap.OPERATOR_JOYSTICK);
     
     // Compressor
     private Compressor compressor = new Compressor(RobotMap.COMPRESSOR_PRESSURE_SWITCH,
             RobotMap.COMPRESSOR_RELAY);
-    
-    // Robot preferences
-    private Preferences preferences = Preferences.getInstance();
     
     // Autonomous data
     private int autoMode = 1;
@@ -49,6 +40,7 @@ public class SureShotSAM extends IterativeRobot {
      */
     public void robotInit() {
         // Initialize subsystems
+        OI.init();
         Drivetrain.init();
         Pickup.init();
         Shooter.init();
@@ -75,7 +67,6 @@ public class SureShotSAM extends IterativeRobot {
     public void autonomousPeriodic() {
         switch (autoMode) {
             case 1:
-                autoMode1();
                 break;
             default:
                 System.err.println("Error: invalid autonomous mode");
@@ -83,82 +74,14 @@ public class SureShotSAM extends IterativeRobot {
         }
     }
     
-    private void autoMode1() {
-        System.out.print("[Mode:" + autoMode + "][Step:" + autoStep + "][Time:"
-                + System.currentTimeMillis() + "] ");
-        switch(autoStep) {
-            case 1:
-                // Start the shooter motor
-            case 2:
-                // Fire the first shot
-            default:
-                break;
-        }
-        System.out.println();
-    }
-    
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        /**********************************************************************
-         * Drivetrain
-         **********************************************************************/
-        
-        Drivetrain.arcadeDrive(driverController);
-        
-        /**********************************************************************
-         * Pickup
-         **********************************************************************/
-        
-        // Angle control
-        if (driverController.getRawButton(5)) {
-            Pickup.raise();
-        } else if (driverController.getRawButton(6)) {
-            Pickup.lower();
-        } else {
-            Pickup.stop();
-        }
-        
-        // Belt control
-        if (operatorJoystick.getRawButton(6)) {
-            Pickup.setBeltState(Pickup.kBeltReverse);
-        } else if (operatorJoystick.getRawButton(7)) {
-            Pickup.setBeltState(Pickup.kBeltForwards);
-        } else {
-            Pickup.setBeltState(Pickup.kBeltOff);
-        }
-        
-        /**********************************************************************
-         * Shooter
-         **********************************************************************/
-        
-        // Angle control
-        if (operatorJoystick.getRawButton(11)) {
-            Shooter.moveToPosition(Shooter.Position.Top);
-        } else if (operatorJoystick.getRawButton(10)) {
-            Shooter.moveToPosition(Shooter.Position.Mid);
-        } else if (operatorJoystick.getRawButton(8)) {
-            Shooter.moveToPosition(Shooter.Position.Load);
-        } else {
-            Shooter.move(Util.deadband(operatorJoystick.getY(), 0.2));
-        }
-        
-        // Motor control
-        if (operatorJoystick.getRawButton(2)) {
-            Shooter.enable();
-        } else {
-            Shooter.disable();
-        }
-        
-        // Firing control
-        Shooter.fire(operatorJoystick.getRawButton(1));
-        
-        /**********************************************************************
-         * Climbing
-         **********************************************************************/
-        
-        Climber.climb(operatorJoystick.getRawButton(4));
+        OI.runDrivetrain();
+        OI.runPickup();
+        OI.runShooter();
+        OI.runClimber();
     }
     
     /**
