@@ -7,6 +7,8 @@
 
 package org.lunatecs316.frc2013;
 
+import org.lunatecs316.frc2013.subsystems.*;
+
 import org.lunatecs316.frc2013.lib.LuNaDrive;
 import org.lunatecs316.frc2013.lib.Potentiometer;
 import org.lunatecs316.frc2013.lib.Tachometer;
@@ -34,50 +36,42 @@ import edu.wpi.first.wpilibj.Victor;
  */
 public class SureShotSAM extends IterativeRobot {
     // DS/Joysticks
-    DriverStation driverStation = DriverStation.getInstance();
-    Joystick driverController = new Joystick(RobotMap.DRIVER_JOYSTICK);
-    Joystick operatorJoystick = new Joystick(RobotMap.OPERATOR_JOYSTICK);
+    private DriverStation driverStation = DriverStation.getInstance();
+    private Joystick driverController = new Joystick(RobotMap.DRIVER_JOYSTICK);
+    private Joystick operatorJoystick = new Joystick(RobotMap.OPERATOR_JOYSTICK);
     
     // Drivetrain
-    Victor frontLeftDriveMotor = new Victor(RobotMap.FRONT_LEFT_DRIVE_MOTOR);
-    Victor frontRightDriveMotor = new Victor(RobotMap.FRONT_RIGHT_DRIVE_MOTOR);
-    Victor rearLeftDriveMotor = new Victor(RobotMap.REAR_LEFT_DRIVE_MOTOR);
-    Victor rearRightDriveMotor = new Victor(RobotMap.REAR_RIGHT_DRIVE_MOTOR);
-    LuNaDrive drivetrain = new LuNaDrive(frontLeftDriveMotor,
+    private Victor frontLeftDriveMotor = new Victor(RobotMap.FRONT_LEFT_DRIVE_MOTOR);
+    private Victor frontRightDriveMotor = new Victor(RobotMap.FRONT_RIGHT_DRIVE_MOTOR);
+    private Victor rearLeftDriveMotor = new Victor(RobotMap.REAR_LEFT_DRIVE_MOTOR);
+    private Victor rearRightDriveMotor = new Victor(RobotMap.REAR_RIGHT_DRIVE_MOTOR);
+    private LuNaDrive drivetrain = new LuNaDrive(frontLeftDriveMotor,
             frontRightDriveMotor, rearLeftDriveMotor, rearRightDriveMotor);
-    Encoder leftDriveEncoder = new Encoder(RobotMap.LEFT_DRIVE_ENCODER_A,
+    private Encoder leftDriveEncoder = new Encoder(RobotMap.LEFT_DRIVE_ENCODER_A,
             RobotMap.LEFT_DRIVE_ENCODER_B);
-    Encoder rightDriveEncoder = new Encoder(RobotMap.RIGHT_DRIVE_ENCODER_A,
+    private Encoder rightDriveEncoder = new Encoder(RobotMap.RIGHT_DRIVE_ENCODER_A,
             RobotMap.RIGHT_DRIVE_ENCODER_B);
     
-    // Pickup
-    Relay pickupBeltRelay = new Relay(RobotMap.PICKUP_BELT_RELAY);
-    Jaguar pickupAngleMotor = new Jaguar(RobotMap.PICKUP_ANGLE_MOTOR);
-    Potentiometer pickupAnglePot = new Potentiometer(RobotMap.PICKUP_ANGLE_POT);
-    PIDController pickupAngleController = new PIDController(-5.0, -0.1, 0.0,
-            pickupAnglePot, pickupAngleMotor);
-    Victor pickupBeltMotor = new Victor(RobotMap.PICKUP_BELT_MOTOR);
-    
     // Shooter
-    Victor shooterMotor = new Victor(RobotMap.SHOOTER_MOTOR);
-    Tachometer shooterSpeedTach = new Tachometer(RobotMap.SHOOTER_SPEED_TACH);
-    PIDController shooterSpeedController = new PIDController(-0.005, 0.000, 0.0,
+    private Victor shooterMotor = new Victor(RobotMap.SHOOTER_MOTOR);
+    private Tachometer shooterSpeedTach = new Tachometer(RobotMap.SHOOTER_SPEED_TACH);
+    private PIDController shooterSpeedController = new PIDController(-0.005, 0.000, 0.0,
             shooterSpeedTach, shooterMotor);
-    Jaguar shooterAngleMotor = new Jaguar(RobotMap.SHOOTER_ANGLE_MOTOR);
-    Potentiometer shooterAnglePot = new Potentiometer(RobotMap.SHOOTER_ANGLE_POT);
-    PIDController shooterAngleController = new PIDController(22.5, 0.0, 0.0,
+    private Jaguar shooterAngleMotor = new Jaguar(RobotMap.SHOOTER_ANGLE_MOTOR);
+    private Potentiometer shooterAnglePot = new Potentiometer(RobotMap.SHOOTER_ANGLE_POT);
+    private PIDController shooterAngleController = new PIDController(22.5, 0.0, 0.0,
             shooterAnglePot, shooterAngleMotor);
-    Solenoid shooterSolenoid = new Solenoid(RobotMap.SHOOTER_SOLENOID);
+    private Solenoid shooterSolenoid = new Solenoid(RobotMap.SHOOTER_SOLENOID);
     
     // Climbing
-    Solenoid climbingSolenoid = new Solenoid(RobotMap.CLIMBING_SOLENOID);
+    private Solenoid climbingSolenoid = new Solenoid(RobotMap.CLIMBING_SOLENOID);
     
     // Compressor
-    Compressor compressor = new Compressor(RobotMap.COMPRESSOR_PRESSURE_SWITCH,
+    private Compressor compressor = new Compressor(RobotMap.COMPRESSOR_PRESSURE_SWITCH,
             RobotMap.COMPRESSOR_RELAY);
     
     // Robot preferences
-    Preferences preferences = Preferences.getInstance();
+    private Preferences preferences = Preferences.getInstance();
     
     // Variables
     private static final double SHOOTER_TOP_POSITION = 3.41;
@@ -93,6 +87,8 @@ public class SureShotSAM extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+        Pickup.init();
+        
         // Configure sensors
         leftDriveEncoder.start();
         rightDriveEncoder.start();
@@ -109,12 +105,6 @@ public class SureShotSAM extends IterativeRobot {
         LiveWindow.addActuator("Drivetrain", "RearRightMotor", rearRightDriveMotor);
         LiveWindow.addSensor("Drivetrain", "LeftEncoder", leftDriveEncoder);
         LiveWindow.addSensor("Drivetrain", "RightEncoder", rightDriveEncoder);
-        
-        LiveWindow.addActuator("Pickup", "BeltRelay", pickupBeltRelay);
-        LiveWindow.addActuator("Pickup", "AngleMotor", pickupAngleMotor);
-        LiveWindow.addActuator("Pickup", "AngleController", pickupAngleController);
-        LiveWindow.addActuator("Pickup", "BeltMotor", pickupBeltMotor);
-        LiveWindow.addSensor("Pickup", "AnglePot", pickupAnglePot);
         
         LiveWindow.addActuator("Shooter", "Motor", shooterMotor);
         LiveWindow.addActuator("Shooter", "SpeedController", shooterSpeedController);
@@ -143,9 +133,6 @@ public class SureShotSAM extends IterativeRobot {
         switch (autoMode) {
             case 1:
                 autoMode1();
-                break;
-            case 2:
-                autoMode2();
                 break;
             default:
                 System.err.println("Error: invalid autonomous mode");
@@ -182,10 +169,6 @@ public class SureShotSAM extends IterativeRobot {
         System.out.println();
     }
     
-    private void autoMode2() {
-        
-    }
-    
     /**
      * This function is called periodically during operator control
      */
@@ -202,23 +185,20 @@ public class SureShotSAM extends IterativeRobot {
         
         // Angle control
         if (driverController.getRawButton(5)) {
-            pickupAngleMotor.set(1.0);
+            Pickup.raise();
         } else if (driverController.getRawButton(6)) {
-            pickupAngleMotor.set(-1.0);
+            Pickup.lower();
         } else {
-            pickupAngleMotor.set(0.0);
+            Pickup.stop();
         }
         
         // Belt control
         if (operatorJoystick.getRawButton(6)) {
-            pickupBeltRelay.set(Relay.Value.kForward);
-            pickupBeltMotor.set(-operatorJoystick.getZ());
+            Pickup.setBeltState(Pickup.kBeltReverse);
         } else if (operatorJoystick.getRawButton(7)) {
-            pickupBeltRelay.set(Relay.Value.kReverse);
-            pickupBeltMotor.set(operatorJoystick.getZ());
+            Pickup.setBeltState(Pickup.kBeltForwards);
         } else {
-            pickupBeltRelay.set(Relay.Value.kOff);
-            pickupBeltMotor.set(0.0);
+            Pickup.setBeltState(Pickup.kBeltOff);
         }
         
         /**********************************************************************
