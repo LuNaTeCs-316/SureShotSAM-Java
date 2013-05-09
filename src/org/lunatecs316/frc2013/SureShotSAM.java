@@ -12,6 +12,7 @@ import org.lunatecs316.frc2013.auto.*;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStationLCD;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
@@ -23,8 +24,10 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  * directory.
  */
 public class SureShotSAM extends IterativeRobot {
-    // DS/Joysticks
+
+    // DriverStation
     private DriverStation driverStation = DriverStation.getInstance();
+    private DriverStationLCD LCD = DriverStationLCD.getInstance();
     
     // Compressor
     private Compressor compressor = new Compressor(RobotMap.COMPRESSOR_PRESSURE_SWITCH,
@@ -48,7 +51,11 @@ public class SureShotSAM extends IterativeRobot {
         // Start the compressor
         compressor.start();
       
+        LCD.println(DriverStationLCD.Line.kUser1, 1,
+                "[SureShotSAM][robotInit] robotInit() Done");
         System.out.println("robotInit() Done!");
+        
+        LCD.updateLCD();
     }
 
     /**
@@ -56,6 +63,8 @@ public class SureShotSAM extends IterativeRobot {
      */
     public void autonomousInit() {
         autoMode.init();
+        
+        LCD.updateLCD();
     }
     
     /**
@@ -63,6 +72,8 @@ public class SureShotSAM extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         autoMode.run();
+        
+        LCD.updateLCD();
     }
     
     /**
@@ -73,6 +84,8 @@ public class SureShotSAM extends IterativeRobot {
         OI.runPickup();
         OI.runShooter();
         OI.runClimber();
+        
+        LCD.updateLCD();
     }
     
     /**
@@ -80,6 +93,8 @@ public class SureShotSAM extends IterativeRobot {
      */
     public void testPeriodic() {
         LiveWindow.run();
+        
+        LCD.updateLCD();
     }
     
     public void disabledPeriodic() {
@@ -95,5 +110,7 @@ public class SureShotSAM extends IterativeRobot {
                 }
                 break;
         }
+        
+        LCD.updateLCD();
     }
 }
