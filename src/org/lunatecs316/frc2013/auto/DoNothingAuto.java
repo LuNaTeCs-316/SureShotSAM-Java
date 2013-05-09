@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.lunatecs316.frc2013.auto;
 
 /**
@@ -9,11 +5,18 @@ package org.lunatecs316.frc2013.auto;
  * @author domenicpaul
  */
 public class DoNothingAuto implements AutonomousMode {
+    
+    /**
+     * Initialize the autonomous mode
+     */
     public void init() {
-        
+        // Nothing to do
     }
     
+    /**
+     * Run one iteration of the autonomous mode
+     */
     public void run() {
-        // Do nothing
+        // Nothing to do
     }
 }

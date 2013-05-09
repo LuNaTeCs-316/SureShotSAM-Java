@@ -33,7 +33,7 @@ public class SureShotSAM extends IterativeRobot {
     private Compressor compressor = new Compressor(RobotMap.COMPRESSOR_PRESSURE_SWITCH,
             RobotMap.COMPRESSOR_RELAY);
     
-    // Autonomous data
+    // Autonomous Mode
     private AutonomousMode autoMode;
     
     /**
@@ -51,10 +51,12 @@ public class SureShotSAM extends IterativeRobot {
         // Start the compressor
         compressor.start();
       
+        // Print for debugging purposes
         LCD.println(DriverStationLCD.Line.kUser1, 1,
                 "[SureShotSAM][robotInit] robotInit() Done");
         System.out.println("robotInit() Done!");
         
+        // Update the DriverStationLCD
         LCD.updateLCD();
     }
 
@@ -62,8 +64,11 @@ public class SureShotSAM extends IterativeRobot {
      * This function is called at the start of autonomous mode
      */
     public void autonomousInit() {
+        
+        // Call the autoMode's initalizer
         autoMode.init();
         
+        // Update the DriverStationLCD
         LCD.updateLCD();
     }
     
@@ -71,8 +76,11 @@ public class SureShotSAM extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
+        
+        // Run an iteration of the autoMode
         autoMode.run();
         
+        // Update the DriverStationLCD
         LCD.updateLCD();
     }
     
@@ -80,11 +88,14 @@ public class SureShotSAM extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+        
+        // Run each of the OI sections
         OI.runDrivetrain();
         OI.runPickup();
         OI.runShooter();
         OI.runClimber();
         
+        // Update the DriverStationLCD
         LCD.updateLCD();
     }
     
@@ -92,12 +103,16 @@ public class SureShotSAM extends IterativeRobot {
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
+        
+        // Run LiveWindow
         LiveWindow.run();
         
+        // Update the DriverStationLCD
         LCD.updateLCD();
     }
     
     public void disabledPeriodic() {
+        
         // Update our current auto mode
         switch ((int) driverStation.getAnalogIn(1)) {
             default:
@@ -111,6 +126,7 @@ public class SureShotSAM extends IterativeRobot {
                 break;
         }
         
+        // Update the DriverStationLCD
         LCD.updateLCD();
     }
 }

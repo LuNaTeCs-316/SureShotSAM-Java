@@ -5,11 +5,12 @@ package org.lunatecs316.frc2013;
  * @author domenicpaul
  */
 public class RobotMap {
-    // Joystick inputs
+    
+    /* Joystick inputs */
     public static final int DRIVER_JOYSTICK = 1;
     public static final int OPERATOR_JOYSTICK = 2;
     
-    // PWM outputs
+    /* PWM outputs */
     public static final int FRONT_LEFT_DRIVE_MOTOR = 1;
     public static final int FRONT_RIGHT_DRIVE_MOTOR = 2;
     public static final int REAR_LEFT_DRIVE_MOTOR = 3;
@@ -19,19 +20,19 @@ public class RobotMap {
     public static final int SHOOTER_ANGLE_MOTOR = 7;
     public static final int PICKUP_BELT_MOTOR = 8;
     
-    // Relay outputs
+    /* Relay outputs */
     public static final int COMPRESSOR_RELAY = 1;
     public static final int PICKUP_BELT_RELAY = 2;
     
-    // Solenoid outputs
+    /* Solenoid outputs */
     public static final int SHOOTER_SOLENOID = 1;
     public static final int CLIMBING_SOLENOID = 2;
     
-    // Analog inputs
+    /* Analog inputs */
     public static final int PICKUP_ANGLE_POT = 1;
     public static final int SHOOTER_ANGLE_POT = 2;
     
-    // Digital inputs
+    /* Digital inputs */
     public static final int LEFT_DRIVE_ENCODER_A = 1;
     public static final int LEFT_DRIVE_ENCODER_B = 2;
     public static final int RIGHT_DRIVE_ENCODER_A = 3;

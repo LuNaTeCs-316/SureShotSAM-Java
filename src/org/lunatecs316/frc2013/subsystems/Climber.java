@@ -9,15 +9,23 @@ import org.lunatecs316.frc2013.RobotMap;
  * @author domenicpaul
  */
 public class Climber {
-    // Climbing
+    
     private static final Solenoid solenoid = new Solenoid(RobotMap.CLIMBING_SOLENOID);
-        
+    
+    /* Private Constructor to avoid instantiation */
     private Climber() {}
     
+    /**
+     * Initialize the subsystem
+     */
     public static void init() {
         
     }
     
+    /**
+     * Activate the climbing system
+     * @param value true => extended, false => retracted
+     */
     public static void climb(boolean value) {
         solenoid.set(value);
     }

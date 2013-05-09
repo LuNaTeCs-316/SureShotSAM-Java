@@ -8,21 +8,36 @@ import edu.wpi.first.wpilibj.SpeedController;
  * @author domenicpaul
  */
 public class LuNaDrive {
+    
+    /* Drive Motors */
     private SpeedController m_frontLeftMotor;
     private SpeedController m_frontRightMotor;
     private SpeedController m_rearLeftMotor;
     private SpeedController m_rearRightMotor;
     
+    /* Drive Parameters */
     private double m_throttleGain = 1.0;
     private double m_turnGain = 1.0;
     private double m_deadband = 0.2;
     private double m_turnBoostGain = 0.5;
     private double m_skimGain = 0.5;
     
+    /**
+     * Create a new two-motor LuNaDrive
+     * @param left the left motor
+     * @param right the right motor
+     */
     public LuNaDrive(SpeedController left, SpeedController right) {
         this(left, right, null, null);
     }
     
+    /**
+     * Create a new four-motor LuNaDrive
+     * @param frontLeft the front left motor
+     * @param frontRight the front right motor
+     * @param rearLeft the rear left motor
+     * @param rearRight the rear right motor
+     */
     public LuNaDrive(SpeedController frontLeft, SpeedController frontRight,
             SpeedController rearLeft, SpeedController rearRight) {
         m_frontLeftMotor = frontLeft;
@@ -31,6 +46,14 @@ public class LuNaDrive {
         m_rearRightMotor = rearRight;
     }
     
+    /**
+     * Convenience method to set all parameters at once
+     * @param throttleGain the throttle filtering gain
+     * @param turnGain the turn filtering gain
+     * @param deadband the joystick deadband
+     * @param turnBoostGain the turning boost gain
+     * @param skimGain the skimming gain
+     */
     public void setParameters(double throttleGain, double turnGain, double deadband,
             double turnBoostGain, double skimGain) {
         m_throttleGain = throttleGain;
@@ -40,51 +63,51 @@ public class LuNaDrive {
         m_skimGain = skimGain;
     }
     
+    /**
+     * Set the throttle filtering gain
+     * @param throttleGain the throttle filtering gain
+     */
     public void setThrottleGain(double throttleGain) {
         m_throttleGain = throttleGain;
     }
     
+    /**
+     * Set the turn filtering gain
+     * @param turnGain the turn filtering gain
+     */
     public void setTurnGain(double turnGain) {
         m_turnGain = turnGain;
     }
     
+    /**
+     * Set the joystick input deadband
+     * @param deadband the joystick deadband
+     */
     public void setDeadband(double deadband) {
         m_deadband = deadband;
     }
     
+    /**
+     * Set the turn boost gain
+     * @param turnBoostGain the turn boost gain
+     */
     public void setTurnBoostGain(double turnBoostGain) {
         m_turnBoostGain = turnBoostGain;
     }
     
+    /**
+     * Set the skim gain
+     * @param skimGain the skim gain
+     */
     public void setSkimGain(double skimGain) {
         m_skimGain = skimGain;
     }
     
-    public double getThrottleGain() {
-        return m_throttleGain;
-    }
-    
-    public double getTurnGain() {
-        return m_turnGain;
-    }
-    
-    public double getDeadband() {
-        return m_deadband;
-    }
-    
-    public double getTurnBoostGain() {
-        return m_turnBoostGain;
-    }
-    
-    public double getSkimGain() {
-        return m_skimGain;
-    }
-    
     /**
      * Skim the excess off of the value and multiply by a constant
-     * @param value - the value to be skimmed
-     * @param gain - a constant gain
-     * @return - the skimmed excess value
+     * @param value the value to be skimmed
+     * @param gain a constant gain
+     * @return the skimmed excess value
      */
     private double skim(double value, double gain) {
         if (value > 1.0) {
@@ -97,7 +120,7 @@ public class LuNaDrive {
     
     /**
      * Custom arcade drive control scheme
-     * @param joystick - the driver's joystick (XBox controller only)
+     * @param joystick the driver's joystick (XBox controller only)
      */
     public void drive(Joystick joystick) {
         double throttle = Util.deadband(-(joystick.getY()), m_deadband);
@@ -113,8 +136,8 @@ public class LuNaDrive {
     
     /**
      * Custom arcade drive control scheme
-     * @param throttle - the forward movement
-     * @param turn - the turn value
+     * @param throttle the forward movement
+     * @param turn the turn value
      */
     public void drive(double throttle, double turn) {
         if (Math.abs(throttle) > 0.5) {

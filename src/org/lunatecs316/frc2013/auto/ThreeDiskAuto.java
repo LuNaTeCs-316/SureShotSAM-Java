@@ -10,23 +10,42 @@ import edu.wpi.first.wpilibj.DriverStationLCD;
  */
 public class ThreeDiskAuto implements AutonomousMode {
     
+    /**
+     * Represents the various states of the robot during the autonomous mode
+     */
     private static class State {
-        private String name;
-        private int value;
         
-        private static int count = 0;
-        
+        /**
+         * Start of the Autonomous Mode
+         */
         public static final State kStart = new State("Start");
-        public static final State kFiring = new State("Firing");
-        public static final State kPreparingNextShot = new State("PreparingNextShot");
-        public static final State kFinished = new State("Finished");
         
+        /**
+         * Firing a shot
+         */
+        public static final State kFiring = new State("Firing");
+        
+        /**
+         * Preparing to fire the next shot
+         */
+        public static final State kPreparingNextShot = new State("PreparingNextShot");
+        
+        /**
+         * Finished the Autonomous Mode
+         */
+        public static final State kFinished = new State("Finished");
+                
+        private String name;
+        
+        // Private to prevent creation outside the class
         private State(String name) {
             this.name = name;
-            this.value = count;
-            count++;
         }
         
+        /**
+         * Convert the State to a string
+         * @return the string value
+         */
         public String toString() {
             return name;
         }
@@ -39,10 +58,18 @@ public class ThreeDiskAuto implements AutonomousMode {
     
     private DriverStationLCD LCD = DriverStationLCD.getInstance();
 
+    /**
+     * Returns the time spent in the current state
+     * @return the time spent in the current state
+     */
     private double ellapsedStateTime() {
         return System.currentTimeMillis() - startTime;
     }
     
+    /**
+     * Sets the state for the next loop and resets startTime
+     * @param state the new state
+     */
     private void setState(State state) {
         this.state = state;
         startTime = System.currentTimeMillis();
@@ -64,20 +91,25 @@ public class ThreeDiskAuto implements AutonomousMode {
      * Run one iteration of the mode. Called from autonomousPeriodic()
      */
     public void run() {
-        String output = "[ThreeDiskAuto][run] ";
+        String output = "[ThreeDiskAuto][run] ";    // used for debugging
         
         if (!finished) {
-            output += "State: " + state.toString();
+            // Add the current state to debug output
+            output += "State: " + state.toString() + "; ";
             
+            // Switch through the states
             if (state == State.kStart) {
+                // Enable the shooter and wait for it to come up to speed
                 Shooter.enable();
 
                 if (Shooter.atSpeed() || ellapsedStateTime() >= 2.0) {
                     setState(State.kFiring);
                 }
             } else if (state == State.kFiring) {
+                // Fire a shot
                 Shooter.fire(true);
 
+                // Wait 200ms
                 if (ellapsedStateTime() >= 0.2) {
                     shotsFired++;
                     if (shotsFired >= 5) {
@@ -87,6 +119,7 @@ public class ThreeDiskAuto implements AutonomousMode {
                     }
                 }
             } else if (state == State.kPreparingNextShot) {
+                // Reset and wait for the shooter to come back up to speed
                 Shooter.fire(false);
 
                 if (ellapsedStateTime() >= 0.5 &&
@@ -94,13 +127,16 @@ public class ThreeDiskAuto implements AutonomousMode {
                     setState(State.kFiring);
                 }
             } else if (state == State.kFinished) {
+                // Turn off the shooter
                 Shooter.disable();
                 finished = true;
             }
         } else {
+            // We're done
             output += "Finished";
         }
         
+        // Print debugging info
         LCD.println(DriverStationLCD.Line.kUser1, 1, output);
         System.out.println(output);
     }

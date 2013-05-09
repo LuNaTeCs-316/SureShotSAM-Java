@@ -10,24 +10,29 @@ import org.lunatecs316.frc2013.subsystems.*;
  * @author domenicpaul
  */
 public class OI {
+    
+    /* Joysticks */
     private static final Joystick driverController = new Joystick(RobotMap.DRIVER_JOYSTICK);
     private static final Joystick operatorJoystick = new Joystick(RobotMap.OPERATOR_JOYSTICK);
     
+    /**
+     * Initialize the Operator Interface
+     */
     public static void init() {
-        
     }
     
     /**
-     * Run drivetrain section
+     * Run the drivetrain section
      */
     public static void runDrivetrain() {
         Drivetrain.arcadeDrive(driverController);
     }
     
     /**
-     * Run pickup section
+     * Run the pickup section
      */
     public static void runPickup() {
+        
         // Angle control
         if (driverController.getRawButton(5)) {
             Pickup.raise();
@@ -39,18 +44,19 @@ public class OI {
         
         // Belt control
         if (operatorJoystick.getRawButton(6)) {
-            Pickup.setBeltState(Pickup.kBeltReverse);
+            Pickup.setBeltState(Pickup.BeltState.Reverse);
         } else if (operatorJoystick.getRawButton(7)) {
-            Pickup.setBeltState(Pickup.kBeltForwards);
+            Pickup.setBeltState(Pickup.BeltState.Forwards);
         } else {
-            Pickup.setBeltState(Pickup.kBeltOff);
+            Pickup.setBeltState(Pickup.BeltState.Off);
         }
     }
     
     /**
-     * Run shooter section
+     * Run the shooter section
      */
     public static void runShooter() {
+        
         // Angle control
         if (operatorJoystick.getRawButton(11)) {
             Shooter.moveToPosition(Shooter.Position.Top);
@@ -74,7 +80,7 @@ public class OI {
     }
     
     /**
-     * Run climber section
+     * Run the climber section
      */
     public static void runClimber() {
         Climber.climb(operatorJoystick.getRawButton(4));

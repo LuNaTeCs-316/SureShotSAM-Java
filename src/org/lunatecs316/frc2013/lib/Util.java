@@ -5,6 +5,7 @@ package org.lunatecs316.frc2013.lib;
  * @author domenicpaul
  */
 public class Util {
+    
     // Prevent this class from being instantiated
     private Util() {
     }

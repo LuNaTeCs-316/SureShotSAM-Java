@@ -8,13 +8,23 @@ import edu.wpi.first.wpilibj.PIDSource;
  * @author domenicpaul
  */
 public class Tachometer extends Counter implements PIDSource {
-    // Previously measured speed; used for filter
+    
+    /* Previously measured speed; used for filter */
     private double prevSpeed = 0;
     
+    /**
+     * Create a new tachometer object on module 1
+     * @param channel the digital channel
+     */
     public Tachometer(int channel) {
         this(1, channel);
     }
     
+    /**
+     * Create a new tachomter object
+     * @param module the cRIO module
+     * @param channel the digital channel
+     */
     public Tachometer(int module, int channel) {
         super(module, channel);
     }
