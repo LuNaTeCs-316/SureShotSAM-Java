@@ -66,4 +66,8 @@ public class Drivetrain {
     public static void arcadeDrive(double throttle, double turn) {
         driveMotors.drive(throttle, turn);
     }
+    
+    public static void tankDrive(double left, double right) {
+        driveMotors.tankDrive(left, right);
+    }
 }

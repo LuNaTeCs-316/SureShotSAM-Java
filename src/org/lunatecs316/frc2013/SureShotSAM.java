@@ -85,6 +85,12 @@ public class SureShotSAM extends IterativeRobot {
     }
     
     /**
+     * This function is called once at the start of the teleop period
+     */
+    public void teleopInit() {
+    }
+    
+    /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
@@ -111,6 +117,22 @@ public class SureShotSAM extends IterativeRobot {
         LCD.updateLCD();
     }
     
+    /**
+     * This function is called once at the start of disabled mode
+     */
+    public void disabledInit() {
+        // Stop all robot outputs
+        Drivetrain.arcadeDrive(0, 0);
+        Pickup.setBeltState(Pickup.BeltState.Off);
+        Pickup.stop();
+        Shooter.disable();
+        Shooter.fire(false);
+        Climber.climb(false);
+    }
+    
+    /**
+     * This function is called periodically while the robot is disabled
+     */
     public void disabledPeriodic() {
         
         // Update our current auto mode
@@ -120,10 +142,14 @@ public class SureShotSAM extends IterativeRobot {
                 autoMode = new DoNothingAuto();
                 break;
             case 1:
-                if (autoMode.getClass() != ThreeDiskAuto.class) {
+                if (!(autoMode instanceof ThreeDiskAuto)) {
                     autoMode = new ThreeDiskAuto();
                 }
                 break;
+            case 5:
+                if (!(autoMode instanceof KinectAuto)) {
+                    autoMode = new KinectAuto();
+                }
         }
         
         // Update the DriverStationLCD

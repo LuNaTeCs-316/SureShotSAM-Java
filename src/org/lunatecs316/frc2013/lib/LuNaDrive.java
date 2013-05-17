@@ -163,4 +163,24 @@ public class LuNaDrive {
             m_rearRightMotor.set(right);
         }
     }
+    
+    /**
+     * Tank drive control
+     * @param left the left side output
+     * @param right the right side output
+     */
+    public void tankDrive(double left, double right) {
+        if (m_frontLeftMotor != null) {
+            m_frontLeftMotor.set(left);
+        }
+        if (m_rearLeftMotor != null) {
+            m_rearLeftMotor.set(left);
+        }
+        if (m_frontRightMotor != null) {
+            m_frontRightMotor.set(right);
+        }
+        if (m_rearRightMotor != null) {
+            m_rearRightMotor.set(right);
+        }
+    }
 }

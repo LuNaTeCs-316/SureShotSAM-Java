@@ -1,7 +1,6 @@
 package org.lunatecs316.frc2013.auto;
 
 import org.lunatecs316.frc2013.subsystems.*;
-
 import edu.wpi.first.wpilibj.DriverStationLCD;
 
 /**
