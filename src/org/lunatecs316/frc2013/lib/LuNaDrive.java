@@ -127,7 +127,7 @@ public class LuNaDrive {
         throttle = (m_throttleGain * (throttle * throttle * throttle)) + 
                 ((1 - m_throttleGain) * throttle);
         
-        double turn = Util.deadband(-(joystick.getRawAxis(4)), m_deadband);
+        double turn = Util.deadband(joystick.getRawAxis(4), m_deadband);
         turn = (m_turnGain * (turn * turn * turn)) + ((1 - m_turnGain) * turn);
         
         // Call the main drive function
@@ -157,10 +157,10 @@ public class LuNaDrive {
             m_rearLeftMotor.set(left);        
         }
         if (m_frontRightMotor != null) {
-            m_frontRightMotor.set(right);    
+            m_frontRightMotor.set(-right);    
         }
         if (m_rearRightMotor != null) {
-            m_rearRightMotor.set(right);
+            m_rearRightMotor.set(-right);
         }
     }
     

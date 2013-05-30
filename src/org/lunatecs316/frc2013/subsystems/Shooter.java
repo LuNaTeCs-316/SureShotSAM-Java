@@ -24,7 +24,7 @@ public class Shooter {
         /**
          * Position for shooting at the 3-point target
          */
-        public static final Position Top = new Position(3.41);
+        public static final Position Top = new Position(3.45);
         
         /**
          * Position for shooting at the 2-point target

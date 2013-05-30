@@ -12,8 +12,8 @@ public class RobotMap {
     
     /* PWM outputs */
     public static final int FRONT_LEFT_DRIVE_MOTOR = 1;
-    public static final int FRONT_RIGHT_DRIVE_MOTOR = 2;
-    public static final int REAR_LEFT_DRIVE_MOTOR = 3;
+    public static final int FRONT_RIGHT_DRIVE_MOTOR = 3;
+    public static final int REAR_LEFT_DRIVE_MOTOR = 2;
     public static final int REAR_RIGHT_DRIVE_MOTOR = 4;
     public static final int PICKUP_ANGLE_MOTOR = 5;
     public static final int SHOOTER_MOTOR = 6;
