@@ -77,6 +77,9 @@ public class OI {
         
         // Firing control
         Shooter.fire(operatorJoystick.getRawButton(1));
+        
+        // Indicator lights
+        Shooter.indications();
     }
     
     /**

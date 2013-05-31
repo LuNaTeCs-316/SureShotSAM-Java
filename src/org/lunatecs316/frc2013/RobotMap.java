@@ -12,8 +12,8 @@ public class RobotMap {
     
     /* PWM outputs */
     public static final int FRONT_LEFT_DRIVE_MOTOR = 1;
-    public static final int FRONT_RIGHT_DRIVE_MOTOR = 3;
     public static final int REAR_LEFT_DRIVE_MOTOR = 2;
+    public static final int FRONT_RIGHT_DRIVE_MOTOR = 3;
     public static final int REAR_RIGHT_DRIVE_MOTOR = 4;
     public static final int PICKUP_ANGLE_MOTOR = 5;
     public static final int SHOOTER_MOTOR = 6;
@@ -27,6 +27,9 @@ public class RobotMap {
     /* Solenoid outputs */
     public static final int SHOOTER_SOLENOID = 1;
     public static final int CLIMBING_SOLENOID = 2;
+    public static final int RED_INDICATOR_1 = 6;
+    public static final int RED_INDICATOR_2 = 7;
+    public static final int BLUE_INDICATOR = 8;
     
     /* Analog inputs */
     public static final int PICKUP_ANGLE_POT = 1;

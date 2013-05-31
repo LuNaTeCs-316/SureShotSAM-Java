@@ -16,6 +16,7 @@ import org.lunatecs316.frc2013.lib.Tachometer;
  */
 public class Shooter {
     
+    // <editor-fold defaultstate="collapsed" desc="Position Class">
     /**
      * Represents different positions the shooter can move to
      */
@@ -51,6 +52,7 @@ public class Shooter {
             return val;
         }
     }
+    //</editor-fold>
     
     /* Shooter Motor */
     private static final Victor motor = new Victor(RobotMap.SHOOTER_MOTOR);
@@ -66,6 +68,13 @@ public class Shooter {
     
     /* Shooter piston */
     private static final Solenoid solenoid = new Solenoid(RobotMap.SHOOTER_SOLENOID);
+    
+    /* Shooter indicator lights */
+    private static boolean lightIsOn = false;
+    private static int offCounter = 0;
+    private static Solenoid redIndicator1 = new Solenoid(RobotMap.RED_INDICATOR_1);
+    private static Solenoid redIndicator2 = new Solenoid(RobotMap.RED_INDICATOR_2);
+    private static Solenoid blueIndicator = new Solenoid(RobotMap.BLUE_INDICATOR);
     
     // Private to prevent creation of an instance
     private Shooter() {
@@ -139,5 +148,42 @@ public class Shooter {
      */
     public static void fire(boolean value) {
         solenoid.set(value);
+    }
+    
+    /**
+     * Control the feedback lights for the shooter
+     */
+    public static void indications() {
+        
+        // Blue indicator light show if we are at the proper angle
+        blueIndicator.set((anglePot.pidGet() >= Position.Top.getVal()));
+        
+        if (speedTach.getRPM() >= 3500) {
+            // Red indicator lights are solid when at speed,...
+            redIndicator1.set(true);
+            redIndicator2.set(true);
+        } else if (speedTach.getRPM() <= 500) {
+            // ...off when the speed is too low,..
+            redIndicator1.set(false);
+            redIndicator2.set(false);
+        } else {
+            // ...and blink when the speed is in between	
+            if (lightIsOn) { // light was turned on last pass, turn it off now
+                redIndicator1.set(false);
+                redIndicator2.set(false);
+                lightIsOn = false;
+                offCounter = 0;
+            } else { // light is off, check to see if it is time to turn it on
+                offCounter++;
+                double temp = speedTach.getRPM();
+                temp = temp - 150;
+                double offTime = 71 - temp;
+                if (offCounter >= offTime) {
+                    redIndicator1.set(true);
+                    redIndicator2.set(true);
+                    lightIsOn = true;
+                }
+            }
+	}
     }
 }
