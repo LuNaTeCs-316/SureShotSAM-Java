@@ -1,7 +1,6 @@
 package org.lunatecs316.frc2013.auto;
 
 import org.lunatecs316.frc2013.subsystems.*;
-import edu.wpi.first.wpilibj.DriverStationLCD;
 
 /**
  * Three disk autonomous mode
@@ -9,6 +8,7 @@ import edu.wpi.first.wpilibj.DriverStationLCD;
  */
 public class ThreeDiskAuto implements AutonomousMode {
     
+    // <editor-fold desc="State 'Enum'" defaultstate="collapsed">
     /**
      * Represents the various states of the robot during the autonomous mode
      */
@@ -49,14 +49,13 @@ public class ThreeDiskAuto implements AutonomousMode {
             return name;
         }
     }
+    // </editor-fold>
     
     private State state = State.kStart;
     private int shotsFired = 0;
     private long startTime;
     private boolean finished = false;
     
-    private DriverStationLCD LCD = DriverStationLCD.getInstance();
-
     /**
      * Returns the time spent in the current state
      * @return the time spent in the current state
@@ -81,8 +80,6 @@ public class ThreeDiskAuto implements AutonomousMode {
         startTime = System.currentTimeMillis();
         state = State.kStart;
         shotsFired = 0;
-        LCD.println(DriverStationLCD.Line.kUser1, 1,
-                "[ThreeDiskAuto][init] Autonomous Initialized");
         System.out.println("[ThreeDiskAuto][init] Autonomous Initialized");
     }
     
@@ -136,7 +133,6 @@ public class ThreeDiskAuto implements AutonomousMode {
         }
         
         // Print debugging info
-        LCD.println(DriverStationLCD.Line.kUser1, 1, output);
         System.out.println(output);
     }
 }
