@@ -6,7 +6,7 @@ import org.lunatecs316.frc2013.lib.Util;
 import org.lunatecs316.frc2013.subsystems.*;
 
 /**
- * Operator Interface maps controls to actions
+ * Operator Interface manages control of the robot during teleop
  * @author domenicpaul
  */
 public class OI {
@@ -59,11 +59,11 @@ public class OI {
         
         // Angle control
         if (operatorJoystick.getRawButton(11)) {
-            Shooter.moveToPosition(Shooter.Position.Top);
+            Shooter.moveToPosition(Shooter.kTopPosition);
         } else if (operatorJoystick.getRawButton(10)) {
-            Shooter.moveToPosition(Shooter.Position.Mid);
+            Shooter.moveToPosition(Shooter.kMidPosition);
         } else if (operatorJoystick.getRawButton(8)) {
-            Shooter.moveToPosition(Shooter.Position.Load);
+            Shooter.moveToPosition(Shooter.kLoadPosition);
         } else {
             Shooter.move(Util.deadband(operatorJoystick.getY(), 0.2));
         }

@@ -16,43 +16,10 @@ import org.lunatecs316.frc2013.lib.Tachometer;
  */
 public class Shooter {
     
-    // <editor-fold defaultstate="collapsed" desc="Position Class">
-    /**
-     * Represents different positions the shooter can move to
-     */
-    public static class Position {
-        
-        /**
-         * Position for shooting at the 3-point target
-         */
-        public static final Position Top = new Position(3.45);
-        
-        /**
-         * Position for shooting at the 2-point target
-         */
-        public static final Position Mid = new Position(3.31);
-        
-        /**
-         * Position for loading
-         */
-        public static final Position Load = new Position(2.0);
-        
-        private double val;     // the setpoint value
-        
-        // Private to prevent creation of other positions
-        private Position(double val) {
-            this.val = val;
-        }
-        
-        /**
-         * Get the numeric value for the PIDController
-         * @return - the double value of the setpoint
-         */
-        public double getVal() {
-            return val;
-        }
-    }
-    //</editor-fold>
+    /* Shooter positions */
+    public static double kTopPosition = 3.45;
+    public static double kMidPosition = 3.35;
+    public static double kLoadPosition = 2.0;
     
     /* Shooter Motor */
     private static final Victor motor = new Victor(RobotMap.SHOOTER_MOTOR);
@@ -106,8 +73,8 @@ public class Shooter {
      * Move the shooter to the specified position
      * @param pos 
      */
-    public static void moveToPosition(Position pos) {
-        angleController.setSetpoint(pos.getVal());
+    public static void moveToPosition(double pos) {
+        angleController.setSetpoint(pos);
         angleController.enable();
     }
     
@@ -156,7 +123,7 @@ public class Shooter {
     public static void indications() {
         
         // Blue indicator light show if we are at the proper angle
-        blueIndicator.set((anglePot.pidGet() >= Position.Top.getVal()));
+        blueIndicator.set((anglePot.pidGet() >= kTopPosition));
         
         if (speedTach.getRPM() >= 3500) {
             // Red indicator lights are solid when at speed,...
