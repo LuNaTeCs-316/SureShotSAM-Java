@@ -9,7 +9,6 @@ package org.lunatecs316.frc2013;
 
 import org.lunatecs316.frc2013.subsystems.*;
 import org.lunatecs316.frc2013.auto.*;
-
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStationLCD;
@@ -24,16 +23,16 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  * directory.
  */
 public class SureShotSAM extends IterativeRobot {
-
-    // DriverStation
+    
+    /* DriverStation */
     private DriverStation driverStation = DriverStation.getInstance();
     private DriverStationLCD LCD = DriverStationLCD.getInstance();
     
-    // Compressor
+    /* Compressor */
     private Compressor compressor = new Compressor(RobotMap.COMPRESSOR_PRESSURE_SWITCH,
             RobotMap.COMPRESSOR_RELAY);
     
-    // Autonomous Mode
+    /* Autonomous Mode */
     private AutonomousMode autoMode;
     
     /**
@@ -41,7 +40,7 @@ public class SureShotSAM extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-        // Initialize subsystems
+        // Call the OI and each subsystem's init method
         OI.init();
         Drivetrain.init();
         Pickup.init();
@@ -52,12 +51,7 @@ public class SureShotSAM extends IterativeRobot {
         compressor.start();
       
         // Print for debugging purposes
-        LCD.println(DriverStationLCD.Line.kUser1, 1,
-                "[SureShotSAM][robotInit] robotInit() Done");
         System.out.println("robotInit() Done!");
-        
-        // Update the DriverStationLCD
-        LCD.updateLCD();
     }
 
     /**
@@ -65,11 +59,8 @@ public class SureShotSAM extends IterativeRobot {
      */
     public void autonomousInit() {
         
-        // Call the autoMode's initalizer
+        // Call the autoMode's init method
         autoMode.init();
-        
-        // Update the DriverStationLCD
-        LCD.updateLCD();
     }
     
     /**
@@ -79,9 +70,6 @@ public class SureShotSAM extends IterativeRobot {
         
         // Run an iteration of the autoMode
         autoMode.run();
-        
-        // Update the DriverStationLCD
-        LCD.updateLCD();
     }
     
     /**
@@ -100,9 +88,6 @@ public class SureShotSAM extends IterativeRobot {
         OI.runPickup();
         OI.runShooter();
         OI.runClimber();
-        
-        // Update the DriverStationLCD
-        LCD.updateLCD();
     }
     
     /**
@@ -112,9 +97,6 @@ public class SureShotSAM extends IterativeRobot {
         
         // Run LiveWindow
         LiveWindow.run();
-        
-        // Update the DriverStationLCD
-        LCD.updateLCD();
     }
     
     /**
@@ -151,8 +133,5 @@ public class SureShotSAM extends IterativeRobot {
                     autoMode = new KinectAuto();
                 }
         }
-        
-        // Update the DriverStationLCD
-        LCD.updateLCD();
     }
 }

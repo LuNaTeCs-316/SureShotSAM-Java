@@ -21,7 +21,7 @@ public class Tachometer extends Counter implements PIDSource {
     }
     
     /**
-     * Create a new tachomter object
+     * Create a new tachometer object
      * @param module the cRIO module
      * @param channel the digital channel
      */

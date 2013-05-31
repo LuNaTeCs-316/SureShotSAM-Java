@@ -32,4 +32,12 @@ public class Potentiometer extends AnalogChannel {
     public double pidGet() {
         return getAverageVoltage();
     }
+    
+    /**
+     * Return the value of the potentiometer
+     * @return the average voltage
+     */
+    public double getOutput() {
+        return getAverageVoltage();
+    }
 }

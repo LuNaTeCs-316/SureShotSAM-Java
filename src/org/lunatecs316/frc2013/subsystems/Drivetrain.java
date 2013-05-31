@@ -14,6 +14,9 @@ import org.lunatecs316.frc2013.lib.LuNaDrive;
  */
 public class Drivetrain {
     
+    // <editor-fold desc="Subsystem Components">
+    // Place Subsystem Components in this section
+
     /* Drive Motors */
     private static final Victor frontLeftMotor = new Victor(RobotMap.FRONT_LEFT_DRIVE_MOTOR);
     private static final Victor frontRightMotor = new Victor(RobotMap.FRONT_RIGHT_DRIVE_MOTOR);
@@ -29,9 +32,18 @@ public class Drivetrain {
             RobotMap.LEFT_DRIVE_ENCODER_B);
     private static final Encoder rightEncoder = new Encoder(RobotMap.RIGHT_DRIVE_ENCODER_A,
             RobotMap.RIGHT_DRIVE_ENCODER_B);
+    // </editor-fold>
+    
+    // <editor-fold desc="Subsystem Data" defaultstate="collapsed">
+    // Place Subsystem Data in this section
+    
+    // </editor-fold>
     
     /* Private constructor to prevent instantiation */
     private Drivetrain() {}
+    
+    // <editor-fold desc="Subsystem Methods">
+    // Place Subsystem behavior in this section
     
     /**
      * Initialize the subsystem
@@ -70,4 +82,5 @@ public class Drivetrain {
     public static void tankDrive(double left, double right) {
         driveMotors.tankDrive(left, right);
     }
+    // </editor-fold>
 }

@@ -14,6 +14,7 @@ import org.lunatecs316.frc2013.lib.Potentiometer;
  */
 public class Pickup {
     
+    // <editor-fold defaultstate="collapsed" desc="BeltState 'Enum'">
     /* Belt State "Enum" */
     public static class BeltState {
         
@@ -47,10 +48,10 @@ public class Pickup {
             return name;
         }
     }
+    // </editor-fold>
     
-    public static final int kBeltForwards = 0;
-    public static final int kBeltReverse = 1;
-    public static final int kBeltOff = 2;
+    // <editor-fold desc="Subsystem Components">
+    // Place Subsystem Components in this section
     
     /* Motors */
     private static final Jaguar angleMotor = new Jaguar(RobotMap.PICKUP_ANGLE_MOTOR);
@@ -62,10 +63,19 @@ public class Pickup {
     /* PID Controller */
     private static final PIDController angleController = new PIDController(-5.0, -0.1,
             0.0, anglePot, angleMotor);
+    // </editor-fold>
+    
+    // <editor-fold desc="Subsystem Data" defaultstate="collapsed">
+    // Place Subsystem Data in this section
+    
+    // </editor-fold>
     
     // Private to prevent instantiation
     private Pickup() {
     }
+    
+    // <editor-fold desc="Subsystem Methods">
+    // Place Subsystem behavior in this section
     
     /**
      * Initialize the pickup subsystem
@@ -113,5 +123,5 @@ public class Pickup {
     public static void stop() {
         angleMotor.set(0.0);
     }
-    
+    // </editor-fold>
 }

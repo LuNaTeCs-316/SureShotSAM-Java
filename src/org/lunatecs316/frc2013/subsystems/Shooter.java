@@ -21,6 +21,9 @@ public class Shooter {
     public static double kMidPosition = 3.35;
     public static double kLoadPosition = 2.0;
     
+    // <editor-fold desc="Subsystem Components">
+    // Place Subsystem Components in this section
+    
     /* Shooter Motor */
     private static final Victor motor = new Victor(RobotMap.SHOOTER_MOTOR);
     private static final Tachometer speedTach = new Tachometer(RobotMap.SHOOTER_SPEED_TACH);
@@ -37,15 +40,24 @@ public class Shooter {
     private static final Solenoid solenoid = new Solenoid(RobotMap.SHOOTER_SOLENOID);
     
     /* Shooter indicator lights */
-    private static boolean lightIsOn = false;
-    private static int offCounter = 0;
     private static Solenoid redIndicator1 = new Solenoid(RobotMap.RED_INDICATOR_1);
     private static Solenoid redIndicator2 = new Solenoid(RobotMap.RED_INDICATOR_2);
     private static Solenoid blueIndicator = new Solenoid(RobotMap.BLUE_INDICATOR);
+    // </editor-fold>
+    
+    // <editor-fold desc="Subsystem Data">
+    // Place Subsystem Data in this section
+    
+    private static boolean lightIsOn = false;
+    private static int offCounter = 0;
+    // </editor-fold>
     
     // Private to prevent creation of an instance
     private Shooter() {
     }
+    
+    // <editor-fold desc="Subsystem Behavior">
+    // Place Subsystem methods in this section
     
     /**
      * Initialize the shooter subsystem
@@ -123,7 +135,7 @@ public class Shooter {
     public static void indications() {
         
         // Blue indicator light show if we are at the proper angle
-        blueIndicator.set((anglePot.pidGet() >= kTopPosition));
+        blueIndicator.set((anglePot.getOutput() >= kTopPosition));
         
         if (speedTach.getRPM() >= 3500) {
             // Red indicator lights are solid when at speed,...
@@ -152,5 +164,6 @@ public class Shooter {
                 }
             }
 	}
-    }
+    }  
+    // </editor-fold>
 }
