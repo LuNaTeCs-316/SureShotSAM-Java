@@ -1,13 +1,19 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package org.lunatecs316.frc2013.auto;
 
-import org.lunatecs316.frc2013.subsystems.*;
+import org.lunatecs316.frc2013.subsystems.Drivetrain;
+import org.lunatecs316.frc2013.subsystems.Pickup;
+import org.lunatecs316.frc2013.subsystems.Shooter;
 
 /**
- * Three disk autonomous mode
- * @author domenicpaul
+ *
+ * @author 316Programming
  */
-public class ThreeDiskAuto implements AutonomousMode {
-    
+public class FiveDiskAuto implements AutonomousMode {
+
     // <editor-fold desc="State 'Enum'" defaultstate="collapsed">
     /**
      * Represents the various states of the robot during the autonomous mode
@@ -28,6 +34,26 @@ public class ThreeDiskAuto implements AutonomousMode {
          * Preparing to fire the next shot
          */
         public static final State kPreparingNextShot = new State("PreparingNextShot");
+        
+        /**
+         * Lowering the pickup
+         */
+        public static final State kLoweringPickup = new State("LoweringPickup");
+        
+        /**
+         * Backing up to the disks at the goal
+         */
+        public static final State kBackingUp = new State("BackingUp");
+        
+        /**
+         * Wait at the center line and pickup the discs
+         */
+        public static final State kWaitAtCenterLine = new State("WaitAtCenterLine");
+        
+        /**
+         * Drive forward back to the goal
+         */
+        public static final State kDriveForward = new State("DriveForward");
         
         /**
          * Finished the Autonomous Mode
@@ -82,14 +108,14 @@ public class ThreeDiskAuto implements AutonomousMode {
         state = State.kStart;
         finished = false;
         shotsFired = 0;
-        System.out.println("[ThreeDiskAuto][init] Autonomous Initialized");
+        System.out.println("[FiveDiskAuto][init] Autonomous Initialized");
     }
     
     /**
      * Run one iteration of the mode. Called from autonomousPeriodic()
      */
     public void run() {
-        String output = "[ThreeDiskAuto][run] ";    // used for debugging
+        String output = "[FiveDiskAuto][run] ";    // used for debugging
         
         if (!finished) {
             // Add the current state to debug output
@@ -112,8 +138,8 @@ public class ThreeDiskAuto implements AutonomousMode {
                 // Wait 200ms
                 if (ellapsedStateTime() >= 200) {
                     shotsFired++;
-                    if (shotsFired >= 5) {
-                        setState(State.kFinished);
+                    if (shotsFired >= 4) {
+                        setState(State.kLoweringPickup);
                     } else {
                         setState(State.kPreparingNextShot);
                     }
@@ -127,7 +153,42 @@ public class ThreeDiskAuto implements AutonomousMode {
                         (Shooter.atSpeed() || ellapsedStateTime() >= 2000)) {
                     setState(State.kFiring);
                 }
-            } else if (state == State.kFinished) {
+            } else if (state == State.kLoweringPickup) {
+                // Lower the pickup
+                Pickup.lower();
+                
+                if (ellapsedStateTime() >= 1000) {
+                    setState(State.kBackingUp);
+                }
+            } else if (state == State.kBackingUp) {
+                // Backup to the center line
+                Drivetrain.arcadeDrive(-0.6, 0);
+                Pickup.setBeltState(Pickup.BeltState.Forwards);
+                
+                if (ellapsedStateTime() >= 1000) {
+                    setState(State.kWaitAtCenterLine);
+                }
+            } else if (state == State.kWaitAtCenterLine) {
+                // Wait at the center line
+                Drivetrain.arcadeDrive(0, 0);
+                Pickup.stop();
+                
+                if (ellapsedStateTime() >= 1000) {
+                    setState(State.kDriveForward);
+                }
+            } else if (state == State.kDriveForward) {
+                // Wait at the center line
+                Drivetrain.arcadeDrive(0.6, 0);
+                Pickup.raise();
+                
+                if (ellapsedStateTime() >= 1000) {
+                    Pickup.setBeltState(Pickup.BeltState.Off);
+                    Pickup.stop();
+                    Drivetrain.arcadeDrive(0, 0);
+                    shotsFired = 0;
+                    setState(State.kPreparingNextShot);
+                }
+            } else if (state == State.kFinished) {  
                 // Turn off the shooter
                 Shooter.disable();
                 Shooter.fire(false);
@@ -141,4 +202,5 @@ public class ThreeDiskAuto implements AutonomousMode {
         // Print debugging info
         System.out.println(output);
     }
+    
 }

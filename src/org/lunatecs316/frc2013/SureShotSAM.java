@@ -11,7 +11,6 @@ import org.lunatecs316.frc2013.subsystems.*;
 import org.lunatecs316.frc2013.auto.*;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStationLCD;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
@@ -26,7 +25,6 @@ public class SureShotSAM extends IterativeRobot {
     
     /* DriverStation */
     private DriverStation driverStation = DriverStation.getInstance();
-    private DriverStationLCD LCD = DriverStationLCD.getInstance();
     
     /* Compressor */
     private Compressor compressor = new Compressor(RobotMap.COMPRESSOR_PRESSURE_SWITCH,
@@ -58,6 +56,23 @@ public class SureShotSAM extends IterativeRobot {
      * This function is called at the start of autonomous mode
      */
     public void autonomousInit() {
+        
+        // Update our current auto mode
+        switch ((int) driverStation.getAnalogIn(1)) {
+            default:
+            case 0:
+                autoMode = new DoNothingAuto();
+                break;
+            case 1:
+                autoMode = new ThreeDiskAuto();
+                break;
+            case 2:
+                autoMode = new FiveDiskAuto();
+                break;
+            case 5:
+                autoMode = new KinectAuto();
+                break;
+        }
         
         // Call the autoMode's init method
         autoMode.init();
@@ -117,21 +132,6 @@ public class SureShotSAM extends IterativeRobot {
      */
     public void disabledPeriodic() {
         
-        // Update our current auto mode
-        switch ((int) driverStation.getAnalogIn(1)) {
-            default:
-            case 0:
-                autoMode = new DoNothingAuto();
-                break;
-            case 1:
-                if (!(autoMode instanceof ThreeDiskAuto)) {
-                    autoMode = new ThreeDiskAuto();
-                }
-                break;
-            case 5:
-                if (!(autoMode instanceof KinectAuto)) {
-                    autoMode = new KinectAuto();
-                }
-        }
+        
     }
 }

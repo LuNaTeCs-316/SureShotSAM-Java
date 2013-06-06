@@ -119,6 +119,7 @@ public class Shooter {
      */
     public static boolean atSpeed() {
         return speedController.onTarget();
+        //return speedTach.getRPM() > 3700;
     }
     
     /**
