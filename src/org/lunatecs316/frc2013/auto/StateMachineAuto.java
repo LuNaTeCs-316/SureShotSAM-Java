@@ -1,24 +1,29 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.lunatecs316.frc2013.auto;
 
 /**
- *
+ * Base class for Finite State Machine based Autonomous Modes.
+ * Subclasses should create some State variables and override the smInit()
+ * and smRun() functions
+ * 
  * @author Domenic
  */
-public class StateMachineAuto implements AutonomousMode {
+public abstract class StateMachineAuto implements AutonomousMode {
 
+    //<editor-fold defaultstate="collapsed" desc="State 'Enum'">
+    /**
+     * State class acts like an enum to provide type safe autonomous states
+     */
     protected static class State {
         private String name;
         private double value;
         
+        // Default constructor
         public State(String name, double value) {
             this.name = name;
             this.value = value;
         }
         
+        // Constructor without value parameter
         public State(String name) {
             this(name, 0);
         }
@@ -39,15 +44,16 @@ public class StateMachineAuto implements AutonomousMode {
             return value;
         }
     };
+    //</editor-fold>
     
-    protected State state;
-    protected long startTime;
+    protected State state;      // Current state
+    protected long startTime;   // Used for timing
     
     /**
      * Returns the time spent in the current state
      * @return millisecond state time
      */
-    private double ellapsedStateTime() {
+    protected double ellapsedStateTime() {
         //System.out.println("Time:" + System.currentTimeMillis() + "StartTime: " + startTime);
         return System.currentTimeMillis() - startTime;
     }
@@ -56,17 +62,21 @@ public class StateMachineAuto implements AutonomousMode {
      * Sets the state for the next loop and resets startTime
      * @param state the new state
      */
-    private void setState(State state) {
+    protected void setState(State state) {
         this.state = state;
         startTime = System.currentTimeMillis();
     }
     
     public void init() {
-        
-    }
-
-    public void run() {
-        
+        startTime = System.currentTimeMillis();
+        smInit();
     }
     
+    public void run() {
+        smRun();
+    }
+    
+    // Override these methods in your subclass instead of init() and run()
+    protected abstract void smInit();
+    protected abstract void smRun();
 }
