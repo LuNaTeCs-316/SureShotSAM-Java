@@ -33,7 +33,7 @@ public class Shooter {
     /* Shooter Angle */
     private static final Jaguar angleMotor = new Jaguar(RobotMap.SHOOTER_ANGLE_MOTOR);
     private static final Potentiometer anglePot = new Potentiometer(RobotMap.SHOOTER_ANGLE_POT);
-    private static final PIDController angleController = new PIDController(22.5,
+    private static final PIDController angleController = new PIDController(21.5,
             0.0, 0.0, anglePot, angleMotor);
     
     /* Shooter piston */

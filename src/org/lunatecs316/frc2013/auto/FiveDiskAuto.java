@@ -18,6 +18,7 @@ public class FiveDiskAuto extends StateMachineAuto {
     private final State kBackingUp = new State("BackingUp");
     private final State kWaitAtCenterLine = new State("WaitAtCenterLine");
     private final State kDriveForward = new State("DriveForward");
+    private final State kWaitAtPyramid = new State("WaitAtPyramid");
     private final State kFinished = new State("Finished");
     
     // Other data
@@ -39,6 +40,7 @@ public class FiveDiskAuto extends StateMachineAuto {
      */
     protected void smRun() {
         String output = "[FiveDiskAuto][run] ";    // used for debugging
+        Shooter.indications();
         
         if (!finished) {
             // Add the current state to debug output
@@ -61,12 +63,10 @@ public class FiveDiskAuto extends StateMachineAuto {
                 // Wait 200ms
                 if (ellapsedStateTime() >= 200) {
                     shotsFired++;
-                    if (shotsFired >= 4) {
-                        if (shotsFired <= 8) {
-                            setState(kLoweringPickup);
-                        } else {
-                            setState(kFinished);
-                        }
+                    if (shotsFired == 4) {
+                        setState(kLoweringPickup);
+                    } else if (shotsFired >= 8) {
+                        setState(kFinished);
                     } else {
                         setState(kPreparingNextShot);
                     }
@@ -82,17 +82,20 @@ public class FiveDiskAuto extends StateMachineAuto {
                 }
             } else if (state == kLoweringPickup) {
                 // Lower the pickup
+                Shooter.fire(false);
+                Shooter.disable();
                 Pickup.lower();
+                Shooter.moveToPosition(Shooter.kLoadPosition);
                 
                 if (ellapsedStateTime() >= 1000) {
                     setState(kBackingUp);
                 }
             } else if (state == kBackingUp) {
                 // Backup to the center line
-                Drivetrain.arcadeDrive(-0.6, 0);
-                Pickup.setBeltState(Pickup.BeltState.Forwards);
+                Drivetrain.arcadeDrive(-0.45, 0);
+                Pickup.setBeltState(Pickup.BeltState.Reverse);
                 
-                if (ellapsedStateTime() >= 1000) {
+                if (ellapsedStateTime() >= 750) {
                     setState(kWaitAtCenterLine);
                 }
             } else if (state == kWaitAtCenterLine) {
@@ -100,18 +103,26 @@ public class FiveDiskAuto extends StateMachineAuto {
                 Drivetrain.arcadeDrive(0, 0);
                 Pickup.stop();
                 
-                if (ellapsedStateTime() >= 1000) {
+                if (ellapsedStateTime() >= 3000) {
                     setState(kDriveForward);
                 }
             } else if (state == kDriveForward) {
                 // Wait at the center line
-                Drivetrain.arcadeDrive(0.6, 0);
+                Drivetrain.arcadeDrive(0.30, 0);
                 Pickup.raise();
+                Pickup.setBeltState(Pickup.BeltState.Off);
+                Shooter.moveToPosition(Shooter.kTopPosition);
                 
-                if (ellapsedStateTime() >= 1000) {
-                    Pickup.setBeltState(Pickup.BeltState.Off);
+                if (ellapsedStateTime() >= 1900) {
+                    Drivetrain.arcadeDrive(-0.075, 0);
+                    setState(kWaitAtPyramid);
+                }
+            } else if (state == kWaitAtPyramid) {
+                // Wait to settle at the pyramid before firing
+                if (ellapsedStateTime() >= 500) {
                     Pickup.stop();
                     Drivetrain.arcadeDrive(0, 0);
+                    Shooter.enable();
                     setState(kPreparingNextShot);
                 }
             } else if (state == kFinished) {  

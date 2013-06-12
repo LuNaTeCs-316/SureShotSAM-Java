@@ -33,6 +33,7 @@ public class ThreeDiskAuto extends StateMachineAuto {
      */
     public void smRun() {
         String output = "[ThreeDiskAuto][run] ";    // used for debugging
+        Shooter.indications();
         
         if (!finished) {
             // Add the current state to debug output
