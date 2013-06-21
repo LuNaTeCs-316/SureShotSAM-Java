@@ -6,7 +6,7 @@ import org.lunatecs316.frc2013.subsystems.Shooter;
 
 /**
  * Five disk autonomous mode. Uses the StateMachineAuto template
- * @author 316Programming
+ * @author domenicpaul
  */
 public class FiveDiskAuto extends StateMachineAuto {
 
@@ -32,19 +32,18 @@ public class FiveDiskAuto extends StateMachineAuto {
         state = kStart;
         finished = false;
         shotsFired = 0;
-        System.out.println("[FiveDiskAuto][init] Autonomous Initialized");
+        log("init", "Autonomous Initialized");
     }
     
     /**
      * Run one iteration of the mode. Called from autonomousPeriodic()
      */
     protected void smRun() {
-        String output = "[FiveDiskAuto][run] ";    // used for debugging
+        String output = "";    // used for debugging
         Shooter.indications();
         
         if (!finished) {
             // Add the current state to debug output
-            output += "State: " + state.toString() + "; ";
             output += "Time: " + ellapsedStateTime() + ";";
             
             // Switch through the states
@@ -137,7 +136,7 @@ public class FiveDiskAuto extends StateMachineAuto {
         }
         
         // Print debugging info
-        System.out.println(output);
+        log("run", output);
     }
     
 }

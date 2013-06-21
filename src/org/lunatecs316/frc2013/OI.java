@@ -1,12 +1,11 @@
 package org.lunatecs316.frc2013;
 
 import edu.wpi.first.wpilibj.Joystick;
-
 import org.lunatecs316.frc2013.lib.Util;
 import org.lunatecs316.frc2013.subsystems.*;
 
 /**
- * Operator Interface manages control of the robot during teleop
+ * The OI (Operator Interface) manages control of the robot during teleop
  * @author domenicpaul
  */
 public class OI {
@@ -19,6 +18,19 @@ public class OI {
      * Initialize the Operator Interface
      */
     public static void init() {
+        // Call the init method for each subsystem
+        Drivetrain.init();
+        Pickup.init();
+        Shooter.init();
+        Climber.init();
+    }
+    
+    public static void run() {
+        // Run each subsystem's section
+        runDrivetrain();
+        runPickup();
+        runShooter();
+        runClimber();
     }
     
     /**
@@ -27,7 +39,7 @@ public class OI {
     private static boolean firstPressDB1 = true;
     private static boolean firstPressDB2 = true;
     private static boolean firstPressDB3 = true;
-    public static void runDrivetrain() {
+    private static void runDrivetrain() {
         if (driverController.getRawButton(1)) {
             if (firstPressDB1) {
                 Drivetrain.setTargetDistance(48, 0.3);
@@ -61,7 +73,7 @@ public class OI {
     /**
      * Run the pickup section
      */
-    public static void runPickup() {
+    private static void runPickup() {
         
         // Angle control
         if (driverController.getRawButton(5)) {
@@ -85,7 +97,7 @@ public class OI {
     /**
      * Run the shooter section
      */
-    public static void runShooter() {
+    private static void runShooter() {
         
         // Angle control
         if (operatorJoystick.getRawButton(11)) {
@@ -115,7 +127,7 @@ public class OI {
     /**
      * Run the climber section
      */
-    public static void runClimber() {
+    private static void runClimber() {
         Climber.climb(operatorJoystick.getRawButton(4));
     }
 }

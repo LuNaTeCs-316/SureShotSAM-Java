@@ -1,27 +1,43 @@
 package org.lunatecs316.frc2013.lib;
 
 /**
- * Custom PID controller that runs in the main loop as apposed to a thread.
+ * Simple PID controller
  * @author domenicpaul
  */
-public class IterativePIDController {
+public class SimplePIDController {
     
+    // Constants
     private double kP;
     private double kI;
     private double kD;
     
+    // Deadband
     private double deadband;
     private boolean atTarget = false;
     
+    // Data
     private double error = 0.0;
     private double integral = 0.0;
     private double prevError = 0.0;
     
-    public IterativePIDController(double kP, double kI, double kD) {
+    /**
+     * Create a PID controller, specifying P, I, and D gains
+     * @param kP proportional gain
+     * @param kI integral gain
+     * @param kD derivative gain
+     */
+    public SimplePIDController(double kP, double kI, double kD) {
         this(kP, kI, kD, 0.0);
     }
     
-    public IterativePIDController(double kP, double kI, double kD, double db) {
+    /**
+     * Create a PID controller, specifying P, I, and D gains, and a deadband
+     * @param kP proportional gain
+     * @param kI integral gain
+     * @param kD derivative gain
+     * @param db deadband
+     */
+    public SimplePIDController(double kP, double kI, double kD, double db) {
         this.kP = kP;
         this.kI = kI;
         this.kD = kD;

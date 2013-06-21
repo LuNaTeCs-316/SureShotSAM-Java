@@ -139,5 +139,5 @@
  * ranging values, dead bands, etc.
  * 
  * 
- * 
+ * @author jcardona
  */

@@ -22,22 +22,22 @@ public class ThreeDiskAuto extends StateMachineAuto {
      * Run any setup. Called from autonomousInit()
      */
     public void smInit() {
+        name = "ThreeDiskAuto";
         state = kStart;
         finished = false;
         shotsFired = 0;
-        System.out.println("[ThreeDiskAuto][init] Autonomous Initialized");
+        log("init", "Initialized");
     }
     
     /**
      * Run one iteration of the mode. Called from autonomousPeriodic()
      */
     public void smRun() {
-        String output = "[ThreeDiskAuto][run] ";    // used for debugging
+        String output = "";    // used for debugging
         Shooter.indications();
         
         if (!finished) {
             // Add the current state to debug output
-            output += "State: " + state.toString() + "; ";
             output += "Time: " + ellapsedStateTime() + ";";
             
             // Switch through the states
@@ -83,6 +83,6 @@ public class ThreeDiskAuto extends StateMachineAuto {
         }
         
         // Print debugging info
-        System.out.println(output);
+        log("run", output);
     }
 }

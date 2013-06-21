@@ -7,19 +7,24 @@
 
 package org.lunatecs316.frc2013;
 
-import org.lunatecs316.frc2013.subsystems.*;
-import org.lunatecs316.frc2013.auto.*;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import org.lunatecs316.frc2013.subsystems.*;
+import org.lunatecs316.frc2013.auto.*;
 
 /**
+ * Main Robot class.
+ * 
+ * WPILib note:
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
  * documentation. If you change the name of this class or the package after
  * creating this project, you must also update the manifest file in the resource
  * directory.
+ * 
+ * @author domenicpaul
  */
 public class SureShotSAM extends IterativeRobot {
     
@@ -40,10 +45,6 @@ public class SureShotSAM extends IterativeRobot {
     public void robotInit() {
         // Call the OI and each subsystem's init method
         OI.init();
-        Drivetrain.init();
-        Pickup.init();
-        Shooter.init();
-        Climber.init();
         
         // Start the compressor
         compressor.start();
@@ -56,7 +57,6 @@ public class SureShotSAM extends IterativeRobot {
      * This function is called at the start of autonomous mode
      */
     public void autonomousInit() {
-        
         // Update our current auto mode
         switch ((int) driverStation.getAnalogIn(1)) {
             default:
@@ -82,30 +82,16 @@ public class SureShotSAM extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-        
         // Run an iteration of the autoMode
         autoMode.run();
-        Drivetrain.debug();
-    }
-    
-    /**
-     * This function is called once at the start of the teleop period
-     */
-    public void teleopInit() {
     }
     
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        
-        // Run each of the OI sections
-        OI.runDrivetrain();
-        OI.runPickup();
-        OI.runShooter();
-        OI.runClimber();
-        
-        Drivetrain.debug();
+        // Run the OI
+        OI.run();  
     }
     
     /**
@@ -121,19 +107,12 @@ public class SureShotSAM extends IterativeRobot {
      * This function is called once at the start of disabled mode
      */
     public void disabledInit() {
-        // Stop all robot outputs
+        // Set robot subsystems to default
         Drivetrain.arcadeDrive(0, 0);
         Pickup.setBeltState(Pickup.BeltState.Off);
         Pickup.stop();
         Shooter.disable();
         Shooter.fire(false);
         Climber.climb(false);
-    }
-    
-    /**
-     * This function is called periodically while the robot is disabled
-     */
-    public void disabledPeriodic() {
-        Drivetrain.debug();
     }
 }

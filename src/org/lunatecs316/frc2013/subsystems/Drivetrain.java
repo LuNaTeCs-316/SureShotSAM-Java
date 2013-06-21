@@ -1,12 +1,13 @@
 package org.lunatecs316.frc2013.subsystems;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 import org.lunatecs316.frc2013.RobotMap;
-import org.lunatecs316.frc2013.lib.IterativePIDController;
+import org.lunatecs316.frc2013.lib.SimplePIDController;
 import org.lunatecs316.frc2013.lib.LuNaDrive;
 
 /**
@@ -28,30 +29,31 @@ public class Drivetrain {
     private static final LuNaDrive driveMotors = new LuNaDrive(frontLeftMotor,
             frontRightMotor, rearLeftMotor, rearRightMotor);
     
-    /* Encoders */
+    /* Sensors */
     private static final Encoder leftEncoder = new Encoder(RobotMap.LEFT_DRIVE_ENCODER_A,
             RobotMap.LEFT_DRIVE_ENCODER_B);
     private static final Encoder rightEncoder = new Encoder(RobotMap.RIGHT_DRIVE_ENCODER_A,
             RobotMap.RIGHT_DRIVE_ENCODER_B);
+    private static final Gyro gyro = new Gyro(RobotMap.DRIVE_GYRO);
+    
     
     /* PID Controllers */
-    private static final IterativePIDController motorSyncController =
-            new IterativePIDController(0.01, 0.0, 0.0);
+    private static final SimplePIDController angleController =
+            new SimplePIDController(0.0, 0.0, 0.0);
     
-    private static final IterativePIDController distanceController =
-            new IterativePIDController(0.0004, 0.00000, 0.00005);
+    private static final SimplePIDController distanceController =
+            new SimplePIDController(0.0004, 0.00000, 0.00005);
     
     // </editor-fold>
     
     // <editor-fold desc="Subsystem Data">
     // Place Subsystem Data in this section
     
-    private static final int kEncoderTicksPerRotation = 1440;       // 360 * 4 (4x encoding)
-    private static final int kLeftEncoderTicksPerRot = 200;
-    private static final int kRightEncoderTicksPerRot = 360;
-    private static final double kWheelDiameter = 6.0;               // in.
-    private static final double kWheelBaseWidth = 20.0;             // in.
-    private static final double kDistancePerRotation = 18.875;
+    private static final int kEncoderTicksPerRot = 360;
+    private static final double kWheelDiameter = 6.0;           // in.
+    private static final double kWheelBaseWidth = 20.0;         // in.
+    //private static final double kDistancePerRotation = 18.875;  // in.
+    private static final double kDistancePerRotation = kWheelDiameter * Math.PI;
     
     private static double targetDistance;
     private static double targetSpeed;
@@ -68,9 +70,13 @@ public class Drivetrain {
      * Initialize the subsystem
      */
     public static void init() {
-        // Start the encoders
+        // Configure the encoders
         leftEncoder.start();
         rightEncoder.start();
+        resetEncoders();
+        
+        // Configures the gyro
+        gyro.reset();
         
         // Setup LiveWindow
         LiveWindow.addActuator("Drivetrain", "FrontLeftMotor", frontLeftMotor);
@@ -79,6 +85,7 @@ public class Drivetrain {
         LiveWindow.addActuator("Drivetrain", "RearRightMotor", rearRightMotor);
         LiveWindow.addSensor("Drivetrain", "LeftEncoder", leftEncoder);
         LiveWindow.addSensor("Drivetrain", "RightEncoder", rightEncoder);
+        LiveWindow.addSensor("Drivetrain", "Gyro", gyro);
     }
     
     public static void debug() {
@@ -120,11 +127,9 @@ public class Drivetrain {
     public static void setTargetDistance(double inches, double speed) {
         
         // Calculate the target encoder tick value
-        targetDistance = (inches * kRightEncoderTicksPerRot)
+        targetDistance = (inches * kEncoderTicksPerRot)
                                     / kDistancePerRotation;
-        
-        // 360 / 3.14 * 6.0
-        
+                
         targetSpeed = speed;
         
         // Reset encoders
@@ -138,18 +143,15 @@ public class Drivetrain {
      * Drives the robot straight until the robot reaches the set target
      */
     public static void driveStraight() {
-        // Calculate right side motor speed
-        double speed = distanceController.calculate(targetDistance, -rightEncoder.get());
-        //double syncSpeed = motorSyncController.calculate(-rightEncoder.get(), -leftEncoder.get());
+        double power = distanceController.calculate(targetDistance, -rightEncoder.get());
+        //double turnVal = angleController.calculate(0, gyro.getAngle());
         
-        if (speed > 0.75) {
-            speed = 0.75;
+        if (power > 0.75) {
+            power = 0.75;
         }
         
-        frontRightMotor.set(-speed);
-        rearRightMotor.set(-speed);
-        frontLeftMotor.set(speed);
-        rearLeftMotor.set(speed);
+        driveMotors.drive(power, 0.0);
+        //driveMotors.drive(speed, turnVal);
     }
     
     /**
@@ -159,7 +161,7 @@ public class Drivetrain {
      */
     public static void setTargetAngle(double degrees, double speed) {
         double dist = ((degrees * Math.PI) / 180) * (kWheelBaseWidth / 2);
-        double targetDist = (dist * kEncoderTicksPerRotation)
+        double targetDist = (dist * kEncoderTicksPerRot)
                                     / (Math.PI * kWheelDiameter);
     }
     
@@ -197,8 +199,23 @@ public class Drivetrain {
      * turning)
      * @return 
      */
-    public boolean atTarget() {
+    public static boolean atTarget() {
         return (targetDistance == 0);
+    }
+    
+    /**
+     * Reset the drivetrain encoders
+     */
+    public static void resetEncoders() {
+        leftEncoder.reset();
+        rightEncoder.reset();
+    }
+    
+    /**
+     * Reset the gyro
+     */
+    public static void resetGyro() {
+        gyro.reset();
     }
     
     // </editor-fold>

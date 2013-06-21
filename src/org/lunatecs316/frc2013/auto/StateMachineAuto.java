@@ -5,9 +5,9 @@ package org.lunatecs316.frc2013.auto;
  * Subclasses should create some State variables and override the smInit()
  * and smRun() functions
  * 
- * @author Domenic
+ * @author domenicpaul
  */
-public abstract class StateMachineAuto implements AutonomousMode {
+public abstract class StateMachineAuto extends AutonomousMode {
 
     //<editor-fold defaultstate="collapsed" desc="State 'Enum'">
     /**
@@ -68,12 +68,17 @@ public abstract class StateMachineAuto implements AutonomousMode {
     }
     
     public void init() {
+        name = "StateMachineAuto";
         startTime = System.currentTimeMillis();
         smInit();
     }
     
     public void run() {
         smRun();
+    }
+    
+    public void log(String context, String message) {
+        System.out.println("[" + name + "][" + context + "][" + state.toString() + "] " + message);
     }
     
     // Override these methods in your subclass instead of init() and run()
