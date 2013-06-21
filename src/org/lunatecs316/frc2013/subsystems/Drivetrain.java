@@ -28,9 +28,6 @@ public class Drivetrain {
     private static final LuNaDrive driveMotors = new LuNaDrive(frontLeftMotor,
             frontRightMotor, rearLeftMotor, rearRightMotor);
     
-    private static final IterativePIDController motorSyncController =
-            new IterativePIDController(0.0, 0.0, 0.0);
-    
     /* Encoders */
     private static final Encoder leftEncoder = new Encoder(RobotMap.LEFT_DRIVE_ENCODER_A,
             RobotMap.LEFT_DRIVE_ENCODER_B);
@@ -38,6 +35,11 @@ public class Drivetrain {
             RobotMap.RIGHT_DRIVE_ENCODER_B);
     
     /* PID Controllers */
+    private static final IterativePIDController motorSyncController =
+            new IterativePIDController(0.01, 0.0, 0.0);
+    
+    private static final IterativePIDController distanceController =
+            new IterativePIDController(0.0004, 0.00000, 0.00005);
     
     // </editor-fold>
     
@@ -45,8 +47,11 @@ public class Drivetrain {
     // Place Subsystem Data in this section
     
     private static final int kEncoderTicksPerRotation = 1440;       // 360 * 4 (4x encoding)
+    private static final int kLeftEncoderTicksPerRot = 200;
+    private static final int kRightEncoderTicksPerRot = 360;
     private static final double kWheelDiameter = 6.0;               // in.
     private static final double kWheelBaseWidth = 20.0;             // in.
+    private static final double kDistancePerRotation = 18.875;
     
     private static double targetDistance;
     private static double targetSpeed;
@@ -74,6 +79,11 @@ public class Drivetrain {
         LiveWindow.addActuator("Drivetrain", "RearRightMotor", rearRightMotor);
         LiveWindow.addSensor("Drivetrain", "LeftEncoder", leftEncoder);
         LiveWindow.addSensor("Drivetrain", "RightEncoder", rightEncoder);
+    }
+    
+    public static void debug() {
+        System.out.println("[Drivetrain][debug] leftEncoder: " + leftEncoder.get()
+                + "; rightEncoder: " + rightEncoder.get() + ";");
     }
     
     /**
@@ -110,8 +120,10 @@ public class Drivetrain {
     public static void setTargetDistance(double inches, double speed) {
         
         // Calculate the target encoder tick value
-        targetDistance = (inches * kEncoderTicksPerRotation)
-                                    / (Math.PI * kWheelDiameter);
+        targetDistance = (inches * kRightEncoderTicksPerRot)
+                                    / kDistancePerRotation;
+        
+        // 360 / 3.14 * 6.0
         
         targetSpeed = speed;
         
@@ -127,36 +139,17 @@ public class Drivetrain {
      */
     public static void driveStraight() {
         // Calculate right side motor speed
-        //double rightSpeed = motorSyncController.calculate(leftEncoder.get(), rightEncoder.get());
-        double leftSpeed = targetSpeed;
-        double rightSpeed = -targetSpeed;
+        double speed = distanceController.calculate(targetDistance, -rightEncoder.get());
+        //double syncSpeed = motorSyncController.calculate(-rightEncoder.get(), -leftEncoder.get());
         
-        // Seperate logic for forwards/reverse movement
-        if (targetDistance > 0) {
-            if (leftEncoder.get() <= targetDistance) {  // Not at target yet, keep going  
-                frontLeftMotor.set(leftSpeed);
-                rearLeftMotor.set(leftSpeed);
-                frontRightMotor.set(rightSpeed);   // Reversed because motors face opposite direction
-                rearRightMotor.set(rightSpeed);
-            } else {
-                // At target; reset count to 0
-                targetDistance = 0;
-            }
-        } else if (targetDistance < 0) {
-            if (leftEncoder.get() >= targetDistance) {
-                // Not at target yet, keep going
-                frontLeftMotor.set(-leftSpeed);
-                rearLeftMotor.set(-leftSpeed);
-                frontRightMotor.set(-rightSpeed);   // Reversed because motors face opposite direction
-                rearRightMotor.set(-rightSpeed);
-            } else {
-                // At target; reset count to 0
-                targetDistance = 0;
-            }
-        } else if (targetDistance == 0) {
-            // Arrived at target; hit the brakes
-            driveMotors.drive(0, 0);
+        if (speed > 0.75) {
+            speed = 0.75;
         }
+        
+        frontRightMotor.set(-speed);
+        rearRightMotor.set(-speed);
+        frontLeftMotor.set(speed);
+        rearLeftMotor.set(speed);
     }
     
     /**
@@ -185,7 +178,6 @@ public class Drivetrain {
                 rearRightMotor.set(rightSpeed);
             } else {
                 // At target; reset count to 0
-                targetDistance = 0;
             }
         } else if (targetDistance < 0) {
             if (leftEncoder.get() >= targetDistance) {
@@ -196,11 +188,7 @@ public class Drivetrain {
                 rearRightMotor.set(-rightSpeed);
             } else {
                 // At target; reset count to 0
-                targetDistance = 0;
             }
-        } else if (targetDistance == 0) {
-            // Arrived at target; hit the brakes
-            driveMotors.drive(0, 0);
         }
     }
     

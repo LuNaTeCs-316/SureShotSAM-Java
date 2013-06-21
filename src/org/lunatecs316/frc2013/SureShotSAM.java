@@ -85,6 +85,7 @@ public class SureShotSAM extends IterativeRobot {
         
         // Run an iteration of the autoMode
         autoMode.run();
+        Drivetrain.debug();
     }
     
     /**
@@ -103,6 +104,8 @@ public class SureShotSAM extends IterativeRobot {
         OI.runPickup();
         OI.runShooter();
         OI.runClimber();
+        
+        Drivetrain.debug();
     }
     
     /**
@@ -131,7 +134,6 @@ public class SureShotSAM extends IterativeRobot {
      * This function is called periodically while the robot is disabled
      */
     public void disabledPeriodic() {
-        
-        
+        Drivetrain.debug();
     }
 }
