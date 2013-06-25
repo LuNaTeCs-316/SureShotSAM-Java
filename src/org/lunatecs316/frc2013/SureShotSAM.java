@@ -84,6 +84,7 @@ public class SureShotSAM extends IterativeRobot {
     public void autonomousPeriodic() {
         // Run an iteration of the autoMode
         autoMode.run();
+        Drivetrain.debug();
     }
     
     /**
@@ -91,7 +92,8 @@ public class SureShotSAM extends IterativeRobot {
      */
     public void teleopPeriodic() {
         // Run the OI
-        OI.run();  
+        OI.run();
+        Drivetrain.debug();
     }
     
     /**
@@ -114,5 +116,9 @@ public class SureShotSAM extends IterativeRobot {
         Shooter.disable();
         Shooter.fire(false);
         Climber.climb(false);
+    }
+    
+    public void disabledPeriodic() {
+        Drivetrain.debug();
     }
 }

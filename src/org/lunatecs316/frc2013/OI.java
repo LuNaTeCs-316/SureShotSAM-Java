@@ -42,21 +42,21 @@ public class OI {
     private static void runDrivetrain() {
         if (driverController.getRawButton(1)) {
             if (firstPressDB1) {
-                Drivetrain.setTargetDistance(48, 0.3);
+                Drivetrain.setTargetDistance(48);
                 firstPressDB1 = false; 
             } else {
                 Drivetrain.driveStraight();
             }
         } else if (driverController.getRawButton(2)) {
             if (firstPressDB2) {
-                Drivetrain.setTargetDistance(24, 0.3);
+                Drivetrain.setTargetDistance(24);
                 firstPressDB2 = false;
             } else {
                 Drivetrain.driveStraight();
             }
         } else if (driverController.getRawButton(3)) {
             if (firstPressDB3) {
-                Drivetrain.setTargetDistance(96, 0.3);
+                Drivetrain.setTargetDistance(96);
                 firstPressDB3 = false;
             } else {
                 Drivetrain.driveStraight();
@@ -67,6 +67,10 @@ public class OI {
             firstPressDB2 = true;
             firstPressDB3 = true;
             Drivetrain.arcadeDrive(driverController);
+        }
+        
+        if (driverController.getRawButton(4)) {
+            Drivetrain.resetGyro();
         }
     }
     

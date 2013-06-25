@@ -32,9 +32,9 @@ public class RobotMap {
     public static final int BLUE_INDICATOR = 8;
     
     /* Analog inputs */
-    public static final int PICKUP_ANGLE_POT = 1;
-    public static final int SHOOTER_ANGLE_POT = 2;
-    public static final int DRIVE_GYRO = 3;
+    public static final int DRIVE_GYRO = 1;
+    public static final int PICKUP_ANGLE_POT = 2;
+    public static final int SHOOTER_ANGLE_POT = 3;
     
     /* Digital inputs */
     public static final int LEFT_DRIVE_ENCODER_A = 3;

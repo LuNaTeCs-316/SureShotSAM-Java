@@ -39,7 +39,7 @@ public class Drivetrain {
     
     /* PID Controllers */
     private static final SimplePIDController angleController =
-            new SimplePIDController(0.0, 0.0, 0.0);
+            new SimplePIDController(0.1, 0.0, 0.0);
     
     private static final SimplePIDController distanceController =
             new SimplePIDController(0.0004, 0.00000, 0.00005);
@@ -56,7 +56,7 @@ public class Drivetrain {
     private static final double kDistancePerRotation = kWheelDiameter * Math.PI;
     
     private static double targetDistance;
-    private static double targetSpeed;
+    private static double targetAngle;
     
     // </editor-fold>
     
@@ -75,7 +75,8 @@ public class Drivetrain {
         rightEncoder.start();
         resetEncoders();
         
-        // Configures the gyro
+        // Configures the gyrof
+        gyro.setSensitivity(0.007);
         gyro.reset();
         
         // Setup LiveWindow
@@ -89,8 +90,7 @@ public class Drivetrain {
     }
     
     public static void debug() {
-        System.out.println("[Drivetrain][debug] leftEncoder: " + leftEncoder.get()
-                + "; rightEncoder: " + rightEncoder.get() + ";");
+        System.out.println("[Drivetrain][debug] gyro: " + gyro.getAngle());
     }
     
     /**
@@ -124,13 +124,11 @@ public class Drivetrain {
      * will drive the robot in reverse.
      * @param inches the distance the robot should move
      */
-    public static void setTargetDistance(double inches, double speed) {
+    public static void setTargetDistance(double inches) {
         
         // Calculate the target encoder tick value
         targetDistance = (inches * kEncoderTicksPerRot)
                                     / kDistancePerRotation;
-                
-        targetSpeed = speed;
         
         // Reset encoders
         leftEncoder.reset();
@@ -144,7 +142,7 @@ public class Drivetrain {
      */
     public static void driveStraight() {
         double power = distanceController.calculate(targetDistance, -rightEncoder.get());
-        //double turnVal = angleController.calculate(0, gyro.getAngle());
+        double turnVal = angleController.calculate(0, gyro.getAngle());
         
         if (power > 0.75) {
             power = 0.75;
@@ -159,39 +157,17 @@ public class Drivetrain {
      * and negative angles left.
      * @param degrees the amount by which to turn the robot
      */
-    public static void setTargetAngle(double degrees, double speed) {
-        double dist = ((degrees * Math.PI) / 180) * (kWheelBaseWidth / 2);
-        double targetDist = (dist * kEncoderTicksPerRot)
-                                    / (Math.PI * kWheelDiameter);
+    public static void setTargetAngle(double angle) {
+        targetAngle = angle;
     }
     
     /**
      * Turn the robot the specified amount.
      */
     public static void turn() {
-        double leftSpeed = targetSpeed;
-        double rightSpeed = targetSpeed;
+        double turnVal = angleController.calculate(targetDistance, gyro.getAngle());
         
-        if (targetDistance > 0) {
-            if (leftEncoder.get() < targetDistance) {
-                frontLeftMotor.set(leftSpeed);
-                rearLeftMotor.set(leftSpeed);
-                frontRightMotor.set(rightSpeed);
-                rearRightMotor.set(rightSpeed);
-            } else {
-                // At target; reset count to 0
-            }
-        } else if (targetDistance < 0) {
-            if (leftEncoder.get() >= targetDistance) {
-                // Not at target yet, keep going
-                frontLeftMotor.set(-leftSpeed);
-                rearLeftMotor.set(-leftSpeed);
-                frontRightMotor.set(-rightSpeed);   // Reversed because motors face opposite direction
-                rearRightMotor.set(-rightSpeed);
-            } else {
-                // At target; reset count to 0
-            }
-        }
+        driveMotors.drive(0.0, turnVal);
     }
     
     /**
