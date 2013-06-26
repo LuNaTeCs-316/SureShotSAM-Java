@@ -39,7 +39,7 @@ public class Drivetrain {
     
     /* PID Controllers */
     private static final SimplePIDController angleController =
-            new SimplePIDController(0.1, 0.0, 0.0);
+            new SimplePIDController(0.005, 0.0, 0.0);
     
     private static final SimplePIDController distanceController =
             new SimplePIDController(0.0004, 0.00000, 0.00005);
@@ -138,6 +138,15 @@ public class Drivetrain {
     }
     
     /**
+     * Setup the robot to turn by the specified angle. Positive angles turn right,
+     * and negative angles left.
+     * @param degrees the amount by which to turn the robot
+     */
+    public static void setTargetAngle(double angle) {
+        targetAngle = angle;
+    }
+    
+    /**
      * Drives the robot straight until the robot reaches the set target
      */
     public static void driveStraight() {
@@ -150,15 +159,6 @@ public class Drivetrain {
         
         driveMotors.drive(power, 0.0);
         //driveMotors.drive(speed, turnVal);
-    }
-    
-    /**
-     * Setup the robot to turn by the specified angle. Positive angles turn right,
-     * and negative angles left.
-     * @param degrees the amount by which to turn the robot
-     */
-    public static void setTargetAngle(double angle) {
-        targetAngle = angle;
     }
     
     /**

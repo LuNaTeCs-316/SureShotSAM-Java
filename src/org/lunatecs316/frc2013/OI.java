@@ -11,18 +11,21 @@ import org.lunatecs316.frc2013.subsystems.*;
 public class OI {
     
     /* Joysticks */
-    private static final Joystick driverController = new Joystick(RobotMap.DRIVER_JOYSTICK);
-    private static final Joystick operatorJoystick = new Joystick(RobotMap.OPERATOR_JOYSTICK);
+    private static Joystick driverController;
+    private static Joystick operatorJoystick;
     
     /**
      * Initialize the Operator Interface
      */
-    public static void init() {
+    public static void init(Joystick js1, Joystick js2) {
         // Call the init method for each subsystem
         Drivetrain.init();
         Pickup.init();
         Shooter.init();
         Climber.init();
+        
+        driverController = js1;
+        operatorJoystick = js2;
     }
     
     public static void run() {
@@ -56,10 +59,10 @@ public class OI {
             }
         } else if (driverController.getRawButton(3)) {
             if (firstPressDB3) {
-                Drivetrain.setTargetDistance(96);
+                Drivetrain.setTargetAngle(90);
                 firstPressDB3 = false;
             } else {
-                Drivetrain.driveStraight();
+                Drivetrain.turn();
             }
             
         } else {

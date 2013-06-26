@@ -10,6 +10,7 @@ package org.lunatecs316.frc2013;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.lunatecs316.frc2013.subsystems.*;
 import org.lunatecs316.frc2013.auto.*;
@@ -38,13 +39,17 @@ public class SureShotSAM extends IterativeRobot {
     /* Autonomous Mode */
     private AutonomousMode autoMode;
     
+    /* Joysticks */
+    private Joystick driverController = new Joystick(1);
+    private Joystick operatorJoystick = new Joystick(2);
+    
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
     public void robotInit() {
         // Call the OI and each subsystem's init method
-        OI.init();
+        OI.init(driverController, operatorJoystick);
         
         // Start the compressor
         compressor.start();
@@ -119,6 +124,12 @@ public class SureShotSAM extends IterativeRobot {
     }
     
     public void disabledPeriodic() {
+        // Print debug info
         Drivetrain.debug();
+        
+        // Reset gyro
+        if (driverController.getRawButton(4)) {
+            Drivetrain.resetGyro();
+        }
     }
 }
