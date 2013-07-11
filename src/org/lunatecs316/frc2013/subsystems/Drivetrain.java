@@ -39,7 +39,7 @@ public class Drivetrain {
     
     /* PID Controllers */
     private static final SimplePIDController angleController =
-            new SimplePIDController(0.005, 0.0, 0.0);
+            new SimplePIDController(-0.005, -0.0, -0.0);
     
     private static final SimplePIDController distanceController =
             new SimplePIDController(0.0004, 0.00000, 0.00005);
