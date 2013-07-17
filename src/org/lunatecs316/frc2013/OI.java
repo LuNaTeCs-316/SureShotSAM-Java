@@ -120,6 +120,8 @@ public class OI {
         // Motor control
         if (operatorJoystick.getRawButton(2)) {
             Shooter.enable();
+        } else if (operatorJoystick.getRawButton(5)) {
+            Shooter.setSpeed(-1.0);
         } else {
             Shooter.disable();
         }

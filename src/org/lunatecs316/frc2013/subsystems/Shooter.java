@@ -81,6 +81,10 @@ public class Shooter {
         LiveWindow.addSensor("Shooter", "SpeedTach", speedTach);
     }
     
+    public static void debug() {
+        System.out.println("[Shooter][debug] anglePot: " + anglePot.getAverageVoltage());
+    }
+    
     /**
      * Move the shooter to the specified position
      * @param pos 
@@ -128,6 +132,12 @@ public class Shooter {
      */
     public static void fire(boolean value) {
         solenoid.set(value);
+    }
+    
+    public static void setSpeed(double value) {
+        speedController.disable();
+        
+        motor.set(value);
     }
     
     /**

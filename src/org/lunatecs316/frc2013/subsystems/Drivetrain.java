@@ -90,7 +90,7 @@ public class Drivetrain {
     }
     
     public static void debug() {
-        System.out.println("[Drivetrain][debug] gyro: " + gyro.getAngle());
+        //System.out.println("[Drivetrain][debug] gyro: " + gyro.getAngle());
     }
     
     /**
