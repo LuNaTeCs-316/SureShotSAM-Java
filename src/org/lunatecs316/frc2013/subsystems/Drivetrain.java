@@ -90,7 +90,9 @@ public class Drivetrain {
     }
     
     public static void debug() {
-        //System.out.println("[Drivetrain][debug] gyro: " + gyro.getAngle());
+        System.out.println("[Drivetrain][debug] gyro: " + gyro.getAngle()
+                + "; leftEncoder: " + leftEncoder.get()
+                + "; rightEncoder: " + rightEncoder.get());
     }
     
     /**
@@ -98,7 +100,10 @@ public class Drivetrain {
      * @param stick the joystick
      */
     public static void arcadeDrive(Joystick stick) {
-        driveMotors.drive(stick);
+        double throttle = -stick.getY();
+        double turn = stick.getRawAxis(4);
+        
+        driveMotors.drive(throttle, turn, true);
     }
     
     /**
@@ -165,7 +170,7 @@ public class Drivetrain {
      * Turn the robot the specified amount.
      */
     public static void turn() {
-        double turnVal = angleController.calculate(targetDistance, gyro.getAngle());
+        double turnVal = angleController.calculate(targetAngle, gyro.getAngle());
         
         driveMotors.drive(0.0, turnVal);
     }
