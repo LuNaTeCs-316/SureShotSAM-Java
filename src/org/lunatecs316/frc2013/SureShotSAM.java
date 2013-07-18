@@ -99,7 +99,7 @@ public class SureShotSAM extends IterativeRobot {
         // Run the OI
         OI.run();
         Drivetrain.debug();
-        Shooter.debug();
+        //Shooter.debug();
     }
     
     /**

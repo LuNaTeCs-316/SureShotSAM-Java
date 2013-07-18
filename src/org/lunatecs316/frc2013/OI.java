@@ -64,7 +64,6 @@ public class OI {
             } else {
                 Drivetrain.turn();
             }
-            
         } else {
             firstPressDB1 = true;
             firstPressDB2 = true;
@@ -119,15 +118,20 @@ public class OI {
         
         // Motor control
         if (operatorJoystick.getRawButton(2)) {
-            Shooter.enable();
+            Shooter.enable();    
         } else if (operatorJoystick.getRawButton(5)) {
             Shooter.setSpeed(-1.0);
+        } else if (operatorJoystick.getRawButton(1)) {
+            Shooter.autoFire();
         } else {
             Shooter.disable();
         }
         
         // Firing control
-        Shooter.fire(operatorJoystick.getRawButton(1));
+        if (operatorJoystick.getRawButton(2) || operatorJoystick.getRawButton(5))
+            Shooter.fire(operatorJoystick.getRawButton(1));
+        else if (!operatorJoystick.getRawButton(1))
+            Shooter.fire(false);
         
         // Indicator lights
         Shooter.indications();

@@ -82,7 +82,8 @@ public class Shooter {
     }
     
     public static void debug() {
-        System.out.println("[Shooter][debug] anglePot: " + anglePot.getAverageVoltage());
+        System.out.println("[Shooter][debug] anglePot: " + anglePot.getAverageVoltage()
+                + "; motorSpeed: " + speedTach.getRPM());
     }
     
     /**
@@ -115,6 +116,7 @@ public class Shooter {
      */
     public static void disable() {
         speedController.disable();
+        motor.set(0);
     }
     
     /**
@@ -134,6 +136,13 @@ public class Shooter {
         solenoid.set(value);
     }
     
+    public static void autoFire() {
+        speedController.disable();
+        
+        motor.set(-1.0);
+        solenoid.set(speedTach.getRPM() > 3600);
+    }
+    
     public static void setSpeed(double value) {
         speedController.disable();
         
@@ -148,7 +157,7 @@ public class Shooter {
         // Blue indicator light show if we are at the proper angle
         blueIndicator.set((anglePot.getOutput() >= kTopPosition));
         
-        if (speedTach.getRPM() >= 3500) {
+        if (speedTach.getRPM() >= 3800) {
             // Red indicator lights are solid when at speed,...
             redIndicator1.set(true);
             redIndicator2.set(true);

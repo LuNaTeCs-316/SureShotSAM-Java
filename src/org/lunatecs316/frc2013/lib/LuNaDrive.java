@@ -1,6 +1,5 @@
 package org.lunatecs316.frc2013.lib;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SpeedController;
 
 /**
@@ -117,21 +116,9 @@ public class LuNaDrive {
         }
         return 0.0;
     }
-    
-    /**
-     * Custom arcade drive control scheme
-     * @param joystick the driver's joystick (XBox controller only)
-     */
-    public void drive(Joystick joystick) {
-        double throttle = Util.deadband(-(joystick.getY()), m_deadband);
-        throttle = (m_throttleGain * (throttle * throttle * throttle)) + 
-                ((1 - m_throttleGain) * throttle);
-        
-        double turn = Util.deadband(joystick.getRawAxis(4), m_deadband);
-        turn = (m_turnGain * (turn * turn * turn)) + ((1 - m_turnGain) * turn);
-        
-        // Call the main drive function
-        drive(throttle, turn);
+
+    public void drive(double throttle, double turn) {
+        drive(throttle, turn, false);
     }
     
     /**
@@ -139,7 +126,16 @@ public class LuNaDrive {
      * @param throttle the forward movement
      * @param turn the turn value
      */
-    public void drive(double throttle, double turn) {
+    public void drive(double throttle, double turn, boolean deadband) {
+        if (deadband) {
+            throttle = Util.deadband(throttle, m_deadband);
+            turn = Util.deadband(turn, m_deadband);
+        }
+        throttle = (m_throttleGain * (throttle * throttle * throttle)) + 
+                ((1 - m_throttleGain) * throttle);
+        
+        turn = (m_turnGain * (turn * turn * turn)) + ((1 - m_turnGain) * turn);
+
         if (Math.abs(throttle) > 0.5) {
             turn = turn * (m_turnBoostGain * Math.abs(throttle));
         }
