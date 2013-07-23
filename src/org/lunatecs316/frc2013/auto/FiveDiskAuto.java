@@ -76,7 +76,7 @@ public class FiveDiskAuto extends StateMachineAuto {
 
                 output += "Shooter.atSpeed(): " + Shooter.atSpeed() + ";";
                 if (ellapsedStateTime() >= 500 &&
-                        (Shooter.atSpeed() || ellapsedStateTime() >= 2000)) {
+                        (Shooter.atSpeed() || ellapsedStateTime() >= 3500)) {
                     setState(kFiring);
                 }
             } else if (state == kLoweringPickup) {
@@ -91,10 +91,10 @@ public class FiveDiskAuto extends StateMachineAuto {
                 }
             } else if (state == kBackingUp) {
                 // Backup to the center line
-                Drivetrain.arcadeDrive(-0.55, 0);
+                Drivetrain.arcadeDrive(-0.5, 0);
                 Pickup.setBeltState(Pickup.BeltState.Reverse);
                 
-                if (ellapsedStateTime() >= 2000) {
+                if (ellapsedStateTime() >= 1500) {
                     setState(kWaitAtCenterLine);
                 }
             } else if (state == kWaitAtCenterLine) {
@@ -102,23 +102,23 @@ public class FiveDiskAuto extends StateMachineAuto {
                 Drivetrain.arcadeDrive(0, 0);
                 Pickup.stop();
                 
-                if (ellapsedStateTime() >= 2.125) {
+                if (ellapsedStateTime() >= 2500) {
                     setState(kDriveForward);
                 }
             } else if (state == kDriveForward) {
                 // Wait at the center line
-                Drivetrain.arcadeDrive(0.35, 0);
+                Drivetrain.arcadeDrive(0.5, 0);
                 Pickup.raise();
                 Pickup.setBeltState(Pickup.BeltState.Off);
                 Shooter.moveToPosition(Shooter.kTopPosition);
                 
-                if (ellapsedStateTime() >= 2000) {
+                if (ellapsedStateTime() >= 1750) {
                     Drivetrain.arcadeDrive(-0.075, 0);
                     setState(kWaitAtPyramid);
                 }
             } else if (state == kWaitAtPyramid) {
                 // Wait to settle at the pyramid before firing
-                if (ellapsedStateTime() >= 500) {
+                if (ellapsedStateTime() >= 750) {
                     Pickup.stop();
                     Drivetrain.arcadeDrive(0, 0);
                     Shooter.enable();
