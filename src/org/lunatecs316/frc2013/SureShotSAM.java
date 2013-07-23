@@ -98,8 +98,8 @@ public class SureShotSAM extends IterativeRobot {
     public void teleopPeriodic() {
         // Run the OI
         OI.run();
-        //Drivetrain.debug();
-        Shooter.debug();
+        Drivetrain.debug();
+        //Shooter.debug();
     }
     
     /**
