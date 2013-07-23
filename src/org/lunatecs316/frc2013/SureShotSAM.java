@@ -89,7 +89,7 @@ public class SureShotSAM extends IterativeRobot {
     public void autonomousPeriodic() {
         // Run an iteration of the autoMode
         autoMode.run();
-        Drivetrain.debug();
+        //Drivetrain.debug();
     }
     
     /**
@@ -98,8 +98,8 @@ public class SureShotSAM extends IterativeRobot {
     public void teleopPeriodic() {
         // Run the OI
         OI.run();
-        Drivetrain.debug();
-        //Shooter.debug();
+        //Drivetrain.debug();
+        Shooter.debug();
     }
     
     /**
@@ -126,7 +126,8 @@ public class SureShotSAM extends IterativeRobot {
     
     public void disabledPeriodic() {
         // Print debug info
-        Drivetrain.debug();
+        //Drivetrain.debug();
+        Shooter.debug();
         
         // Reset gyro
         if (driverController.getRawButton(4)) {

@@ -17,9 +17,9 @@ import org.lunatecs316.frc2013.lib.Tachometer;
 public class Shooter {
     
     /* Shooter positions */
-    public static double kTopPosition = 3.6125;
-    public static double kMidPosition = 3.35;
-    public static double kLoadPosition = 2.0;
+    public static double kTopPosition = 3.2;
+    public static double kMidPosition = 3.1;
+    public static double kLoadPosition = 1.85;
     
     // <editor-fold desc="Subsystem Components">
     // Place Subsystem Components in this section

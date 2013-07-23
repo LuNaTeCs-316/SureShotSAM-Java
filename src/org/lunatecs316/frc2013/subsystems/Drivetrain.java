@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.lunatecs316.frc2013.RobotMap;
 import org.lunatecs316.frc2013.lib.SimplePIDController;
 import org.lunatecs316.frc2013.lib.LuNaDrive;
+import org.lunatecs316.frc2013.lib.Util;
 
 /**
  * Drivetrain subsystem
@@ -103,7 +104,10 @@ public class Drivetrain {
         double throttle = -stick.getY();
         double turn = stick.getRawAxis(4);
         
-        driveMotors.drive(throttle, turn, true);
+        throttle = Util.deadband(throttle, 0.2);
+        turn = Util.deadband(turn, 0.2);
+        
+        driveMotors.drive(throttle, turn);
     }
     
     /**
@@ -148,7 +152,7 @@ public class Drivetrain {
      * @param degrees the amount by which to turn the robot
      */
     public static void setTargetAngle(double angle) {
-        targetAngle = angle;
+        targetAngle = gyro.getAngle() + angle;
     }
     
     /**
