@@ -10,7 +10,6 @@ public class MoveShooterToPosition extends CommandBase {
     
     public MoveShooterToPosition(double target) {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
         requires(shooter);
         this.target = target;
     }
@@ -37,5 +36,6 @@ public class MoveShooterToPosition extends CommandBase {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+        end();
     }
 }

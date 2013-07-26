@@ -30,7 +30,7 @@ import org.lunatecs316.frc2013.commands.CommandBase;
 public class SureShotSAM extends IterativeRobot {
     
     /* DriverStation */
-    private DriverStation driverStation = DriverStation.getInstance();
+    private final DriverStation ds = DriverStation.getInstance();
     
     /* Autonomous Mode */
     private Command autoMode;
@@ -58,7 +58,7 @@ public class SureShotSAM extends IterativeRobot {
      */
     public void autonomousInit() {
         // Update our current auto mode
-        switch ((int) driverStation.getAnalogIn(1)) {
+        switch ((int) ds.getAnalogIn(1)) {
             default:
             case 0:
                 autoMode = new DoNothingAuto();

@@ -8,7 +8,6 @@ public class Wait extends CommandBase {
     
     public Wait(double time) {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
         setTimeout(time);
     }
 

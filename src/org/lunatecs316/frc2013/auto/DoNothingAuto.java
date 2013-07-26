@@ -1,5 +1,8 @@
 package org.lunatecs316.frc2013.auto;
 
+import org.lunatecs316.frc2013.commands.StopPickupArm;
+import org.lunatecs316.frc2013.commands.DisableShooter;
+import org.lunatecs316.frc2013.commands.DisablePickup;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import org.lunatecs316.frc2013.commands.*;
 

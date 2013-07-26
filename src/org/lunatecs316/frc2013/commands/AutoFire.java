@@ -8,7 +8,6 @@ public class AutoFire extends CommandBase {
     
     public AutoFire() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
         requires(shooter);
     }
 

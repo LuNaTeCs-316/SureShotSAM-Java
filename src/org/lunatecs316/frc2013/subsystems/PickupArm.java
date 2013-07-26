@@ -1,33 +1,23 @@
 package org.lunatecs316.frc2013.subsystems;
 
 import edu.wpi.first.wpilibj.Jaguar;
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.lunatecs316.frc2013.RobotMap;
-import org.lunatecs316.frc2013.commands.StopPickupArm;
 import org.lunatecs316.frc2013.lib.Potentiometer;
 
 /**
  * PickupArm Subsystem
  * @author domenicpaul
  */
-public class PickupArm extends Subsystem {
+public final class PickupArm extends Subsystem {
 
+    private final Jaguar angleMotor = new Jaguar(RobotMap.PICKUP_ANGLE_MOTOR);
+    private final Potentiometer anglePot = new Potentiometer(RobotMap.PICKUP_ANGLE_POT);
+    
     /**
      * Set the default subsystem command
      */
-    protected void initDefaultCommand() {
-    }
-   
-    /* Motors */
-    private final Jaguar angleMotor = new Jaguar(RobotMap.PICKUP_ANGLE_MOTOR);
-    
-    /* Sensors */
-    private final Potentiometer anglePot = new Potentiometer(RobotMap.PICKUP_ANGLE_POT);
-    
-    /* PID Controller */
-    private final PIDController angleController = new PIDController(-5.0, -0.1,
-            0.0, anglePot, angleMotor);
+    protected void initDefaultCommand() {}
     
     /**
      * Raise the pickup arm
@@ -48,5 +38,13 @@ public class PickupArm extends Subsystem {
      */
     public void stop() {
         angleMotor.set(0.0);
+    }
+    
+    /**
+     * Get the angle of the pickup arm
+     * @return the angle of the pickup arm
+     */
+    public double getAngle() {
+        return anglePot.getAverageVoltage();
     }
 }

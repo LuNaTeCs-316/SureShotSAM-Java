@@ -8,7 +8,6 @@ public class ResetGyro extends CommandBase {
     
     public ResetGyro() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
         requires(drivetrain);
     }
 

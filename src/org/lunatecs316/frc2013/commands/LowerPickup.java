@@ -8,7 +8,6 @@ public class LowerPickup extends CommandBase {
     
     public LowerPickup() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
         requires(pickupArm);
     }
 

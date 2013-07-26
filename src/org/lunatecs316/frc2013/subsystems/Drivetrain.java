@@ -6,20 +6,19 @@ import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.lunatecs316.frc2013.RobotMap;
 import org.lunatecs316.frc2013.commands.DriveWithXboxController;
-import org.lunatecs316.frc2013.lib.SimplePIDController;
 import org.lunatecs316.frc2013.lib.LuNaDrive;
 
 /**
  * Drivetrain subsystem
  * @author domenicpaul
  */
-public class Drivetrain extends Subsystem {
+public final class Drivetrain extends Subsystem {
 
     /* Constants */
     public static final int kEncoderTicksPerRot = 360;
     public static final double kWheelDiameter = 6.0;           // in.
     public static final double kWheelBaseWidth = 20.0;         // in.
-    //private static final double kDistancePerRotation = 18.875;  // in.
+    //public static final double kDistancePerRotation = 18.875;  // in.
     public static final double kDistancePerRotation = kWheelDiameter * Math.PI;
 
     /* Drive Motors */
@@ -43,6 +42,7 @@ public class Drivetrain extends Subsystem {
      * Drivetrain constructor
      */
     public Drivetrain() {
+        // Call parent class' constructor
         super();
         
         // Configure the encoders
@@ -63,16 +63,16 @@ public class Drivetrain extends Subsystem {
     }
     
     /**
-     * Arcade drive with manual parameters
+     * Arcade arcadeDrive with manual parameters
      * @param throttle forwards/reverse motion
      * @param turn turning value
      */
     public void arcadeDrive(double throttle, double turn) {
-        driveMotors.drive(throttle, turn);
+        driveMotors.arcadeDrive(throttle, turn);
     }
     
     /**
-     * Tank drive with manual parameters
+     * Tank arcadeDrive with manual parameters
      * @param left the value for the left motors
      * @param right the value for the right motors
      */
@@ -81,7 +81,7 @@ public class Drivetrain extends Subsystem {
     }
 
     /**
-     * Get the average output of the left and right drive encoders
+     * Get the average output of the left and right arcadeDrive encoders
      * @return the average encoder count
      */
     public double getAverageEncoderCount() {
@@ -111,6 +111,4 @@ public class Drivetrain extends Subsystem {
     public void resetGyro() {
         gyro.reset();
     }
-    
-    // </editor-fold>
 }

@@ -8,7 +8,6 @@ public class DisablePickup extends CommandBase {
     
     public DisablePickup() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
         requires(pickupBelts);
     }
 

@@ -1,5 +1,7 @@
 package org.lunatecs316.frc2013.commands;
 
+import org.lunatecs316.frc2013.lib.SimplePIDController;
+
 /**
  * Drive the robot in a straight line
  * @author domenicpaul
@@ -7,21 +9,24 @@ package org.lunatecs316.frc2013.commands;
 public class DriveStraight extends CommandBase {
     
     private double power;
+    private double startAngle;
+    private SimplePIDController pid = new SimplePIDController(0, 0, 0);
     
     public DriveStraight(double power) {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
         requires(drivetrain);
         this.power = power;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        startAngle = drivetrain.getGyroAngle();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        drivetrain.arcadeDrive(power, 0);
+        double turn = pid.run(startAngle, drivetrain.getGyroAngle());
+        drivetrain.arcadeDrive(power, turn);
     }
 
     // Make this return true when this Command no longer needs to run execute()

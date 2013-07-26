@@ -9,20 +9,20 @@ import edu.wpi.first.wpilibj.AnalogChannel;
 public class Potentiometer extends AnalogChannel {
     
     /**
+     * Create a new Potentiometer object on module 1
+     * @param channel the analog channel
+     */
+    public Potentiometer(int channel) {
+        this(1, channel);
+    }
+    
+    /**
      * Create a new Potentiometer object
      * @param module the cRIO module
      * @param channel the analog Channel
      */
     public Potentiometer(int module, int channel) {
         super(module, channel);
-    }
-    
-    /**
-     * Create a new Potentiometer object on module 1
-     * @param channel the analog channel
-     */
-    public Potentiometer(int channel) {
-        this(1, channel);
     }
     
     /**

@@ -1,5 +1,10 @@
 package org.lunatecs316.frc2013.auto;
 
+import org.lunatecs316.frc2013.commands.WaitForShooterSpeed;
+import org.lunatecs316.frc2013.commands.Shoot;
+import org.lunatecs316.frc2013.commands.MoveShooterToPosition;
+import org.lunatecs316.frc2013.commands.EnableShooter;
+import org.lunatecs316.frc2013.commands.DisableShooter;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import org.lunatecs316.frc2013.commands.*;
 import org.lunatecs316.frc2013.subsystems.Shooter;

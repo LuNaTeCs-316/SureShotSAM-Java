@@ -8,7 +8,6 @@ public class DisableShooter extends CommandBase {
     
     public DisableShooter() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
         requires(shooter);
     }
 

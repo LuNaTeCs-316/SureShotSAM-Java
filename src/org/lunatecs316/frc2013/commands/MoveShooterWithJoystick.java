@@ -10,7 +10,6 @@ public class MoveShooterWithJoystick extends CommandBase {
     
     public MoveShooterWithJoystick() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
         requires(shooter);
     }
 

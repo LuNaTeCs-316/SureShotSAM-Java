@@ -8,7 +8,6 @@ public class Shoot extends CommandBase {
     
     public Shoot() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
         requires(shooter);
         setTimeout(0.2);
     }

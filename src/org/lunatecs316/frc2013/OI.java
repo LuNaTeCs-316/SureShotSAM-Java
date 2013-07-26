@@ -1,5 +1,17 @@
 package org.lunatecs316.frc2013;
 
+import org.lunatecs316.frc2013.commands.StopPickupArm;
+import org.lunatecs316.frc2013.commands.Shoot;
+import org.lunatecs316.frc2013.commands.ReversePickup;
+import org.lunatecs316.frc2013.commands.RaisePickup;
+import org.lunatecs316.frc2013.commands.MoveShooterToPosition;
+import org.lunatecs316.frc2013.commands.LowerPickup;
+import org.lunatecs316.frc2013.commands.ExtendHooks;
+import org.lunatecs316.frc2013.commands.EnableShooter;
+import org.lunatecs316.frc2013.commands.EnablePickup;
+import org.lunatecs316.frc2013.commands.DisableShooter;
+import org.lunatecs316.frc2013.commands.DisablePickup;
+import org.lunatecs316.frc2013.commands.AutoFire;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;

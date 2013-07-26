@@ -8,7 +8,6 @@ public class ReversePickup extends CommandBase {
     
     public ReversePickup() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
         requires(pickupBelts);
     }
 

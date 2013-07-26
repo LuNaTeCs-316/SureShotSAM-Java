@@ -10,7 +10,6 @@ public class EnableShooter extends CommandBase {
     
     public EnableShooter(boolean pidControl) {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
         requires(shooter);
         this.pidControl = pidControl;
     }

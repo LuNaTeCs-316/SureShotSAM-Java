@@ -8,7 +8,6 @@ public class StopPickupArm extends CommandBase {
     
     public StopPickupArm() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
         requires(pickupArm);
     }
 

@@ -51,7 +51,7 @@ public class SimplePIDController {
      * @param current the current value
      * @return the correction value
      */
-    public double calculate(double setpoint, double current) {
+    public double run(double setpoint, double current) {
         
         error = setpoint - current;
         integral += error;

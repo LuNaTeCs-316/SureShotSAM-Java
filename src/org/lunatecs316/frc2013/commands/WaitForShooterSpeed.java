@@ -1,18 +1,13 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.lunatecs316.frc2013.commands;
 
 /**
- *
+ * Wait for the shooter to be up to speed
  * @author domenicpaul
  */
 public class WaitForShooterSpeed extends CommandBase {
     
     public WaitForShooterSpeed(double timeout) {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
         requires(shooter);
         setTimeout(timeout);
     }

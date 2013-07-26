@@ -14,12 +14,12 @@ import org.lunatecs316.frc2013.lib.Tachometer;
  * Shooter Subsystem
  * @author domenicpaul
  */
-public class Shooter extends Subsystem {
+public final class Shooter extends Subsystem {
     
     /* Shooter positions */
-    public static double kTopPosition = 3.2;
-    public static double kMidPosition = 3.1;
-    public static double kLoadPosition = 1.85;
+    public static final double kTopPosition = 3.2;
+    public static final double kMidPosition = 3.1;
+    public static final double kLoadPosition = 1.85;
     
     /* Shooter Motor */
     private final Victor motor = new Victor(RobotMap.SHOOTER_MOTOR);

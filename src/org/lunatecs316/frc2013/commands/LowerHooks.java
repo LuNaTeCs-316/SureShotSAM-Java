@@ -8,7 +8,6 @@ public class LowerHooks extends CommandBase {
     
     public LowerHooks() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
         requires(climber);
     }
 

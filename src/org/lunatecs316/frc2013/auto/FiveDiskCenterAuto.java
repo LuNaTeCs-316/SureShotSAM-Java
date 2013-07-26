@@ -1,5 +1,12 @@
 package org.lunatecs316.frc2013.auto;
 
+import org.lunatecs316.frc2013.commands.StopPickupArm;
+import org.lunatecs316.frc2013.commands.RaisePickup;
+import org.lunatecs316.frc2013.commands.MoveShooterToPosition;
+import org.lunatecs316.frc2013.commands.LowerPickup;
+import org.lunatecs316.frc2013.commands.EnablePickup;
+import org.lunatecs316.frc2013.commands.DriveStraight;
+import org.lunatecs316.frc2013.commands.DisablePickup;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import org.lunatecs316.frc2013.commands.*;
 import org.lunatecs316.frc2013.subsystems.Shooter;

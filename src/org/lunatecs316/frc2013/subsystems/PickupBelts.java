@@ -3,18 +3,18 @@ package org.lunatecs316.frc2013.subsystems;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.lunatecs316.frc2013.RobotMap;
-import org.lunatecs316.frc2013.commands.DisablePickup;
 
 /**
- *
+ * Pickup conveyer belt subsystem
  * @author domenicpaul
  */
-public class PickupBelts extends Subsystem {
+public final class PickupBelts extends Subsystem {
     private final Victor beltMotor = new Victor(RobotMap.PICKUP_BELT_MOTOR); 
     
-    public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-    }
+    /**
+     * Set the subsystem's default command
+     */
+    public void initDefaultCommand() {}
     
     /**
      * Enable the conveyer belts

@@ -8,7 +8,6 @@ public class ExtendHooks extends CommandBase {
     
     public ExtendHooks() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
         requires(climber);
     }
 
