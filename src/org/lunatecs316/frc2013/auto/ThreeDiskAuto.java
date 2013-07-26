@@ -1,5 +1,6 @@
 package org.lunatecs316.frc2013.auto;
 
+import org.lunatecs316.frc2013.Debugger;
 import org.lunatecs316.frc2013.subsystems.*;
 
 /**
@@ -26,26 +27,25 @@ public class ThreeDiskAuto extends StateMachineAuto {
         state = kStart;
         finished = false;
         shotsFired = 0;
-        log("init", "Initialized");
+        Debugger.log("ThreeDiskAuto: Initialized");
     }
     
     /**
      * Run one iteration of the mode. Called from autonomousPeriodic()
      */
     public void smRun() {
-        String output = "";    // used for debugging
         Shooter.indications();
         
         if (!finished) {
             // Add the current state to debug output
-            output += "Time: " + ellapsedStateTime() + ";";
+            Debugger.log("Time", ellapsedStateTime());
             
             // Switch through the states
             if (state == kStart) {
                 // Enable the shooter and wait for it to come up to speed
                 Shooter.enable();
                 
-                output += "Shooter.atSpeed(): " + Shooter.atSpeed() + ";";
+                Debugger.log("ShooterAtSpeed?", Shooter.atSpeed());
                 if (Shooter.atSpeed() || ellapsedStateTime() >= 2000) {
                     setState(kFiring);
                 }
@@ -66,7 +66,7 @@ public class ThreeDiskAuto extends StateMachineAuto {
                 // Reset and wait for the shooter to come back up to speed
                 Shooter.fire(false);
 
-                output += "Shooter.atSpeed(): " + Shooter.atSpeed() + ";";
+                Debugger.log("ShooterAtSpeed?", Shooter.atSpeed());
                 if (ellapsedStateTime() >= 500 &&
                         (Shooter.atSpeed() || ellapsedStateTime() >= 2000)) {
                     setState(kFiring);
@@ -79,10 +79,7 @@ public class ThreeDiskAuto extends StateMachineAuto {
             }
         } else {
             // We're done
-            output += "Finished";
+            Debugger.log("Finished");
         }
-        
-        // Print debugging info
-        log("run", output);
     }
 }

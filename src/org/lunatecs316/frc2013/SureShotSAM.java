@@ -49,13 +49,19 @@ public class SureShotSAM extends IterativeRobot {
      */
     public void robotInit() {
         // Call the OI and each subsystem's init method
+        Drivetrain.init();
+        Pickup.init();
+        Shooter.init();
+        Climber.init();
         OI.init(driverController, operatorJoystick);
         
         // Start the compressor
         compressor.start();
       
         // Print for debugging purposes
-        System.out.println("robotInit() Done!");
+        Debugger.log("robotInit() Done!");
+
+        Debugger.run("RobotInit");
     }
 
     /**
@@ -74,6 +80,9 @@ public class SureShotSAM extends IterativeRobot {
             case 2:
                 autoMode = new FiveDiskAuto();
                 break;
+            case 4:
+                autoMode = new TestAuto();
+                break;
             case 5:
                 autoMode = new KinectAuto();
                 break;
@@ -81,6 +90,8 @@ public class SureShotSAM extends IterativeRobot {
         
         // Call the autoMode's init method
         autoMode.init();
+
+        Debugger.run("AutoInit");
     }
     
     /**
@@ -89,7 +100,8 @@ public class SureShotSAM extends IterativeRobot {
     public void autonomousPeriodic() {
         // Run an iteration of the autoMode
         autoMode.run();
-        //Drivetrain.debug();
+
+        Debugger.run("AutoPeriodic");
     }
     
     /**
@@ -98,17 +110,18 @@ public class SureShotSAM extends IterativeRobot {
     public void teleopPeriodic() {
         // Run the OI
         OI.run();
-        Drivetrain.debug();
-        //Shooter.debug();
+
+        Debugger.run("TeleopPeriodic");
     }
     
     /**
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
-        
         // Run LiveWindow
         LiveWindow.run();
+
+        Debugger.run("TestPeriodic");
     }
     
     /**
@@ -122,16 +135,16 @@ public class SureShotSAM extends IterativeRobot {
         Shooter.disable();
         Shooter.fire(false);
         Climber.climb(false);
+
+        Debugger.run("DisabledInit");
     }
     
     public void disabledPeriodic() {
-        // Print debug info
-        //Drivetrain.debug();
-        Shooter.debug();
-        
         // Reset gyro
         if (driverController.getRawButton(4)) {
             Drivetrain.resetGyro();
         }
+
+        Debugger.run("DisabledPeriodic");
     }
 }

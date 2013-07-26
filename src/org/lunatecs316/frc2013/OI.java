@@ -18,12 +18,6 @@ public class OI {
      * Initialize the Operator Interface
      */
     public static void init(Joystick js1, Joystick js2) {
-        // Call the init method for each subsystem
-        Drivetrain.init();
-        Pickup.init();
-        Shooter.init();
-        Climber.init();
-        
         driverController = js1;
         operatorJoystick = js2;
     }

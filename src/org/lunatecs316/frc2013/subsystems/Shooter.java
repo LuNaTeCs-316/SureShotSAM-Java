@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-
 import org.lunatecs316.frc2013.RobotMap;
 import org.lunatecs316.frc2013.lib.Potentiometer;
 import org.lunatecs316.frc2013.lib.Tachometer;

@@ -77,10 +77,6 @@ public abstract class StateMachineAuto extends AutonomousMode {
         smRun();
     }
     
-    public void log(String context, String message) {
-        System.out.println("[" + name + "][" + context + "][" + state.toString() + "] " + message);
-    }
-    
     // Override these methods in your subclass instead of init() and run()
     protected abstract void smInit();
     protected abstract void smRun();

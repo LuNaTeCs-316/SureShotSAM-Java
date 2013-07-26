@@ -21,13 +21,4 @@ public abstract class AutonomousMode {
     public void run() {
         System.out.println("Default run(); override me!");
     }
-    
-    /**
-     * Pretty logging to output
-     * @param context the current location (init(), run(), etc.)
-     * @param message message to be displayed
-     */
-    public void log(String context, String message) {
-        System.out.println("[" + name + "][" + context + "] " + message);
-    }
 }

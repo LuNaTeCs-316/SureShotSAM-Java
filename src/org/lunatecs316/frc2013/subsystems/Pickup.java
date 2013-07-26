@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-
 import org.lunatecs316.frc2013.RobotMap;
 import org.lunatecs316.frc2013.lib.Potentiometer;
 
@@ -18,19 +17,8 @@ public class Pickup {
     /* Belt State "Enum" */
     public static class BeltState {
         
-        /**
-         * Belts running forwards
-         */
         public static final BeltState Forwards = new BeltState("Forwards");
-        
-        /**
-         * Belts Running in reverse
-         */
         public static final BeltState Reverse = new BeltState("Reverse");
-        
-        /**
-         * Belts off
-         */
         public static final BeltState Off = new BeltState("Off");
         
         private String name;    // String representation of the state
