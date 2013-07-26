@@ -17,7 +17,6 @@ public class LuNaDrive {
     /* Drive Parameters */
     private double m_throttleGain = 1.0;
     private double m_turnGain = 1.0;
-    private double m_deadband = 0.2;
     private double m_turnBoostGain = 0.5;
     private double m_skimGain = 0.5;
     
@@ -53,11 +52,10 @@ public class LuNaDrive {
      * @param turnBoostGain the turning boost gain
      * @param skimGain the skimming gain
      */
-    public void setParameters(double throttleGain, double turnGain, double deadband,
+    public void setParameters(double throttleGain, double turnGain,
             double turnBoostGain, double skimGain) {
         m_throttleGain = throttleGain;
         m_turnGain = turnGain;
-        m_deadband = deadband;
         m_turnBoostGain = turnBoostGain;
         m_skimGain = skimGain;
     }
@@ -76,14 +74,6 @@ public class LuNaDrive {
      */
     public void setTurnGain(double turnGain) {
         m_turnGain = turnGain;
-    }
-    
-    /**
-     * Set the joystick input deadband
-     * @param deadband the joystick deadband
-     */
-    public void setDeadband(double deadband) {
-        m_deadband = deadband;
     }
     
     /**
@@ -116,21 +106,13 @@ public class LuNaDrive {
         }
         return 0.0;
     }
-
-    public void drive(double throttle, double turn) {
-        drive(throttle, turn, false);
-    }
     
     /**
-     * Custom arcade drive control scheme
+     * Custom arcade arcadeDrive control scheme
      * @param throttle the forward movement
      * @param turn the turn value
      */
-    public void drive(double throttle, double turn, boolean deadband) {
-        if (deadband) {
-            throttle = Util.deadband(throttle, m_deadband);
-            turn = Util.deadband(turn, m_deadband);
-        }
+    public void arcadeDrive(double throttle, double turn) {
         throttle = (m_throttleGain * (throttle * throttle * throttle)) + 
                 ((1 - m_throttleGain) * throttle);
         
@@ -161,7 +143,7 @@ public class LuNaDrive {
     }
     
     /**
-     * Tank drive control
+     * Tank arcadeDrive control
      * @param left the left side output
      * @param right the right side output
      */
