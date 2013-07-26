@@ -2,22 +2,18 @@ package org.lunatecs316.frc2013.subsystems;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Victor;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import org.lunatecs316.frc2013.RobotMap;
+import org.lunatecs316.frc2013.commands.DriveWithXboxController;
 import org.lunatecs316.frc2013.lib.SimplePIDController;
 import org.lunatecs316.frc2013.lib.LuNaDrive;
-import org.lunatecs316.frc2013.lib.Util;
 
 /**
  * Drivetrain subsystem
  * @author domenicpaul
  */
-public class Drivetrain {
-    
-    // <editor-fold desc="Subsystem Components">
-    // Place Subsystem Components in this section
+public class Drivetrain extends Subsystem {
 
     /* Drive Motors */
     private static final Victor frontLeftMotor = new Victor(RobotMap.FRONT_LEFT_DRIVE_MOTOR);
@@ -44,32 +40,21 @@ public class Drivetrain {
     private static final SimplePIDController distanceController =
             new SimplePIDController(0.0004, 0.00000, 0.00005);
     
-    // </editor-fold>
-    
-    // <editor-fold desc="Subsystem Data">
-    // Place Subsystem Data in this section
-    
-    private static final int kEncoderTicksPerRot = 360;
-    private static final double kWheelDiameter = 6.0;           // in.
-    private static final double kWheelBaseWidth = 20.0;         // in.
+    private final int kEncoderTicksPerRot = 360;
+    private final double kWheelDiameter = 6.0;           // in.
+    private final double kWheelBaseWidth = 20.0;         // in.
     //private static final double kDistancePerRotation = 18.875;  // in.
-    private static final double kDistancePerRotation = kWheelDiameter * Math.PI;
+    private final double kDistancePerRotation = kWheelDiameter * Math.PI;
     
-    private static double targetDistance;
-    private static double targetAngle;
-    
-    // </editor-fold>
-    
-    /* Private constructor to prevent instantiation */
-    private Drivetrain() {}
-    
-    // <editor-fold desc="Subsystem Methods">
-    // Place Subsystem behavior in this section
-    
+    private double targetDistance;
+    private double targetAngle;
+
     /**
      * Initialize the subsystem
      */
-    public static void init() {
+    public Drivetrain() {
+        super();
+        
         // Configure the encoders
         leftEncoder.start();
         rightEncoder.start();
@@ -78,35 +63,13 @@ public class Drivetrain {
         // Configures the gyrof
         gyro.setSensitivity(0.007);
         gyro.reset();
-        
-        // Setup LiveWindow
-        LiveWindow.addActuator("Drivetrain", "FrontLeftMotor", frontLeftMotor);
-        LiveWindow.addActuator("Drivetrain", "FrontRightMotor", frontRightMotor);
-        LiveWindow.addActuator("Drivetrain", "RearLeftMotor", rearLeftMotor);
-        LiveWindow.addActuator("Drivetrain", "RearRightMotor", rearRightMotor);
-        LiveWindow.addSensor("Drivetrain", "LeftEncoder", leftEncoder);
-        LiveWindow.addSensor("Drivetrain", "RightEncoder", rightEncoder);
-        LiveWindow.addSensor("Drivetrain", "Gyro", gyro);
-    }
-    
-    public static void debug() {
-        System.out.println("[Drivetrain][debug] gyro: " + gyro.getAngle()
-                + "; leftEncoder: " + leftEncoder.get()
-                + "; rightEncoder: " + rightEncoder.get());
     }
     
     /**
-     * Arcade drive with a joystick
-     * @param stick the joystick
+     * Set the default command for the subsystem
      */
-    public static void arcadeDrive(Joystick stick) {
-        double throttle = -stick.getY();
-        double turn = stick.getRawAxis(4);
-        
-        throttle = Util.deadband(throttle, 0.2);
-        turn = Util.deadband(turn, 0.2);
-        
-        driveMotors.drive(throttle, turn);
+    protected void initDefaultCommand() {
+        setDefaultCommand(new DriveWithXboxController());
     }
     
     /**
@@ -114,7 +77,7 @@ public class Drivetrain {
      * @param throttle forwards/reverse motion
      * @param turn turning value
      */
-    public static void arcadeDrive(double throttle, double turn) {
+    public void arcadeDrive(double throttle, double turn) {
         driveMotors.drive(throttle, turn);
     }
     
@@ -123,7 +86,7 @@ public class Drivetrain {
      * @param left the value for the left motors
      * @param right the value for the right motors
      */
-    public static void tankDrive(double left, double right) {
+    public void tankDrive(double left, double right) {
         driveMotors.tankDrive(left, right);
     }
     
@@ -132,7 +95,7 @@ public class Drivetrain {
      * will drive the robot in reverse.
      * @param inches the distance the robot should move
      */
-    public static void setTargetDistance(double inches) {
+    public void setTargetDistance(double inches) {
         
         // Calculate the target encoder tick value
         targetDistance = (inches * kEncoderTicksPerRot)
@@ -150,14 +113,14 @@ public class Drivetrain {
      * and negative angles left.
      * @param degrees the amount by which to turn the robot
      */
-    public static void setTargetAngle(double angle) {
+    public void setTargetAngle(double angle) {
         targetAngle = gyro.getAngle() + angle;
     }
     
     /**
      * Drives the robot straight until the robot reaches the set target
      */
-    public static void driveStraight() {
+    public void driveStraight() {
         double power = distanceController.calculate(targetDistance, -rightEncoder.get());
         double turnVal = angleController.calculate(0, gyro.getAngle());
         
@@ -172,7 +135,7 @@ public class Drivetrain {
     /**
      * Turn the robot the specified amount.
      */
-    public static void turn() {
+    public void turn() {
         double turnVal = angleController.calculate(targetAngle, gyro.getAngle());
         
         driveMotors.drive(0.0, turnVal);
@@ -183,14 +146,14 @@ public class Drivetrain {
      * turning)
      * @return 
      */
-    public static boolean atTarget() {
+    public boolean atTarget() {
         return (targetDistance == 0);
     }
     
     /**
      * Reset the drivetrain encoders
      */
-    public static void resetEncoders() {
+    public void resetEncoders() {
         leftEncoder.reset();
         rightEncoder.reset();
     }
@@ -198,7 +161,7 @@ public class Drivetrain {
     /**
      * Reset the gyro
      */
-    public static void resetGyro() {
+    public void resetGyro() {
         gyro.reset();
     }
     

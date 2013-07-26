@@ -1,31 +1,34 @@
 package org.lunatecs316.frc2013.subsystems;
 
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import org.lunatecs316.frc2013.RobotMap;
 
 /**
  * Climbing subsystem
  * @author domenicpaul
  */
-public class Climber {
+public class Climber extends Subsystem {
     
-    private static final Solenoid solenoid = new Solenoid(RobotMap.CLIMBING_SOLENOID);
-    
-    /* Private Constructor to avoid instantiation */
-    private Climber() {}
+    private final Solenoid solenoid = new Solenoid(RobotMap.CLIMBING_SOLENOID);
     
     /**
-     * Initialize the subsystem
+     * Set the default command for the subsystem
      */
-    public static void init() {
-        
+    protected void initDefaultCommand() {  
     }
     
     /**
-     * Activate the climbing system
-     * @param value true => extended, false => retracted
+     * Raise the climbing hooks
      */
-    public static void climb(boolean value) {
-        solenoid.set(value);
+    public void raiseHooks() {
+        solenoid.set(true);
+    }
+
+    /**
+     * Lower the climbing hooks
+     */
+    public void lowerHooks() {
+        solenoid.set(false);
     }
 }

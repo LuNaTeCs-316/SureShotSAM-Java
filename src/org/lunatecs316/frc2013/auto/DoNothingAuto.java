@@ -1,26 +1,18 @@
 package org.lunatecs316.frc2013.auto;
 
-import org.lunatecs316.frc2013.Debugger;
+import edu.wpi.first.wpilibj.command.CommandGroup;
+import org.lunatecs316.frc2013.commands.*;
 
 /**
  * Blank auto mode that does nothing
  * @author domenicpaul
  */
-public class DoNothingAuto extends AutonomousMode {
+public class DoNothingAuto extends CommandGroup {
     
-    /**
-     * Initialize the autonomous mode
-     */
-    public void init() {
-        // Nothing to do
-        name = "DoNothingAuto";
-        Debugger.log("DoNothingAuto: Automatically doing nothing");
+    public DoNothingAuto() {
+        addParallel(new StopPickupArm());
+        addParallel(new DisablePickup());
+        addParallel(new DisableShooter());
     }
     
-    /**
-     * Run one iteration of the autonomous mode
-     */
-    public void run() {
-        // Nothing to do
-    }
 }

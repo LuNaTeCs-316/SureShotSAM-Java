@@ -1,8 +1,10 @@
 package org.lunatecs316.frc2013;
 
 import edu.wpi.first.wpilibj.Joystick;
-import org.lunatecs316.frc2013.lib.Util;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.lunatecs316.frc2013.subsystems.*;
+import org.lunatecs316.frc2013.commands.*;
 
 /**
  * The OI (Operator Interface) manages control of the robot during teleop
@@ -11,130 +13,54 @@ import org.lunatecs316.frc2013.subsystems.*;
 public class OI {
     
     /* Joysticks */
-    private static Joystick driverController;
-    private static Joystick operatorJoystick;
+    private Joystick driverController = new Joystick(1);
+    private Joystick operatorJoystick = new Joystick(2);
+
+    Button resetGyroButton = new JoystickButton(driverController, 4);
+    Button raisePickupButton = new JoystickButton(driverController, 5);
+    Button lowerPickupButton = new JoystickButton(driverController, 6);
     
-    /**
-     * Initialize the Operator Interface
-     */
-    public static void init(Joystick js1, Joystick js2) {
-        driverController = js1;
-        operatorJoystick = js2;
+    Button fireButton = new JoystickButton(operatorJoystick, 1);
+    Button enableShooterButton = new JoystickButton(operatorJoystick, 2);
+    Button autoFireButton = new JoystickButton(operatorJoystick, 3);
+    Button climbButton = new JoystickButton(operatorJoystick, 4);
+    Button reversePickupButton = new JoystickButton(operatorJoystick, 6);
+    Button enablePickupButton = new JoystickButton(operatorJoystick, 7);
+    Button shooterLoadPosition = new JoystickButton(operatorJoystick, 9);
+    Button shooterMidPosition = new JoystickButton(operatorJoystick, 10);
+    Button shooterTopPosition = new JoystickButton(operatorJoystick, 11);
+
+    
+    public OI() {
+        raisePickupButton.whenPressed(new RaisePickup());
+        lowerPickupButton.whenPressed(new LowerPickup());
+        raisePickupButton.whenReleased(new StopPickupArm());
+        lowerPickupButton.whenReleased(new StopPickupArm());
+        
+        enablePickupButton.whenPressed(new EnablePickup());
+        reversePickupButton.whenPressed(new ReversePickup());
+        enablePickupButton.whenReleased(new DisablePickup());
+        reversePickupButton.whenReleased(new DisablePickup());
+        
+        shooterTopPosition.whenPressed(new MoveShooterToPosition(Shooter.kTopPosition));
+        shooterMidPosition.whenPressed(new MoveShooterToPosition(Shooter.kMidPosition));
+        shooterLoadPosition.whenPressed(new MoveShooterToPosition(Shooter.kLoadPosition));
+        
+        autoFireButton.whileHeld(new AutoFire());
+        enableShooterButton.whenPressed(new EnableShooter(true));
+        enableShooterButton.whenReleased(new DisableShooter());
+        fireButton.whenPressed(new Shoot());
+        
+        climbButton.whileHeld(new ExtendHooks());
+        
+        resetGyroButton.whenPressed(new ResetGyro());
     }
     
-    public static void run() {
-        // Run each subsystem's section
-        runDrivetrain();
-        runPickup();
-        runShooter();
-        runClimber();
+    public Joystick getDriverController() {
+        return driverController;
     }
     
-    /**
-     * Run the drivetrain section
-     */
-    private static boolean firstPressDB1 = true;
-    private static boolean firstPressDB2 = true;
-    private static boolean firstPressDB3 = true;
-    private static void runDrivetrain() {
-        if (driverController.getRawButton(1)) {
-            if (firstPressDB1) {
-                Drivetrain.setTargetDistance(48);
-                firstPressDB1 = false; 
-            } else {
-                Drivetrain.driveStraight();
-            }
-        } else if (driverController.getRawButton(2)) {
-            if (firstPressDB2) {
-                Drivetrain.setTargetDistance(24);
-                firstPressDB2 = false;
-            } else {
-                Drivetrain.driveStraight();
-            }
-        } else if (driverController.getRawButton(3)) {
-            if (firstPressDB3) {
-                Drivetrain.setTargetAngle(90);
-                firstPressDB3 = false;
-            } else {
-                Drivetrain.turn();
-            }
-        } else {
-            firstPressDB1 = true;
-            firstPressDB2 = true;
-            firstPressDB3 = true;
-            Drivetrain.arcadeDrive(driverController);
-        }
-        
-        if (driverController.getRawButton(4)) {
-            Drivetrain.resetGyro();
-        }
-    }
-    
-    /**
-     * Run the pickup section
-     */
-    private static void runPickup() {
-        
-        // Angle control
-        if (driverController.getRawButton(5)) {
-            Pickup.raise();
-        } else if (driverController.getRawButton(6)) {
-            Pickup.lower();
-        } else {
-            Pickup.stop();
-        }
-        
-        // Belt control
-        if (operatorJoystick.getRawButton(6)) {
-            Pickup.setBeltState(Pickup.BeltState.Reverse);
-        } else if (operatorJoystick.getRawButton(7)) {
-            Pickup.setBeltState(Pickup.BeltState.Forwards);
-        } else {
-            Pickup.setBeltState(Pickup.BeltState.Off);
-        }
-    }
-    
-    /**
-     * Run the shooter section
-     */
-    private static void runShooter() {
-        
-        // Angle control
-        if (operatorJoystick.getRawButton(11)) {
-            Shooter.moveToPosition(Shooter.kTopPosition);
-        } else if (operatorJoystick.getRawButton(10)) {
-            Shooter.moveToPosition(Shooter.kMidPosition);
-        } else if (operatorJoystick.getRawButton(8)) {
-            Shooter.moveToPosition(Shooter.kLoadPosition);
-        } else {
-            Shooter.move(Util.deadband(operatorJoystick.getY(), 0.2));
-        }
-        
-        // Motor control
-        if (operatorJoystick.getRawButton(2)) {
-            Shooter.enable();    
-        } else if (operatorJoystick.getRawButton(5)) {
-            Shooter.setSpeed(-1.0);
-        } else if (operatorJoystick.getRawButton(1)) {
-            Shooter.autoFire();
-        } else {
-            Shooter.disable();
-        }
-        
-        // Firing control
-        if (operatorJoystick.getRawButton(2) || operatorJoystick.getRawButton(5))
-            Shooter.fire(operatorJoystick.getRawButton(1));
-        else if (!operatorJoystick.getRawButton(1))
-            Shooter.fire(false);
-        
-        // Indicator lights
-        Shooter.indications();
-    }
-    
-    /**
-     * Run the climber section
-     */
-    private static void runClimber() {
-        Climber.climb(operatorJoystick.getRawButton(4));
+    public Joystick getOperatorJoystick() {
+        return operatorJoystick;
     }
 }

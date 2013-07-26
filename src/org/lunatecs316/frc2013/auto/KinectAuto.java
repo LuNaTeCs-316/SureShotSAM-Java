@@ -1,35 +1,35 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.lunatecs316.frc2013.auto;
 
 import edu.wpi.first.wpilibj.KinectStick;
 import org.lunatecs316.frc2013.Debugger;
-import org.lunatecs316.frc2013.subsystems.*;
+import org.lunatecs316.frc2013.commands.CommandBase;
 
 /**
  * Drive the robot around using the Kinect. Impress ALL the peoples!
  * @author domenicpaul
  */
-public class KinectAuto extends AutonomousMode {
+public class KinectAuto extends CommandBase {
 
-    private KinectStick leftStick;
-    private KinectStick rightStick;
-    
-    public void init() {
-        name = "KinectAuto";
-        leftStick = new KinectStick(1);
-        rightStick = new KinectStick(2);
+    private KinectStick leftStick = new KinectStick(1);
+    private KinectStick rightStick = new KinectStick(2);
+
+    protected void initialize() {
+        requires(drivetrain);
     }
 
-    public void run() {
-        // Look, no hands
-        double left = leftStick.getY();
-        double right = rightStick.getY();
-        Drivetrain.tankDrive(left, right);
-        Debugger.log("left", left);
-        Debugger.log("right", right);
+    protected void execute() {
+        drivetrain.tankDrive(leftStick.getY(), rightStick.getY());
+    }
+
+    protected boolean isFinished() {
+        return false;
+    }
+
+    protected void end() {
+        drivetrain.arcadeDrive(0, 0);
+    }
+
+    protected void interrupted() {
     }
     
 }

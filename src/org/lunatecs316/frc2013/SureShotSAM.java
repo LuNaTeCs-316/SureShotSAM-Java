@@ -7,13 +7,13 @@
 
 package org.lunatecs316.frc2013;
 
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import org.lunatecs316.frc2013.subsystems.*;
 import org.lunatecs316.frc2013.auto.*;
+import org.lunatecs316.frc2013.commands.CommandBase;
 
 /**
  * Main Robot class.
@@ -32,31 +32,19 @@ public class SureShotSAM extends IterativeRobot {
     /* DriverStation */
     private DriverStation driverStation = DriverStation.getInstance();
     
-    /* Compressor */
-    private Compressor compressor = new Compressor(RobotMap.COMPRESSOR_PRESSURE_SWITCH,
-            RobotMap.COMPRESSOR_RELAY);
-    
     /* Autonomous Mode */
-    private AutonomousMode autoMode;
-    
-    /* Joysticks */
-    private Joystick driverController = new Joystick(1);
-    private Joystick operatorJoystick = new Joystick(2);
+    private CommandGroup autoMode;
     
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
     public void robotInit() {
-        // Call the OI and each subsystem's init method
-        Drivetrain.init();
-        Pickup.init();
-        Shooter.init();
-        Climber.init();
-        OI.init(driverController, operatorJoystick);
-        
         // Start the compressor
-        compressor.start();
+        CommandBase.compressor.start();
+        
+        // Initalize all subsystems
+        CommandBase.init();
       
         // Print for debugging purposes
         Debugger.log("robotInit() Done!");
@@ -75,21 +63,18 @@ public class SureShotSAM extends IterativeRobot {
                 autoMode = new DoNothingAuto();
                 break;
             case 1:
-                autoMode = new ThreeDiskAuto();
+                //autoMode = new ThreeDiskAuto();
                 break;
             case 2:
-                autoMode = new FiveDiskAuto();
+                //autoMode = new FiveDiskAuto();
                 break;
             case 4:
-                autoMode = new TestAuto();
+                //autoMode = new TestAuto();
                 break;
             case 5:
-                autoMode = new KinectAuto();
+                //autoMode = new KinectAuto();
                 break;
         }
-        
-        // Call the autoMode's init method
-        autoMode.init();
 
         Debugger.run("AutoInit");
     }
@@ -98,18 +83,23 @@ public class SureShotSAM extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-        // Run an iteration of the autoMode
-        autoMode.run();
+        Scheduler.getInstance().run();
 
         Debugger.run("AutoPeriodic");
+    }
+    
+    /**
+     * This function is called at the start of the teleop period
+     */
+    public void teleopInit() {
+        autoMode.cancel();
     }
     
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        // Run the OI
-        OI.run();
+        Scheduler.getInstance().run();
 
         Debugger.run("TeleopPeriodic");
     }
@@ -129,21 +119,20 @@ public class SureShotSAM extends IterativeRobot {
      */
     public void disabledInit() {
         // Set robot subsystems to default
-        Drivetrain.arcadeDrive(0, 0);
-        Pickup.setBeltState(Pickup.BeltState.Off);
-        Pickup.stop();
-        Shooter.disable();
-        Shooter.fire(false);
-        Climber.climb(false);
-
+        CommandBase.drivetrain.arcadeDrive(0, 0);
+        CommandBase.pickupBelts.disable();
+        CommandBase.pickupArm.stop();
+        CommandBase.shooter.disable();
+        CommandBase.climber.lowerHooks();
+        
         Debugger.run("DisabledInit");
     }
     
     public void disabledPeriodic() {
         // Reset gyro
-        if (driverController.getRawButton(4)) {
+        /*if (driverController.getRawButton(4)) {
             Drivetrain.resetGyro();
-        }
+        }*/
 
         Debugger.run("DisabledPeriodic");
     }
