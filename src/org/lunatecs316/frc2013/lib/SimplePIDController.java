@@ -59,7 +59,7 @@ public class SimplePIDController {
         
         double correction = error * kP + integral * kI + derivative * kD;
         
-        atTarget = (Util.deadband(correction, deadband) == 0);
+        atTarget = (Util.deadband(error, deadband) == 0);
         
         return correction;
     }

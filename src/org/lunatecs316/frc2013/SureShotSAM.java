@@ -9,7 +9,7 @@ package org.lunatecs316.frc2013;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.lunatecs316.frc2013.auto.*;
@@ -33,22 +33,23 @@ public class SureShotSAM extends IterativeRobot {
     private DriverStation driverStation = DriverStation.getInstance();
     
     /* Autonomous Mode */
-    private CommandGroup autoMode;
+    private Command autoMode;
     
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
     public void robotInit() {
-        // Start the compressor
-        CommandBase.compressor.start();
-        
+
         // Initalize all subsystems
         CommandBase.init();
+
+        // Start the compressor
+        CommandBase.compressor.start();
       
-        // Print for debugging purposes
         Debugger.log("robotInit() Done!");
 
+        // Ouput debugging info
         Debugger.run("RobotInit");
     }
 
@@ -63,19 +64,17 @@ public class SureShotSAM extends IterativeRobot {
                 autoMode = new DoNothingAuto();
                 break;
             case 1:
-                //autoMode = new ThreeDiskAuto();
+                autoMode = new ThreeDiskAuto();
                 break;
             case 2:
-                //autoMode = new FiveDiskAuto();
-                break;
-            case 4:
-                //autoMode = new TestAuto();
+                autoMode = new FiveDiskCenterAuto();
                 break;
             case 5:
-                //autoMode = new KinectAuto();
+                autoMode = new KinectAuto();
                 break;
         }
 
+        // Ouput debugging info
         Debugger.run("AutoInit");
     }
     
@@ -85,22 +84,32 @@ public class SureShotSAM extends IterativeRobot {
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
 
+        // Ouput debugging info
         Debugger.run("AutoPeriodic");
     }
-    
+
     /**
      * This function is called at the start of the teleop period
      */
     public void teleopInit() {
+        // Make sure the autonomous program has stopped
         autoMode.cancel();
+
+        // Start the compresser incase it was stopped during auto
+        CommandBase.compressor.start();
+
+        // Ouput debugging info
+        Debugger.run("TeleopInit");
+
     }
-    
+
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
 
+        // Ouput debugging info
         Debugger.run("TeleopPeriodic");
     }
     
@@ -111,6 +120,7 @@ public class SureShotSAM extends IterativeRobot {
         // Run LiveWindow
         LiveWindow.run();
 
+        // Ouput debugging info
         Debugger.run("TestPeriodic");
     }
     
@@ -125,15 +135,12 @@ public class SureShotSAM extends IterativeRobot {
         CommandBase.shooter.disable();
         CommandBase.climber.lowerHooks();
         
+        // Ouput debugging info
         Debugger.run("DisabledInit");
     }
     
     public void disabledPeriodic() {
-        // Reset gyro
-        /*if (driverController.getRawButton(4)) {
-            Drivetrain.resetGyro();
-        }*/
-
+        // Ouput debugging info
         Debugger.run("DisabledPeriodic");
     }
 }

@@ -16,10 +16,12 @@ public class OI {
     private Joystick driverController = new Joystick(1);
     private Joystick operatorJoystick = new Joystick(2);
 
+    /* Driver Controller Buttons */
     Button resetGyroButton = new JoystickButton(driverController, 4);
     Button raisePickupButton = new JoystickButton(driverController, 5);
     Button lowerPickupButton = new JoystickButton(driverController, 6);
     
+    /* Operator Joystick Buttons */
     Button fireButton = new JoystickButton(operatorJoystick, 1);
     Button enableShooterButton = new JoystickButton(operatorJoystick, 2);
     Button autoFireButton = new JoystickButton(operatorJoystick, 3);
@@ -30,36 +32,52 @@ public class OI {
     Button shooterMidPosition = new JoystickButton(operatorJoystick, 10);
     Button shooterTopPosition = new JoystickButton(operatorJoystick, 11);
 
-    
+    /**
+     * OI Constructor. Bind commands to button events
+     */
     public OI() {
+        // Pickup Arm
         raisePickupButton.whenPressed(new RaisePickup());
         lowerPickupButton.whenPressed(new LowerPickup());
         raisePickupButton.whenReleased(new StopPickupArm());
         lowerPickupButton.whenReleased(new StopPickupArm());
         
+        // Pickup Belts
         enablePickupButton.whenPressed(new EnablePickup());
         reversePickupButton.whenPressed(new ReversePickup());
         enablePickupButton.whenReleased(new DisablePickup());
         reversePickupButton.whenReleased(new DisablePickup());
         
+        // Shooter Positioning
         shooterTopPosition.whenPressed(new MoveShooterToPosition(Shooter.kTopPosition));
         shooterMidPosition.whenPressed(new MoveShooterToPosition(Shooter.kMidPosition));
         shooterLoadPosition.whenPressed(new MoveShooterToPosition(Shooter.kLoadPosition));
         
+        // Shooter Firing
         autoFireButton.whileHeld(new AutoFire());
         enableShooterButton.whenPressed(new EnableShooter(true));
         enableShooterButton.whenReleased(new DisableShooter());
         fireButton.whenPressed(new Shoot());
         
+        // Climbing
         climbButton.whileHeld(new ExtendHooks());
         
+        // Misc.
         resetGyroButton.whenPressed(new ResetGyro());
     }
     
+    /**
+     * Get the driver controller
+     * @return the driver controller
+     */
     public Joystick getDriverController() {
         return driverController;
     }
     
+    /**
+     * Get the operator joystick
+     * @return the operator joystick
+     */
     public Joystick getOperatorJoystick() {
         return operatorJoystick;
     }

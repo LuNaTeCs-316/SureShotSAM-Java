@@ -1,7 +1,6 @@
 package org.lunatecs316.frc2013.auto;
 
 import edu.wpi.first.wpilibj.KinectStick;
-import org.lunatecs316.frc2013.Debugger;
 import org.lunatecs316.frc2013.commands.CommandBase;
 
 /**
