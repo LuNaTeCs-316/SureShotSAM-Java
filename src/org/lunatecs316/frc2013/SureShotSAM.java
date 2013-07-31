@@ -33,7 +33,7 @@ public class SureShotSAM extends IterativeRobot {
     private final DriverStation ds = DriverStation.getInstance();
     
     /* Autonomous Mode */
-    private Command autoMode;
+    private Command autoCommand;
     
     /**
      * This function is run when the robot is first started up and should be
@@ -61,18 +61,21 @@ public class SureShotSAM extends IterativeRobot {
         switch ((int) ds.getAnalogIn(1)) {
             default:
             case 0:
-                autoMode = new DoNothingAuto();
+                autoCommand = new DoNothingAuto();
                 break;
             case 1:
-                autoMode = new ThreeDiskAuto();
+                autoCommand = new ThreeDiskAuto();
                 break;
             case 2:
-                autoMode = new FiveDiskCenterAuto();
+                autoCommand = new FiveDiskCenterAuto();
                 break;
             case 5:
-                autoMode = new KinectAuto();
+                autoCommand = new KinectAuto();
                 break;
         }
+        
+        // Start the autonomous mode
+        autoCommand.start();
 
         // Ouput debugging info
         Debugger.run("AutoInit");
@@ -93,7 +96,7 @@ public class SureShotSAM extends IterativeRobot {
      */
     public void teleopInit() {
         // Make sure the autonomous program has stopped
-        autoMode.cancel();
+        autoCommand.cancel();
 
         // Start the compresser incase it was stopped during auto
         CommandBase.compressor.start();
