@@ -17,24 +17,26 @@ import org.lunatecs316.frc2013.commands.CommandBase;
 
 /**
  * Main Robot class.
- * 
+ *
  * WPILib note:
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
  * documentation. If you change the name of this class or the package after
  * creating this project, you must also update the manifest file in the resource
  * directory.
- * 
+ *
  * @author domenicpaul
  */
 public class SureShotSAM extends IterativeRobot {
-    
+
     /* DriverStation */
     private final DriverStation ds = DriverStation.getInstance();
-    
+
     /* Autonomous Mode */
     private Command autoMode;
-    
+
+    private int teleopLoopCount = 0;
+
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -47,7 +49,7 @@ public class SureShotSAM extends IterativeRobot {
 
         // Start the compressor
         CommandBase.compressor.start();
-      
+
         Debugger.log("robotInit() Done!");
 
         // Ouput debugging info
@@ -74,16 +76,16 @@ public class SureShotSAM extends IterativeRobot {
                 autoMode = new KinectAuto();
                 break;
         }
-        
+
         // Start the autonomous mode
         autoMode.start();
-        
+
         System.out.println("Entering Autonomus Mode; Running " + autoMode.getName());
 
         // Ouput debugging info
         Debugger.run("AutoInit");
     }
-    
+
     /**
      * This function is called periodically during autonomous
      */
@@ -103,12 +105,13 @@ public class SureShotSAM extends IterativeRobot {
 
         // Start the compresser incase it was stopped during auto
         CommandBase.compressor.start();
-        
+
         System.out.println("Entering Teleop Mode");
+
+        teleopLoopCount = 0;
 
         // Ouput debugging info
         Debugger.run("TeleopInit");
-
     }
 
     /**
@@ -117,22 +120,32 @@ public class SureShotSAM extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
 
+        // SmartDashboard
+        if (teleopLoopCount >= 10) {
+            // Only update every 10th loop to save bandwidth
+            // Should be about every 200ms
+            CommandBase.updateSmartDashboard();
+            teleopLoopCount = 0;
+        } else {
+            teleopLoopCount++;
+        }
+
         // Ouput debugging info
         Debugger.run("TeleopPeriodic");
     }
-    
+
     /**
      * This function is called at the start of test mode
      */
     public void testInit() {
         // Make sure the autonomous command has been stopped
         autoMode.cancel();
-        
+
         System.out.println("Entering Test mode");
-        
+
         Debugger.run("TestInit");
     }
-    
+
     /**
      * This function is called periodically during test mode
      */
@@ -143,31 +156,41 @@ public class SureShotSAM extends IterativeRobot {
         // Ouput debugging info
         Debugger.run("TestPeriodic");
     }
-    
+
     /**
      * This function is called once at the start of disabled mode
      */
     public void disabledInit() {
         // Make sure the autonomous command has been stopped
         autoMode.cancel();
-        
+
         System.out.println("Entering Disabled Mode");
-        
+
         // Set robot subsystems to default
         CommandBase.drivetrain.arcadeDrive(0, 0);
         CommandBase.pickupBelts.disable();
         CommandBase.pickupArm.stop();
         CommandBase.shooter.disable();
         CommandBase.climber.lowerHooks();
-        
+
         // Update the robot constants
         Constants.update();
-        
+
         // Ouput debugging info
         Debugger.run("DisabledInit");
     }
-    
+
     public void disabledPeriodic() {
+        // SmartDashboard
+        if (teleopLoopCount >= 10) {
+            // Only update every 10th loop to save bandwidth
+            // Should be about every 200ms
+            CommandBase.updateSmartDashboard();
+            teleopLoopCount = 0;
+        } else {
+            teleopLoopCount++;
+        }
+
         // Ouput debugging info
         Debugger.run("DisabledPeriodic");
     }

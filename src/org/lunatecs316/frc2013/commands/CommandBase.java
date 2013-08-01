@@ -13,7 +13,7 @@ import org.lunatecs316.frc2013.subsystems.*;
  * @author domenicpaul
  */
 public abstract class CommandBase extends Command {
-    
+
     public static OI oi;
     // Subsystems
     public static Drivetrain drivetrain = new Drivetrain();
@@ -23,25 +23,37 @@ public abstract class CommandBase extends Command {
     public static Climber climber = new Climber();
     public static Compressor compressor = new Compressor(RobotMap.kCompressorPressureSwitch,
                                                          RobotMap.kCompressorRelay);
-    
+
     public static void init() {
         // This MUST be here. If the OI creates Commands (which it very likely
         // will), constructing it during the construction of CommandBase (from
         // which commands extend), subsystems are not guaranteed to be
         // yet. Thus, their requires() statements may grab null pointers. Bad
         // news. Don't move it.
-        oi = new OI();   
+        oi = new OI();
     }
-    
+
     public CommandBase(String name) {
         super(name);
     }
-    
+
     public CommandBase() {
         super();
     }
-    
-    public void updateConstants() {
+
+    public static void updateConstants() {
         shooter.updateConstants();
+    }
+
+    /**
+     * Send robot data to the SmartDashboard. Be careful not to call this method
+     * too often or you might exceed the allotted bandwidth
+     */
+    public static void updateSmartDashboard() {
+        drivetrain.updateSmartDashboard();
+        pickupArm.updateSmartDashboard();
+        pickupBelts.updateSmartDashboard();
+        shooter.updateSmartDashboard();
+        climber.updateSmartDashboard();
     }
 }

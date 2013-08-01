@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.lunatecs316.frc2013.RobotMap;
 import org.lunatecs316.frc2013.commands.DriveWithXboxController;
 import org.lunatecs316.frc2013.lib.LuNaDrive;
@@ -26,42 +27,51 @@ public final class Drivetrain extends Subsystem {
     private final Victor frontRightMotor = new Victor(RobotMap.kFrontRightDriveMotor);
     private final Victor rearLeftMotor = new Victor(RobotMap.kRearLeftDriveMotor);
     private final Victor rearRightMotor = new Victor(RobotMap.kRearRightDriveMotor);
-    
+
     /* Drive Motor Controller */
     private final LuNaDrive driveMotors = new LuNaDrive(frontLeftMotor,
             frontRightMotor, rearLeftMotor, rearRightMotor);
-    
+
     /* Sensors */
     private final Encoder leftEncoder = new Encoder(RobotMap.kLeftDriveEncoderA,
             RobotMap.kLeftDriveEncoderB);
     private final Encoder rightEncoder = new Encoder(RobotMap.kRightDriveEncoderA,
             RobotMap.kRightDriveEncoderB);
     private final Gyro gyro = new Gyro(RobotMap.kDriveGyro);
-    
+
     /**
      * Drivetrain constructor
      */
     public Drivetrain() {
         // Call parent class' constructor
         super();
-        
+
         // Configure the encoders
         leftEncoder.start();
         rightEncoder.start();
         resetEncoders();
-        
+
         // Configures the gyrof
         gyro.setSensitivity(0.007);
         gyro.reset();
     }
-    
+
     /**
      * Set the default command for the subsystem
      */
     protected void initDefaultCommand() {
         setDefaultCommand(new DriveWithXboxController());
     }
-    
+
+    /**
+     * Send subsystem data to SmartDashboard
+     */
+    public void updateSmartDashboard() {
+        SmartDashboard.putNumber("LeftDriveEncoder", leftEncoder.get());
+        SmartDashboard.putNumber("RightDriveEncoder", rightEncoder.get());
+        SmartDashboard.putNumber("Gyro", gyro.getAngle());
+    }
+
     /**
      * Arcade arcadeDrive with manual parameters
      * @param throttle forwards/reverse motion
@@ -70,7 +80,7 @@ public final class Drivetrain extends Subsystem {
     public void arcadeDrive(double throttle, double turn) {
         driveMotors.arcadeDrive(throttle, turn);
     }
-    
+
     /**
      * Tank arcadeDrive with manual parameters
      * @param left the value for the left motors
@@ -96,7 +106,7 @@ public final class Drivetrain extends Subsystem {
         leftEncoder.reset();
         rightEncoder.reset();
     }
-    
+
     /**
      * Get the current angle read by the gyro sensor
      * @return the current gyro angle

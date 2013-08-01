@@ -2,6 +2,7 @@ package org.lunatecs316.frc2013;
 
 import edu.wpi.first.wpilibj.Preferences;
 import java.util.Vector;
+import org.lunatecs316.frc2013.commands.CommandBase;
 
 /**
  * Robot constants
@@ -93,6 +94,9 @@ public class Constants {
                 prefs.putDouble(key, oldValue);
             }
         }
+
+        // Update constants in subsystems
+        CommandBase.updateConstants();
 
         // Save the updated constants to disk
         System.out.println("Saving updated constants to disk");

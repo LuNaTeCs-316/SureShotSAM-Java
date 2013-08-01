@@ -10,27 +10,34 @@ import org.lunatecs316.frc2013.RobotMap;
  * @author domenicpaul
  */
 public final class PickupBelts extends Subsystem {
-    private final Victor beltMotor = new Victor(RobotMap.kPickupBeltMotor); 
-    
+    private final Victor beltMotor = new Victor(RobotMap.kPickupBeltMotor);
+
     /**
      * Set the subsystem's default command
      */
     public void initDefaultCommand() {}
-    
+
+    /**
+     * Send subsystem data to the SmartDashboard
+     */
+    public void updateSmartDashboard() {
+        // No data to send
+    }
+
     /**
      * Enable the conveyer belts
      */
     public void enable() {
         beltMotor.set(Constants.kPickupBeltSpeed.getValue());
     }
-    
+
     /**
      * Disable the conveyer belts
      */
     public void disable() {
         beltMotor.set(0.0);
     }
-    
+
     /**
      * Run the conveyer belts in reverse
      */
