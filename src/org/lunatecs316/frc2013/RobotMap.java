@@ -7,40 +7,40 @@ package org.lunatecs316.frc2013;
 public class RobotMap {
     
     /* Joystick inputs */
-    public static final int DRIVER_JOYSTICK = 1;
-    public static final int OPERATOR_JOYSTICK = 2;
+    public static final int kDriverJoystick = 1;
+    public static final int kOperatorJoystick = 2;
     
     /* PWM outputs */
-    public static final int FRONT_LEFT_DRIVE_MOTOR = 1;
-    public static final int REAR_LEFT_DRIVE_MOTOR = 2;
-    public static final int FRONT_RIGHT_DRIVE_MOTOR = 3;
-    public static final int REAR_RIGHT_DRIVE_MOTOR = 4;
-    public static final int PICKUP_ANGLE_MOTOR = 5;
-    public static final int SHOOTER_MOTOR = 6;
-    public static final int SHOOTER_ANGLE_MOTOR = 7;
-    public static final int PICKUP_BELT_MOTOR = 8;
+    public static final int kFrontLeftDriveMotor = 1;
+    public static final int kRearLeftDriveMotor = 2;
+    public static final int kFrontRightDriveMotor = 3;
+    public static final int kRearRightDriveMotor = 4;
+    public static final int kPickupAngleMotor = 5;
+    public static final int kShooterMotor = 6;
+    public static final int kShooterAngleMotor = 7;
+    public static final int kPickupBeltMotor = 8;
     
     /* Relay outputs */
-    public static final int COMPRESSOR_RELAY = 1;
-    public static final int PICKUP_BELT_RELAY = 2;
+    public static final int kCompressorRelay = 1;
+    public static final int kPickupBeltRelay = 2;
     
     /* Solenoid outputs */
-    public static final int SHOOTER_SOLENOID = 1;
-    public static final int CLIMBING_SOLENOID = 2;
-    public static final int RED_INDICATOR_1 = 6;
-    public static final int RED_INDICATOR_2 = 7;
-    public static final int BLUE_INDICATOR = 8;
+    public static final int kShooterSolenoid = 1;
+    public static final int kClimbingSolenoid = 2;
+    public static final int kRedIndicator1 = 6;
+    public static final int kRedIndicator2 = 7;
+    public static final int kBlueIndicator = 8;
     
     /* Analog inputs */
-    public static final int DRIVE_GYRO = 1;
-    public static final int PICKUP_ANGLE_POT = 2;
-    public static final int SHOOTER_ANGLE_POT = 3;
+    public static final int kDriveGyro = 1;
+    public static final int kPickupAngle = 2;
+    public static final int kShooterAnglePot = 3;
     
     /* Digital inputs */
-    public static final int LEFT_DRIVE_ENCODER_A = 3;
-    public static final int LEFT_DRIVE_ENCODER_B = 4;
-    public static final int RIGHT_DRIVE_ENCODER_A = 1;
-    public static final int RIGHT_DRIVE_ENCODER_B = 2;
-    public static final int SHOOTER_SPEED_TACH = 5;
-    public static final int COMPRESSOR_PRESSURE_SWITCH = 14;
+    public static final int kLeftDriveEncoderA = 3;
+    public static final int kLeftDriveEncoderB = 4;
+    public static final int kRightDriveEncoderA = 1;
+    public static final int kRightDriveEncoderB = 2;
+    public static final int kShooterSpeedTach = 5;
+    public static final int kCompressorPressureSwitch = 14;
 }

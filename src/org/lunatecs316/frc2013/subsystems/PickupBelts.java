@@ -9,7 +9,7 @@ import org.lunatecs316.frc2013.RobotMap;
  * @author domenicpaul
  */
 public final class PickupBelts extends Subsystem {
-    private final Victor beltMotor = new Victor(RobotMap.PICKUP_BELT_MOTOR); 
+    private final Victor beltMotor = new Victor(RobotMap.kPickupBeltMotor); 
     
     /**
      * Set the subsystem's default command

@@ -22,24 +22,24 @@ public final class Shooter extends Subsystem {
     public static final double kLoadPosition = 1.85;
     
     /* Shooter Motor */
-    private final Victor motor = new Victor(RobotMap.SHOOTER_MOTOR);
-    private final Tachometer speedTach = new Tachometer(RobotMap.SHOOTER_SPEED_TACH);
+    private final Victor motor = new Victor(RobotMap.kShooterMotor);
+    private final Tachometer speedTach = new Tachometer(RobotMap.kShooterSpeedTach);
     private final PIDController speedController = new PIDController(-0.005,
             0.000, 0.0, speedTach, motor);
     
     /* Shooter Angle */
-    private final Jaguar angleMotor = new Jaguar(RobotMap.SHOOTER_ANGLE_MOTOR);
-    private final Potentiometer anglePot = new Potentiometer(RobotMap.SHOOTER_ANGLE_POT);
+    private final Jaguar angleMotor = new Jaguar(RobotMap.kShooterAngleMotor);
+    private final Potentiometer anglePot = new Potentiometer(RobotMap.kShooterAnglePot);
     private final PIDController angleController = new PIDController(21.5,
             0.0, 0.0, anglePot, angleMotor);
     
     /* Shooter piston */
-    private final Solenoid solenoid = new Solenoid(RobotMap.SHOOTER_SOLENOID);
+    private final Solenoid solenoid = new Solenoid(RobotMap.kShooterSolenoid);
     
     /* Shooter indicator lights */
-    private Solenoid redIndicator1 = new Solenoid(RobotMap.RED_INDICATOR_1);
-    private Solenoid redIndicator2 = new Solenoid(RobotMap.RED_INDICATOR_2);
-    private Solenoid blueIndicator = new Solenoid(RobotMap.BLUE_INDICATOR);
+    private Solenoid redIndicator1 = new Solenoid(RobotMap.kRedIndicator1);
+    private Solenoid redIndicator2 = new Solenoid(RobotMap.kRedIndicator2);
+    private Solenoid blueIndicator = new Solenoid(RobotMap.kBlueIndicator);
   
     private boolean lightIsOn = false;
     private int offCounter = 0;

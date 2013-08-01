@@ -10,7 +10,7 @@ import org.lunatecs316.frc2013.RobotMap;
  */
 public final class Climber extends Subsystem {
     
-    private final Solenoid solenoid = new Solenoid(RobotMap.CLIMBING_SOLENOID);
+    private final Solenoid solenoid = new Solenoid(RobotMap.kClimbingSolenoid);
     
     /**
      * Set the default command for the subsystem

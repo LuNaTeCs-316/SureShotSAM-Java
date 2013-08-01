@@ -21,8 +21,8 @@ public abstract class CommandBase extends Command {
     public static PickupBelts pickupBelts = new PickupBelts();
     public static Shooter shooter = new Shooter();
     public static Climber climber = new Climber();
-    public static Compressor compressor = new Compressor(RobotMap.COMPRESSOR_PRESSURE_SWITCH,
-                                                         RobotMap.COMPRESSOR_RELAY);
+    public static Compressor compressor = new Compressor(RobotMap.kCompressorPressureSwitch,
+                                                         RobotMap.kCompressorRelay);
     
     public static void init() {
         // This MUST be here. If the OI creates Commands (which it very likely

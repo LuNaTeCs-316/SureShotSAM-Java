@@ -22,21 +22,21 @@ public final class Drivetrain extends Subsystem {
     public static final double kDistancePerRotation = kWheelDiameter * Math.PI;
 
     /* Drive Motors */
-    private final Victor frontLeftMotor = new Victor(RobotMap.FRONT_LEFT_DRIVE_MOTOR);
-    private final Victor frontRightMotor = new Victor(RobotMap.FRONT_RIGHT_DRIVE_MOTOR);
-    private final Victor rearLeftMotor = new Victor(RobotMap.REAR_LEFT_DRIVE_MOTOR);
-    private final Victor rearRightMotor = new Victor(RobotMap.REAR_RIGHT_DRIVE_MOTOR);
+    private final Victor frontLeftMotor = new Victor(RobotMap.kFrontLeftDriveMotor);
+    private final Victor frontRightMotor = new Victor(RobotMap.kFrontRightDriveMotor);
+    private final Victor rearLeftMotor = new Victor(RobotMap.kRearLeftDriveMotor);
+    private final Victor rearRightMotor = new Victor(RobotMap.kRearRightDriveMotor);
     
     /* Drive Motor Controller */
     private final LuNaDrive driveMotors = new LuNaDrive(frontLeftMotor,
             frontRightMotor, rearLeftMotor, rearRightMotor);
     
     /* Sensors */
-    private final Encoder leftEncoder = new Encoder(RobotMap.LEFT_DRIVE_ENCODER_A,
-            RobotMap.LEFT_DRIVE_ENCODER_B);
-    private final Encoder rightEncoder = new Encoder(RobotMap.RIGHT_DRIVE_ENCODER_A,
-            RobotMap.RIGHT_DRIVE_ENCODER_B);
-    private final Gyro gyro = new Gyro(RobotMap.DRIVE_GYRO);
+    private final Encoder leftEncoder = new Encoder(RobotMap.kLeftDriveEncoderA,
+            RobotMap.kLeftDriveEncoderB);
+    private final Encoder rightEncoder = new Encoder(RobotMap.kRightDriveEncoderA,
+            RobotMap.kRightDriveEncoderB);
+    private final Gyro gyro = new Gyro(RobotMap.kDriveGyro);
     
     /**
      * Drivetrain constructor

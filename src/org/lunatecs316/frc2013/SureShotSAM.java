@@ -33,7 +33,7 @@ public class SureShotSAM extends IterativeRobot {
     private final DriverStation ds = DriverStation.getInstance();
     
     /* Autonomous Mode */
-    private Command autoCommand;
+    private Command autoMode;
     
     /**
      * This function is run when the robot is first started up and should be
@@ -61,21 +61,21 @@ public class SureShotSAM extends IterativeRobot {
         switch ((int) ds.getAnalogIn(1)) {
             default:
             case 0:
-                autoCommand = new DoNothingAuto();
+                autoMode = new DoNothingAuto();
                 break;
             case 1:
-                autoCommand = new ThreeDiskAuto();
+                autoMode = new ThreeDiskAuto();
                 break;
             case 2:
-                autoCommand = new FiveDiskCenterAuto();
+                autoMode = new FiveDiskCenterAuto();
                 break;
             case 5:
-                autoCommand = new KinectAuto();
+                autoMode = new KinectAuto();
                 break;
         }
         
         // Start the autonomous mode
-        autoCommand.start();
+        autoMode.start();
 
         // Ouput debugging info
         Debugger.run("AutoInit");
@@ -96,7 +96,7 @@ public class SureShotSAM extends IterativeRobot {
      */
     public void teleopInit() {
         // Make sure the autonomous program has stopped
-        autoCommand.cancel();
+        autoMode.cancel();
 
         // Start the compresser incase it was stopped during auto
         CommandBase.compressor.start();
@@ -117,6 +117,14 @@ public class SureShotSAM extends IterativeRobot {
     }
     
     /**
+     * This function is called at the start of test mode
+     */
+    public void testInit() {
+        // Make sure the autonomous command has been stopped
+        autoMode.cancel();
+    }
+    
+    /**
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
@@ -131,6 +139,9 @@ public class SureShotSAM extends IterativeRobot {
      * This function is called once at the start of disabled mode
      */
     public void disabledInit() {
+        // Make sure the autonomous command has been stopped
+        autoMode.cancel();
+        
         // Set robot subsystems to default
         CommandBase.drivetrain.arcadeDrive(0, 0);
         CommandBase.pickupBelts.disable();

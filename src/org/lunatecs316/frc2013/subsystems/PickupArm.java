@@ -11,8 +11,8 @@ import org.lunatecs316.frc2013.lib.Potentiometer;
  */
 public final class PickupArm extends Subsystem {
 
-    private final Jaguar angleMotor = new Jaguar(RobotMap.PICKUP_ANGLE_MOTOR);
-    private final Potentiometer anglePot = new Potentiometer(RobotMap.PICKUP_ANGLE_POT);
+    private final Jaguar angleMotor = new Jaguar(RobotMap.kPickupAngleMotor);
+    private final Potentiometer anglePot = new Potentiometer(RobotMap.kPickupAngle);
     
     /**
      * Set the default subsystem command
