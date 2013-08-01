@@ -1,5 +1,6 @@
 package org.lunatecs316.frc2013.commands;
 
+import org.lunatecs316.frc2013.Constants;
 import org.lunatecs316.frc2013.lib.SimplePIDController;
 
 /**
@@ -10,7 +11,9 @@ public class DriveStraight extends CommandBase {
     
     private double power;
     private double startAngle;
-    private SimplePIDController pid = new SimplePIDController(0, 0, 0);
+    private SimplePIDController pid = new SimplePIDController(Constants.kDriveGyroP.getValue(),
+                                                               Constants.kDriveGyroI.getValue(),
+                                                               Constants.kDriveGyroD.getValue());
     
     public DriveStraight(double power) {
         // Use requires() here to declare subsystem dependencies

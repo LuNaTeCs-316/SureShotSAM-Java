@@ -41,4 +41,7 @@ public abstract class CommandBase extends Command {
         super();
     }
     
+    public void updateConstants() {
+        shooter.updateConstants();
+    }
 }

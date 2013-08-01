@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import org.lunatecs316.frc2013.Constants;
 import org.lunatecs316.frc2013.RobotMap;
 import org.lunatecs316.frc2013.commands.MoveShooterWithJoystick;
 import org.lunatecs316.frc2013.lib.Potentiometer;
@@ -17,9 +18,9 @@ import org.lunatecs316.frc2013.lib.Tachometer;
 public final class Shooter extends Subsystem {
     
     /* Shooter positions */
-    public static final double kTopPosition = 3.2;
-    public static final double kMidPosition = 3.1;
-    public static final double kLoadPosition = 1.85;
+    //public static final double kTopPosition = 3.2;
+    //public static final double kMidPosition = 3.1;
+    //public static final double kLoadPosition = 1.85;
     
     /* Shooter Motor */
     private final Victor motor = new Victor(RobotMap.kShooterMotor);
@@ -60,6 +61,18 @@ public final class Shooter extends Subsystem {
     
     protected void initDefaultCommand() {
         setDefaultCommand(new MoveShooterWithJoystick());
+    }
+    
+    public void updateConstants() {
+        speedController.setPID(Constants.kShooterSpeedP.getValue(),
+                                Constants.kShooterSpeedI.getValue(),
+                                Constants.kShooterSpeedD.getValue());
+        
+        speedController.setSetpoint(Constants.kShooterTargetSpeed.getValue());
+        
+        angleController.setPID(Constants.kShooterAngleP.getValue(),
+                                Constants.kShooterAngleI.getValue(),
+                                Constants.kShooterAngleD.getValue());
     }
     
     /**
@@ -125,7 +138,7 @@ public final class Shooter extends Subsystem {
      * @return true if the shooter is at speed, else false
      */
     public boolean atSpeed() {
-        return speedController.onTarget() || (speedTach.getRPM() > 3700);
+        return speedController.onTarget() || (speedTach.getRPM() > Constants.kShooterMinFiringSpeed.getValue());
     }
     
     /**
@@ -142,13 +155,14 @@ public final class Shooter extends Subsystem {
     public void indications() {
         
         // Blue indicator light show if we are at the proper angle
-        blueIndicator.set((anglePot.getOutput() >= kTopPosition));
+        blueIndicator.set((anglePot.getOutput() >= Constants.kShooterTopPosition.getValue()));
         
-        if (speedTach.getRPM() >= 3800) {
-            // Red indicator lights are solid when at speed,...
+        double speed = speedTach.getRPM();
+        if (speed >= Constants.kShooterMinFiringSpeed.getValue()) {
+            // Red indicator lights are solid when at speed...
             redIndicator1.set(true);
             redIndicator2.set(true);
-        } else if (speedTach.getRPM() <= 500) {
+        } else if (speed <= 500) {
             // ...off when the speed is too low,..
             redIndicator1.set(false);
             redIndicator2.set(false);
@@ -161,8 +175,7 @@ public final class Shooter extends Subsystem {
                 offCounter = 0;
             } else { // light is off, check to see if it is time to turn it on
                 offCounter++;
-                double temp = speedTach.getRPM();
-                temp = temp - 150;
+                double temp = speed - 150;
                 double offTime = 71 - temp;
                 if (offCounter >= offTime) {
                     redIndicator1.set(true);
@@ -171,6 +184,5 @@ public final class Shooter extends Subsystem {
                 }
             }
 	}
-    }  
-    // </editor-fold>
+    }
 }

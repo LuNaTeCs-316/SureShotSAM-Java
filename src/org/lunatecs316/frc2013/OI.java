@@ -61,9 +61,9 @@ public class OI {
         reversePickupButton.whenReleased(new DisablePickup());
         
         // Shooter Positioning
-        shooterTopPosition.whenPressed(new MoveShooterToPosition(Shooter.kTopPosition));
-        shooterMidPosition.whenPressed(new MoveShooterToPosition(Shooter.kMidPosition));
-        shooterLoadPosition.whenPressed(new MoveShooterToPosition(Shooter.kLoadPosition));
+        shooterTopPosition.whenPressed(new MoveShooterToPosition(Constants.kShooterTopPosition.getValue()));
+        shooterMidPosition.whenPressed(new MoveShooterToPosition(Constants.kShooterMidPosition.getValue()));
+        shooterLoadPosition.whenPressed(new MoveShooterToPosition(Constants.kShooterLoadPosition.getValue()));
         
         // Shooter Firing
         autoFireButton.whileHeld(new AutoFire());

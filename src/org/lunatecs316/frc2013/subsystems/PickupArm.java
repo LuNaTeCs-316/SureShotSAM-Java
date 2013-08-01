@@ -2,6 +2,7 @@ package org.lunatecs316.frc2013.subsystems;
 
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import org.lunatecs316.frc2013.Constants;
 import org.lunatecs316.frc2013.RobotMap;
 import org.lunatecs316.frc2013.lib.Potentiometer;
 
@@ -23,14 +24,14 @@ public final class PickupArm extends Subsystem {
      * Raise the pickup arm
      */
     public void raise() {
-        angleMotor.set(1.0);
+        angleMotor.set(Constants.kPickupArmSpeed.getValue());
     }
     
     /**
      * Lower the pickup arm
      */
     public void lower() {
-        angleMotor.set(-1.0);
+        angleMotor.set(-Constants.kPickupArmSpeed.getValue());
     }
     
     /**

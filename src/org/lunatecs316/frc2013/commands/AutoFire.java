@@ -1,5 +1,7 @@
 package org.lunatecs316.frc2013.commands;
 
+import org.lunatecs316.frc2013.Constants;
+
 /**
  * Automatically operate the shooter
  * @author domenicpaul
@@ -18,7 +20,7 @@ public class AutoFire extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        shooter.fire(shooter.getSpeed() > 3600);
+        shooter.fire(shooter.getSpeed() > Constants.kShooterMinFiringSpeed.getValue());
         shooter.indications();
     }
 

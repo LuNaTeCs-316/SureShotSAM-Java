@@ -2,6 +2,7 @@ package org.lunatecs316.frc2013.subsystems;
 
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import org.lunatecs316.frc2013.Constants;
 import org.lunatecs316.frc2013.RobotMap;
 
 /**
@@ -20,7 +21,7 @@ public final class PickupBelts extends Subsystem {
      * Enable the conveyer belts
      */
     public void enable() {
-        beltMotor.set(1.0);
+        beltMotor.set(Constants.kPickupBeltSpeed.getValue());
     }
     
     /**
@@ -34,6 +35,6 @@ public final class PickupBelts extends Subsystem {
      * Run the conveyer belts in reverse
      */
     public void reverse() {
-        beltMotor.set(-1.0);
+        beltMotor.set(-Constants.kPickupBeltSpeed.getValue());
     }
 }

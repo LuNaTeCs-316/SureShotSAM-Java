@@ -43,6 +43,7 @@ public class SureShotSAM extends IterativeRobot {
 
         // Initalize all subsystems
         CommandBase.init();
+        Constants.init();
 
         // Start the compressor
         CommandBase.compressor.start();
@@ -76,6 +77,8 @@ public class SureShotSAM extends IterativeRobot {
         
         // Start the autonomous mode
         autoMode.start();
+        
+        System.out.println("Entering Autonomus Mode; Running " + autoMode.getName());
 
         // Ouput debugging info
         Debugger.run("AutoInit");
@@ -100,6 +103,8 @@ public class SureShotSAM extends IterativeRobot {
 
         // Start the compresser incase it was stopped during auto
         CommandBase.compressor.start();
+        
+        System.out.println("Entering Teleop Mode");
 
         // Ouput debugging info
         Debugger.run("TeleopInit");
@@ -122,6 +127,10 @@ public class SureShotSAM extends IterativeRobot {
     public void testInit() {
         // Make sure the autonomous command has been stopped
         autoMode.cancel();
+        
+        System.out.println("Entering Test mode");
+        
+        Debugger.run("TestInit");
     }
     
     /**
@@ -142,12 +151,17 @@ public class SureShotSAM extends IterativeRobot {
         // Make sure the autonomous command has been stopped
         autoMode.cancel();
         
+        System.out.println("Entering Disabled Mode");
+        
         // Set robot subsystems to default
         CommandBase.drivetrain.arcadeDrive(0, 0);
         CommandBase.pickupBelts.disable();
         CommandBase.pickupArm.stop();
         CommandBase.shooter.disable();
         CommandBase.climber.lowerHooks();
+        
+        // Update the robot constants
+        Constants.update();
         
         // Ouput debugging info
         Debugger.run("DisabledInit");

@@ -15,11 +15,11 @@ import org.lunatecs316.frc2013.lib.LuNaDrive;
 public final class Drivetrain extends Subsystem {
 
     /* Constants */
-    public static final int kEncoderTicksPerRot = 360;
-    public static final double kWheelDiameter = 6.0;           // in.
-    public static final double kWheelBaseWidth = 20.0;         // in.
+    //public static final int kEncoderTicksPerRot = 360;
+    //public static final double kWheelDiameter = 6.0;           // in.
+    //public static final double kWheelBaseWidth = 20.0;         // in.
     //public static final double kDistancePerRotation = 18.875;  // in.
-    public static final double kDistancePerRotation = kWheelDiameter * Math.PI;
+    //public static final double kDistancePerRotation = kWheelDiameter * Math.PI;
 
     /* Drive Motors */
     private final Victor frontLeftMotor = new Victor(RobotMap.kFrontLeftDriveMotor);

@@ -11,10 +11,6 @@ public class SimplePIDController {
     private double kI;
     private double kD;
     
-    // Deadband
-    private double deadband;
-    private boolean atTarget = false;
-    
     // Data
     private double error = 0.0;
     private double integral = 0.0;
@@ -27,21 +23,9 @@ public class SimplePIDController {
      * @param kD derivative gain
      */
     public SimplePIDController(double kP, double kI, double kD) {
-        this(kP, kI, kD, 0.0);
-    }
-    
-    /**
-     * Create a PID controller, specifying P, I, and D gains, and a deadband
-     * @param kP proportional gain
-     * @param kI integral gain
-     * @param kD derivative gain
-     * @param db deadband
-     */
-    public SimplePIDController(double kP, double kI, double kD, double db) {
         this.kP = kP;
         this.kI = kI;
         this.kD = kD;
-        this.deadband = db;
     }
     
     /**
@@ -59,16 +43,6 @@ public class SimplePIDController {
         
         double correction = error * kP + integral * kI + derivative * kD;
         
-        atTarget = (Util.deadband(error, deadband) == 0);
-        
         return correction;
-    }
-    
-    /**
-     * Checks to see if the output is within the deadband
-     * @return atTarget
-     */
-    public boolean atTarget() {
-        return atTarget;
     }
 }

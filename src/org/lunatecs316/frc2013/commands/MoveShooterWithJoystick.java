@@ -1,5 +1,6 @@
 package org.lunatecs316.frc2013.commands;
 
+import org.lunatecs316.frc2013.Constants;
 import org.lunatecs316.frc2013.lib.Util;
 
 /**
@@ -19,7 +20,7 @@ public class MoveShooterWithJoystick extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        shooter.move(Util.deadband(oi.getOperatorJoystick().getY(), 0.2));
+        shooter.move(Util.deadband(oi.getOperatorJoystick().getY(), Constants.kJoystickDeadband.getValue()));
     }
 
     // Make this return true when this Command no longer needs to run execute()

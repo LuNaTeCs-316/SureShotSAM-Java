@@ -1,11 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.lunatecs316.frc2013.commands;
 
+import org.lunatecs316.frc2013.Constants;
 import org.lunatecs316.frc2013.lib.SimplePIDController;
-import org.lunatecs316.frc2013.subsystems.Drivetrain;
+import org.lunatecs316.frc2013.lib.Util;
 
 /**
  * Drive the robot straight the specified distance
@@ -15,16 +12,24 @@ public class DriveToDistance extends CommandBase {
     
     private double target;
     private double startAngle;
-    private SimplePIDController distanceController = new SimplePIDController(0.0004, 0.00000, 0.00005, 0.05);
-    private SimplePIDController angleController = new SimplePIDController(0, 0, 0);
+    private boolean finished = false;
+    private SimplePIDController distanceController =
+            new SimplePIDController(Constants.kDriveEncoderP.getValue(),
+                                    Constants.kDriveEncoderI.getValue(),
+                                    Constants.kDriveEncoderD.getValue());
+    
+    private SimplePIDController angleController =
+            new SimplePIDController(Constants.kDriveGyroP.getValue(),
+                                    Constants.kDriveGyroI.getValue(),
+                                    Constants.kDriveGyroD.getValue());
     
     public DriveToDistance(double inches) {
         // Use requires() here to declare subsystem dependencies
         requires(drivetrain);
         
         // Calculate the target encoder tick value
-        target = (inches * Drivetrain.kEncoderTicksPerRot)
-                                    / Drivetrain.kDistancePerRotation;
+        target = (inches * Constants.kDriveEncoderTicksPerRot.getValue())
+                   / (Constants.kDriveWheelDiameter.getValue() * Math.PI);
     }
 
     // Called just before this Command runs the first time
@@ -38,11 +43,16 @@ public class DriveToDistance extends CommandBase {
         double output = distanceController.run(target, drivetrain.getAverageEncoderCount());
         double turn = angleController.run(startAngle, drivetrain.getGyroAngle());
         drivetrain.arcadeDrive(output, turn);
+        
+        // Check to see if we are done
+        if (Util.deadband(output, 0.05) == 0) {
+            finished = true;
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return distanceController.atTarget();
+        return finished;
     }
 
     // Called once after isFinished returns true

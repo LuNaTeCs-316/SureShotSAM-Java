@@ -6,8 +6,7 @@ import org.lunatecs316.frc2013.commands.MoveShooterToPosition;
 import org.lunatecs316.frc2013.commands.EnableShooter;
 import org.lunatecs316.frc2013.commands.DisableShooter;
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import org.lunatecs316.frc2013.commands.*;
-import org.lunatecs316.frc2013.subsystems.Shooter;
+import org.lunatecs316.frc2013.Constants;
 
 /**
  * Three disk autonomous mode. Uses the StateMachineAuto template.
@@ -16,7 +15,7 @@ import org.lunatecs316.frc2013.subsystems.Shooter;
 public class ThreeDiskAuto extends CommandGroup {
 
     public ThreeDiskAuto() {
-        addSequential(new MoveShooterToPosition(Shooter.kTopPosition));
+        addSequential(new MoveShooterToPosition(Constants.kShooterTopPosition.getValue()));
         addSequential(new EnableShooter(false));
         addSequential(new WaitForShooterSpeed(3.0));
         addSequential(new Shoot());

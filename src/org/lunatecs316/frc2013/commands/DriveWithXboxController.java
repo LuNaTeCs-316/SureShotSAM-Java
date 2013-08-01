@@ -1,10 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.lunatecs316.frc2013.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
+import org.lunatecs316.frc2013.Constants;
 import org.lunatecs316.frc2013.lib.Util;
 
 /**
@@ -25,8 +22,8 @@ public class DriveWithXboxController extends CommandBase {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         Joystick joy = oi.getDriverController();
-        drivetrain.arcadeDrive(Util.deadband(-joy.getY(), 0.2),
-                Util.deadband(joy.getRawAxis(4), 0.2));
+        drivetrain.arcadeDrive(Util.deadband(-joy.getY(), Constants.kJoystickDeadband.getValue()),
+                Util.deadband(joy.getRawAxis(4), Constants.kJoystickDeadband.getValue()));
     }
 
     // Make this return true when this Command no longer needs to run execute()

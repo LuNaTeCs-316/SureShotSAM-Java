@@ -8,6 +8,7 @@ import org.lunatecs316.frc2013.commands.EnablePickup;
 import org.lunatecs316.frc2013.commands.DriveStraight;
 import org.lunatecs316.frc2013.commands.DisablePickup;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import org.lunatecs316.frc2013.Constants;
 import org.lunatecs316.frc2013.commands.*;
 import org.lunatecs316.frc2013.subsystems.Shooter;
 /**
@@ -19,7 +20,7 @@ public class FiveDiskCenterAuto extends CommandGroup {
     public FiveDiskCenterAuto() {
         addSequential(new ThreeDiskAuto());
         addParallel(new LowerPickup());
-        addSequential(new MoveShooterToPosition(Shooter.kLoadPosition));
+        addSequential(new MoveShooterToPosition(Constants.kShooterLoadPosition.getValue()));
         addParallel(new DriveStraight(-0.5));
         addParallel(new EnablePickup());
         addSequential(new Wait(1.5));
@@ -28,7 +29,7 @@ public class FiveDiskCenterAuto extends CommandGroup {
         addSequential(new Wait(2.75));
         addParallel(new DisablePickup());
         addParallel(new RaisePickup());
-        addParallel(new MoveShooterToPosition(Shooter.kTopPosition));
+        addParallel(new MoveShooterToPosition(Constants.kShooterTopPosition.getValue()));
         addParallel(new DriveStraight(0.5));
         addSequential(new Wait(1.5));
         addParallel(new DriveStraight(0.0));
