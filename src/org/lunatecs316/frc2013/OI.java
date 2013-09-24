@@ -129,6 +129,8 @@ public class OI {
         
         // Indicator lights
         Shooter.indications();
+        
+        Debugger.log("shooterAngle", Shooter.getAngle());
     }
     
     /**

@@ -86,15 +86,17 @@ public class FiveDiskAuto extends StateMachineAuto {
                 Pickup.lower();
                 Shooter.moveToPosition(Shooter.kLoadPosition);
                 
+                Debugger.log("Lowering Pickup");
                 if (ellapsedStateTime() >= 1000) {
                     setState(kBackingUp);
                 }
             } else if (state == kBackingUp) {
                 // Backup to the center line
-                Drivetrain.arcadeDrive(-0.5, 0);
+                Drivetrain.arcadeDrive(-0.75, 0);
                 Pickup.setBeltState(Pickup.BeltState.Reverse);
                 
-                if (ellapsedStateTime() >= 1500) {
+                Debugger.log("Backing up");
+                if (ellapsedStateTime() >= 1800) {
                     setState(kWaitAtCenterLine);
                 }
             } else if (state == kWaitAtCenterLine) {
@@ -102,17 +104,19 @@ public class FiveDiskAuto extends StateMachineAuto {
                 Drivetrain.arcadeDrive(0, 0);
                 Pickup.stop();
                 
+                Debugger.log("Waiting at the center line");
                 if (ellapsedStateTime() >= 2500) {
                     setState(kDriveForward);
                 }
             } else if (state == kDriveForward) {
                 // Wait at the center line
-                Drivetrain.arcadeDrive(0.5, 0);
+                Drivetrain.arcadeDrive(0.75, 0);
                 Pickup.raise();
                 Pickup.setBeltState(Pickup.BeltState.Off);
                 Shooter.moveToPosition(Shooter.kTopPosition);
                 
-                if (ellapsedStateTime() >= 1750) {
+                Debugger.log("Driving forward to the pyramid");
+                if (ellapsedStateTime() >= 1350) {
                     Drivetrain.arcadeDrive(-0.075, 0);
                     setState(kWaitAtPyramid);
                 }
@@ -120,7 +124,7 @@ public class FiveDiskAuto extends StateMachineAuto {
                 // Wait to settle at the pyramid before firing
                 if (ellapsedStateTime() >= 750) {
                     Pickup.stop();
-                    Drivetrain.arcadeDrive(0, 0);
+                    Drivetrain.arcadeDrive(-0.10, 0);
                     Shooter.enable();
                     setState(kPreparingNextShot);
                 }
@@ -129,10 +133,11 @@ public class FiveDiskAuto extends StateMachineAuto {
                 Shooter.disable();
                 Shooter.fire(false);
                 finished = true;
+                
+                // We're done
+                Debugger.log("Finished");
             }
         } else {
-            // We're done
-            Debugger.log("Finished");
         }
     }
     

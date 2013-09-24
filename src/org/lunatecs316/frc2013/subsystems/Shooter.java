@@ -16,9 +16,9 @@ import org.lunatecs316.frc2013.lib.Tachometer;
 public class Shooter {
     
     /* Shooter positions */
-    public static double kTopPosition = 3.2;
-    public static double kMidPosition = 3.1;
-    public static double kLoadPosition = 1.85;
+    public static double kTopPosition = 3.16;
+    public static double kMidPosition = 3.05;
+    public static double kLoadPosition = 1.75;
     
     // <editor-fold desc="Subsystem Components">
     // Place Subsystem Components in this section
@@ -49,6 +49,7 @@ public class Shooter {
     
     private static boolean lightIsOn = false;
     private static int offCounter = 0;
+    private static int onCounter = 0;
     // </editor-fold>
     
     // Private to prevent creation of an instance
@@ -79,10 +80,9 @@ public class Shooter {
         LiveWindow.addSensor("Shooter", "AnglePot", anglePot);
         LiveWindow.addSensor("Shooter", "SpeedTach", speedTach);
     }
-    
-    public static void debug() {
-        System.out.println("[Shooter][debug] anglePot: " + anglePot.getAverageVoltage()
-                + "; motorSpeed: " + speedTach.getRPM());
+
+    public static double getAngle() {
+        return anglePot.getAverageVoltage();
     }
     
     /**
@@ -154,32 +154,38 @@ public class Shooter {
     public static void indications() {
         
         // Blue indicator light show if we are at the proper angle
-        blueIndicator.set((anglePot.getOutput() >= kTopPosition));
+        blueIndicator.set((anglePot.getOutput() >= kTopPosition - 0.1));
         
         if (speedTach.getRPM() >= 3800) {
             // Red indicator lights are solid when at speed,...
             redIndicator1.set(true);
             redIndicator2.set(true);
-        } else if (speedTach.getRPM() <= 500) {
-            // ...off when the speed is too low,..
+        } else if (speedTach.getRPM() <= 250) {//note:was 500 before BOB
+            // ...off when the speed is too low..
             redIndicator1.set(false);
             redIndicator2.set(false);
         } else {
-            // ...and blink when the speed is in between	
+            // ...and blink when the speed is in between stepints...	
             if (lightIsOn) { // light was turned on last pass, turn it off now
-                redIndicator1.set(false);
-                redIndicator2.set(false);
-                lightIsOn = false;
-                offCounter = 0;
+                onCounter++;
+                if (onCounter >= 20) {
+                    redIndicator1.set(false);
+                    redIndicator2.set(false);
+                    lightIsOn = false;
+                    offCounter = 0;
+                }
             } else { // light is off, check to see if it is time to turn it on
                 offCounter++;
-                double temp = speedTach.getRPM();
-                temp = temp - 150;
-                double offTime = 71 - temp;
-                if (offCounter >= offTime) {
+                //BOB changes
+ //               double temp = speedTach.getRPM();
+//                temp = temp - 150;
+//                double offTime = 71 - temp; 
+//                if (offCounter >= offTime) {
+                if (offCounter >= 20) { //BOB changes
                     redIndicator1.set(true);
                     redIndicator2.set(true);
                     lightIsOn = true;
+                    onCounter = 0;
                 }
             }
 	}
