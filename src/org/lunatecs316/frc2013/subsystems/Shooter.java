@@ -58,6 +58,9 @@ public final class Shooter extends Subsystem {
 
         // Start the Tachometer
         speedTach.start();
+        
+        // Set the tolerance for the AngleController
+        angleController.setAbsoluteTolerance(0.05);
     }
 
     protected void initDefaultCommand() {

@@ -58,7 +58,8 @@ public class Debugger {
      */
     public static void run(String context) {
         // Write the output string to the console
-        System.out.println("[" + context + "]" + m_output);
+        if (!m_output.equals(""))
+            System.out.println("[" + context + "]" + m_output);
         
         // Reset the output string for the next run
         m_output = "";

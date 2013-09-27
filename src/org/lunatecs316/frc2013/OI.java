@@ -73,6 +73,7 @@ public class OI {
         
         // Climbing
         climbButton.whileHeld(new ExtendHooks());
+        climbButton.whenReleased(new LowerHooks());
         
         // Misc.
         resetGyroButton.whenPressed(new ResetGyro());

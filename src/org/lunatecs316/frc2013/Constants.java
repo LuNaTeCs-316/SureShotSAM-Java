@@ -10,6 +10,10 @@ import org.lunatecs316.frc2013.commands.CommandBase;
  */
 public class Constants {
 
+    static {
+        constants = new Vector();
+    }
+    
     public static final Constant kJoystickDeadband = new Constant("JoystickDeadband", 0.2);
 
     public static final Constant kDriveEncoderTicksPerRot = new Constant("DriveEncoderTicksPerRot", 360.0);
@@ -34,15 +38,15 @@ public class Constants {
     public static final Constant kShooterTargetSpeed = new Constant("ShooterTargetSpeed", 3975.0);
     public static final Constant kShooterMinFiringSpeed = new Constant("ShooterMinFiringSpeed", 3600.0);
 
-    public static final Constant kShooterSpeedP = new  Constant("ShooterSpeedP", -0.005);
-    public static final Constant kShooterSpeedI = new  Constant("ShooterSpeedI", 0.0);
-    public static final Constant kShooterSpeedD = new  Constant("ShooterSpeedD", 0.0);
+    public static final Constant kShooterSpeedP = new Constant("ShooterSpeedP", -0.005);
+    public static final Constant kShooterSpeedI = new Constant("ShooterSpeedI", 0.0);
+    public static final Constant kShooterSpeedD = new Constant("ShooterSpeedD", 0.0);
 
-    public static final Constant kShooterAngleP = new  Constant("ShooterAngleP", 21.5);
-    public static final Constant kShooterAngleI = new  Constant("ShooterAngleI", 0.0);
-    public static final Constant kShooterAngleD = new  Constant("ShooterAngleD", 0.0);
+    public static final Constant kShooterAngleP = new Constant("ShooterAngleP", 21.5);
+    public static final Constant kShooterAngleI = new Constant("ShooterAngleI", 0.0);
+    public static final Constant kShooterAngleD = new Constant("ShooterAngleD", 0.0);
 
-    private static Vector constants;
+    public static Vector constants;
     private static Preferences prefs = Preferences.getInstance();
 
     public static void init() {
@@ -56,7 +60,8 @@ public class Constants {
         private Constant(String name, double value) {
             m_name = name;
             m_value = value;
-            constants.addElement(this);
+    
+            Constants.constants.addElement(this);
         }
 
         public void setValue(double value) {

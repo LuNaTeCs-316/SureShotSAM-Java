@@ -101,7 +101,8 @@ public class SureShotSAM extends IterativeRobot {
      */
     public void teleopInit() {
         // Make sure the autonomous program has stopped
-        autoMode.cancel();
+        if (autoMode != null)
+            autoMode.cancel();
 
         // Start the compresser incase it was stopped during auto
         CommandBase.compressor.start();
@@ -162,7 +163,8 @@ public class SureShotSAM extends IterativeRobot {
      */
     public void disabledInit() {
         // Make sure the autonomous command has been stopped
-        autoMode.cancel();
+        if (autoMode != null)
+            autoMode.cancel();
 
         System.out.println("Entering Disabled Mode");
 
