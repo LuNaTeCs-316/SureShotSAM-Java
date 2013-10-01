@@ -39,10 +39,11 @@ public class Drivetrain {
     
     /* PID Controllers */
     private static final SimplePIDController angleController =
-            new SimplePIDController(-0.005, -0.0, -0.0);
+            new SimplePIDController(-0.05, -0.0, -0.0);
     
     private static final SimplePIDController distanceController =
-            new SimplePIDController(0.0004, 0.00000, 0.00005);
+            new SimplePIDController(0.001, 0.00000, 0.00005);
+//            new SimplePIDController(0.0004, 0.00000, 0.00005);
     
     // </editor-fold>
     
@@ -50,7 +51,7 @@ public class Drivetrain {
     // Place Subsystem Data in this section
     
     private static final int kEncoderTicksPerRot = 360;
-    private static final double kWheelDiameter = 6.0;           // in.
+    private static final double kWheelDiameter = 6.25;           // in.
     private static final double kWheelBaseWidth = 20.0;         // in.
     //private static final double kDistancePerRotation = 18.875;  // in.
     private static final double kDistancePerRotation = kWheelDiameter * Math.PI;
@@ -151,7 +152,15 @@ public class Drivetrain {
      * @param degrees the amount by which to turn the robot
      */
     public static void setTargetAngle(double angle) {
-        targetAngle = gyro.getAngle() + angle;
+       //test to fix that angle is off by 1/6
+        angle = angle + angle/6;
+        
+        gyro.reset();
+        //turn ccw
+//        targetAngle = angle;
+
+        //turn to cw
+        targetAngle = - angle;
     }
     
     /**

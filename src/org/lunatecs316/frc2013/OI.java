@@ -51,9 +51,10 @@ public class OI {
             } else {
                 Drivetrain.driveStraight();
             }
-        } else if (driverController.getRawButton(3)) {
+        } else if (driverController.getRawButton(3) || driverController.getRawButton(4)) {
             if (firstPressDB3) {
-                Drivetrain.setTargetAngle(90);
+                if (driverController.getRawButton(3)) Drivetrain.setTargetAngle(90);
+                if (driverController.getRawButton(4)) Drivetrain.setTargetAngle(-90);
                 firstPressDB3 = false;
             } else {
                 Drivetrain.turn();
