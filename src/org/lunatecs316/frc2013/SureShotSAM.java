@@ -122,8 +122,8 @@ public class SureShotSAM extends IterativeRobot {
         Scheduler.getInstance().run();
 
         // SmartDashboard
-        if (teleopLoopCount >= 10) {
-            // Only update every 10th loop to save bandwidth
+        if (teleopLoopCount >= Constants.kDashboardUpdateFrequency.getValue()) {
+            // Only update every nth loop (10 by default) to save bandwidth
             // Should be about every 200ms
             CommandBase.updateSmartDashboard();
             teleopLoopCount = 0;
@@ -132,7 +132,7 @@ public class SureShotSAM extends IterativeRobot {
         }
 
         CommandBase.shooter.indications();
-        
+
         // Ouput debugging info
         Debugger.run("TeleopPeriodic");
     }

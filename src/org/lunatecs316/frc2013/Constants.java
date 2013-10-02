@@ -5,7 +5,8 @@ import java.util.Vector;
 import org.lunatecs316.frc2013.commands.CommandBase;
 
 /**
- * Robot constants
+ * Robot constants manager
+ *
  * @author domenicpaul
  */
 public class Constants {
@@ -13,7 +14,7 @@ public class Constants {
     static {
         constants = new Vector();
     }
-    
+
     public static final Constant kJoystickDeadband = new Constant("JoystickDeadband", 0.2);
 
     public static final Constant kDriveEncoderTicksPerRot = new Constant("DriveEncoderTicksPerRot", 360.0);
@@ -29,7 +30,7 @@ public class Constants {
     public static final Constant kDriveEncoderD = new Constant("DriveEncoderD", 0.00005);
 
     public static final Constant kPickupArmSpeed = new Constant("PickupArmSpeed", 1.0);
-    public static final Constant kPickupBeltSpeed = new Constant("PickupBeltWpeed", 1.0);
+    public static final Constant kPickupBeltSpeed = new Constant("PickupBeltSpeed", 1.0);
 
     public static final Constant kShooterTopPosition = new Constant("ShooterTopPosition", 3.2);
     public static final Constant kShooterMidPosition = new Constant("ShooterMidPosition", 3.1);
@@ -46,12 +47,12 @@ public class Constants {
     public static final Constant kShooterAngleI = new Constant("ShooterAngleI", 0.0);
     public static final Constant kShooterAngleD = new Constant("ShooterAngleD", 0.0);
 
+    public static final Constant kDashboardUpdateFrequency = new Constant("DashboardUpdateFrequency", 10);
+
     public static Vector constants;
     private static Preferences prefs = Preferences.getInstance();
 
-    public static void init() {
-        update();
-    }
+
 
     public static class Constant {
         private String m_name;
@@ -60,7 +61,7 @@ public class Constants {
         private Constant(String name, double value) {
             m_name = name;
             m_value = value;
-    
+
             Constants.constants.addElement(this);
         }
 
@@ -78,11 +79,19 @@ public class Constants {
     }
 
     /**
+     * Setup the constant manager for usage in the program
+     */
+    public static void init() {
+       update();
+    }
+
+    /**
      * Read the latest constants from the Dashboard
      */
     public static void update() {
         System.out.println("Updating robot constants");
 
+        boolean modified = false;
         for (int i = 0; i < constants.size(); i++) {    // Loop through all constants
             // Get the current constant
             Constant constant = (Constant) constants.elementAt(i);
@@ -92,8 +101,13 @@ public class Constants {
 
             // Check if the constant is present on SmartDashboard
             if (prefs.containsKey(key)) {
-                // Update the value, use the old one if we fail
-                constant.setValue(prefs.getDouble(key, oldValue));
+                // Check to see if the value has changed before updating
+                double newValue = prefs.getDouble(key, oldValue);
+                if (oldValue != newValue) {
+                    // Update the value, use the old one if we fail
+                    constant.setValue(prefs.getDouble(key, oldValue));
+                    modified = true;
+                }
             } else {
                 System.out.println("Key '" + key + "' does not exist; creating");
                 prefs.putDouble(key, oldValue);
@@ -104,7 +118,9 @@ public class Constants {
         CommandBase.updateConstants();
 
         // Save the updated constants to disk
-        System.out.println("Saving updated constants to disk");
-        prefs.save();
+        if (modified) {
+            System.out.println("Saving updated constants to disk");
+            prefs.save();
+        }
     }
 }

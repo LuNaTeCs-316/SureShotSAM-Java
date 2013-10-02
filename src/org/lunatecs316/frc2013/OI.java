@@ -15,7 +15,6 @@ import org.lunatecs316.frc2013.commands.AutoFire;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import org.lunatecs316.frc2013.subsystems.*;
 import org.lunatecs316.frc2013.commands.*;
 
 /**
@@ -23,7 +22,7 @@ import org.lunatecs316.frc2013.commands.*;
  * @author domenicpaul
  */
 public class OI {
-    
+
     /* Joysticks */
     private Joystick driverController = new Joystick(1);
     private Joystick operatorJoystick = new Joystick(2);
@@ -32,7 +31,7 @@ public class OI {
     Button resetGyroButton = new JoystickButton(driverController, 4);
     Button raisePickupButton = new JoystickButton(driverController, 5);
     Button lowerPickupButton = new JoystickButton(driverController, 6);
-    
+
     /* Operator Joystick Buttons */
     Button fireButton = new JoystickButton(operatorJoystick, 1);
     Button enableShooterButton = new JoystickButton(operatorJoystick, 2);
@@ -53,32 +52,32 @@ public class OI {
         lowerPickupButton.whenPressed(new LowerPickup());
         raisePickupButton.whenReleased(new StopPickupArm());
         lowerPickupButton.whenReleased(new StopPickupArm());
-        
+
         // Pickup Belts
         enablePickupButton.whenPressed(new EnablePickup());
         reversePickupButton.whenPressed(new ReversePickup());
         enablePickupButton.whenReleased(new DisablePickup());
         reversePickupButton.whenReleased(new DisablePickup());
-        
+
         // Shooter Positioning
         shooterTopPosition.whenPressed(new MoveShooterToTopPosition());
         shooterMidPosition.whenPressed(new MoveShooterToPosition(Constants.kShooterMidPosition.getValue()));
         shooterLoadPosition.whenPressed(new MoveShooterToLoadPosition());
-        
+
         // Shooter Firing
         autoFireButton.whileHeld(new AutoFire());
         enableShooterButton.whenPressed(new EnableShooter(true));
         enableShooterButton.whenReleased(new DisableShooter());
         fireButton.whenPressed(new Shoot());
-        
+
         // Climbing
         climbButton.whileHeld(new ExtendHooks());
         climbButton.whenReleased(new LowerHooks());
-        
+
         // Misc.
         resetGyroButton.whenPressed(new ResetGyro());
     }
-    
+
     /**
      * Get the driver controller
      * @return the driver controller
@@ -86,7 +85,7 @@ public class OI {
     public Joystick getDriverController() {
         return driverController;
     }
-    
+
     /**
      * Get the operator joystick
      * @return the operator joystick
