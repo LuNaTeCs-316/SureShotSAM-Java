@@ -8,6 +8,10 @@ public class Debugger {
     
     private static String m_output;
     
+    static {
+        m_output = "";
+    }
+    
     /**
      * Add a string to the debug output
      * @param s the message to add

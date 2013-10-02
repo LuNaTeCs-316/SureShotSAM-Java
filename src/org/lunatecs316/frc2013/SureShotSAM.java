@@ -131,6 +131,8 @@ public class SureShotSAM extends IterativeRobot {
             teleopLoopCount++;
         }
 
+        CommandBase.shooter.indications();
+        
         // Ouput debugging info
         Debugger.run("TeleopPeriodic");
     }

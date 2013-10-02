@@ -45,6 +45,7 @@ public final class Shooter extends Subsystem {
 
     private boolean lightIsOn = false;
     private int offCounter = 0;
+    private int onCounter = 0;
 
     /**
      * Initialize the shooter subsystem
@@ -167,7 +168,7 @@ public final class Shooter extends Subsystem {
     public void indications() {
 
         // Blue indicator light show if we are at the proper angle
-        blueIndicator.set((anglePot.getOutput() >= Constants.kShooterTopPosition.getValue()));
+        blueIndicator.set(anglePot.getOutput() >= (Constants.kShooterTopPosition.getValue() - 0.1));
 
         double speed = speedTach.getRPM();
         if (speed >= Constants.kShooterMinFiringSpeed.getValue()) {
@@ -181,18 +182,20 @@ public final class Shooter extends Subsystem {
         } else {
             // ...and blink when the speed is in between
             if (lightIsOn) { // light was turned on last pass, turn it off now
-                redIndicator1.set(false);
-                redIndicator2.set(false);
-                lightIsOn = false;
-                offCounter = 0;
+                onCounter++;
+                if (onCounter >= 20) {
+                    redIndicator1.set(false);
+                    redIndicator2.set(false);
+                    lightIsOn = false;
+                    offCounter = 0;
+                }
             } else { // light is off, check to see if it is time to turn it on
                 offCounter++;
-                double temp = speed - 150;
-                double offTime = 71 - temp;
-                if (offCounter >= offTime) {
+                if (offCounter >= 20) {
                     redIndicator1.set(true);
                     redIndicator2.set(true);
                     lightIsOn = true;
+                    onCounter = 0;
                 }
             }
 	}
