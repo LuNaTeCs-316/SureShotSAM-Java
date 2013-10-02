@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.lunatecs316.frc2013.auto.*;
 import org.lunatecs316.frc2013.commands.CommandBase;
 
@@ -36,6 +37,7 @@ public class SureShotSAM extends IterativeRobot {
     private Command autoMode;
 
     private int teleopLoopCount = 0;
+    private boolean DEBUG_MODE = false;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -49,6 +51,11 @@ public class SureShotSAM extends IterativeRobot {
 
         // Start the compressor
         CommandBase.compressor.start();
+
+        if (DEBUG_MODE) {
+            // Send the scheduler to the SmartDashboard for debugging
+            SmartDashboard.putData(Scheduler.getInstance());
+        }
 
         Debugger.log("robotInit() Done!");
 
