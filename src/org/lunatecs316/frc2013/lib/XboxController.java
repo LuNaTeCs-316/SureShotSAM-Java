@@ -28,19 +28,19 @@ public class XboxController extends Joystick {
         return getRawAxis(5);
     }
 
-    public boolean getAButton() {
+    public boolean getButtonA() {
         return getRawButton(1);
     }
 
-    public boolean getBButton() {
+    public boolean getButtonB() {
         return getRawButton(2);
     }
 
-    public boolean getXButton() {
+    public boolean getButtonX() {
         return getRawButton(3);
     }
 
-    public boolean getYButton() {
+    public boolean getButtonY() {
         return getRawButton(4);
     }
 

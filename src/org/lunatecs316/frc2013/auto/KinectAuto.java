@@ -16,7 +16,7 @@ public class KinectAuto extends AutonomousMode {
 
     private KinectStick leftStick;
     private KinectStick rightStick;
-    
+
     public void init() {
         name = "KinectAuto";
         leftStick = new KinectStick(1);
@@ -27,9 +27,9 @@ public class KinectAuto extends AutonomousMode {
         // Look, no hands
         double left = leftStick.getY();
         double right = rightStick.getY();
-        Drivetrain.tankDrive(left, right);
+        Subsystems.drivetrain.tankDrive(left, right);
         Logger.log("left", left);
         Logger.log("right", right);
     }
-    
+
 }

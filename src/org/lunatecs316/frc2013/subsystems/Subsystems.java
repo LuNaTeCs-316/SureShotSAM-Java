@@ -5,9 +5,11 @@ package org.lunatecs316.frc2013.subsystems;
  * @author domenicpaul
  */
 public class Subsystems {
-    public static Climber climber;
+    public static Drivetrain drivetrain = new Drivetrain();
+    public static Climber climber = new Climber();
 
     public static void init() {
+        drivetrain.init();
         climber.init();
     }
 }

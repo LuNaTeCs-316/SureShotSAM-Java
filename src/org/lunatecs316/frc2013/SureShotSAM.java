@@ -135,7 +135,7 @@ public class SureShotSAM extends IterativeRobot {
      */
     public void disabledInit() {
         // Set robot subsystems to default
-        Drivetrain.arcadeDrive(0, 0);
+        Subsystems.drivetrain.arcadeDrive(0, 0);
         Pickup.setBeltState(Pickup.BeltState.Off);
         Pickup.stop();
         Shooter.disable();
@@ -148,7 +148,7 @@ public class SureShotSAM extends IterativeRobot {
     public void disabledPeriodic() {
         // Reset gyro
         if (oi.getDriverController().getRawButton(4)) {
-            Drivetrain.resetGyro();
+            Subsystems.drivetrain.resetGyro();
         }
 
         Logger.run("DisabledPeriodic");

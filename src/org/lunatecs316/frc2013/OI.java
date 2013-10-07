@@ -1,6 +1,7 @@
 package org.lunatecs316.frc2013;
 
 import edu.wpi.first.wpilibj.Joystick;
+import org.lunatecs316.frc2013.lib.Latch;
 import org.lunatecs316.frc2013.lib.Util;
 import org.lunatecs316.frc2013.lib.XboxController;
 import org.lunatecs316.frc2013.subsystems.*;
@@ -15,9 +16,9 @@ public class OI {
     private XboxController driverController;
     private Joystick operatorJoystick;
 
-    private boolean firstPressDB1 = true;
-    private boolean firstPressDB2 = true;
-    private boolean firstPressDB3 = true;
+    private Latch buttonALatch = new Latch();
+    private Latch buttonBLatch = new Latch();
+    private Latch buttonXLatch = new Latch();
 
     public XboxController getDriverController() {
         return driverController;
@@ -39,37 +40,28 @@ public class OI {
         //
         // Drivetrain
         //
-        if (driverController.getRawButton(1)) {
-            if (firstPressDB1) {
-                Drivetrain.setTargetDistance(48);
-                firstPressDB1 = false;
-            } else {
-                Drivetrain.driveStraight();
-            }
-        } else if (driverController.getRawButton(2)) {
-            if (firstPressDB2) {
-                Drivetrain.setTargetDistance(24);
-                firstPressDB2 = false;
-            } else {
-                Drivetrain.driveStraight();
-            }
-        } else if (driverController.getRawButton(3) || driverController.getRawButton(4)) {
-            if (firstPressDB3) {
-                if (driverController.getRawButton(3)) Drivetrain.setTargetAngle(90);
-                if (driverController.getRawButton(4)) Drivetrain.setTargetAngle(-90);
-                firstPressDB3 = false;
-            } else {
-                Drivetrain.turn();
-            }
+        boolean buttonAVal = driverController.getButtonA();
+        boolean buttonBVal = driverController.getButtonB();
+        boolean buttonXVal = driverController.getButtonX();
+
+        if (buttonAVal || buttonBVal) {
+            if (buttonALatch.risingEdge(buttonAVal))
+                Subsystems.drivetrain.setTargetDistance(48);
+            else if (buttonBLatch.risingEdge(buttonBVal))
+                Subsystems.drivetrain.setTargetDistance(24);
+            else
+                Subsystems.drivetrain.driveStraight();
+        } if (buttonXVal) {
+            if (buttonXLatch.risingEdge(buttonXVal))
+                Subsystems.drivetrain.setTargetAngle(90);
+            else
+                Subsystems.drivetrain.turn();
         } else {
-            firstPressDB1 = true;
-            firstPressDB2 = true;
-            firstPressDB3 = true;
-            Drivetrain.arcadeDrive(driverController);
+            Subsystems.drivetrain.arcadeDrive(driverController);
         }
 
-        if (driverController.getRawButton(4)) {
-            Drivetrain.resetGyro();
+        if (driverController.getButtonY()) {
+            Subsystems.drivetrain.resetGyro();
         }
 
         //
