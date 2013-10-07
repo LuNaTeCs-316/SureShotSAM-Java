@@ -1,8 +1,8 @@
 package org.lunatecs316.frc2013.auto;
 
+import org.lunatecs316.frc2013.Constants;
 import org.lunatecs316.frc2013.Logger;
 import org.lunatecs316.frc2013.subsystems.Pickup;
-import org.lunatecs316.frc2013.subsystems.Shooter;
 import org.lunatecs316.frc2013.subsystems.Subsystems;
 
 /**
@@ -40,7 +40,7 @@ public class FiveDiskAuto extends StateMachineAuto {
      * Run one iteration of the mode. Called from autonomousPeriodic()
      */
     protected void smRun() {
-        Shooter.indications();
+        shooter.indications();
 
         if (!finished) {
             // Add the current state to debug output
@@ -49,15 +49,15 @@ public class FiveDiskAuto extends StateMachineAuto {
             // Switch through the states
             if (state == kStart) {
                 // Enable the shooter and wait for it to come up to speed
-                Shooter.enable();
+                shooter.enable();
 
-                Logger.log("ShooterAtSpeed?", Shooter.atSpeed());
-                if (Shooter.atSpeed() || ellapsedStateTime() >= 2000) {
+                Logger.log("ShooterAtSpeed?", shooter.atSpeed());
+                if (shooter.atSpeed() || ellapsedStateTime() >= 2000) {
                     setState(kFiring);
                 }
             } else if (state == kFiring) {
                 // Fire a shot
-                Shooter.fire(true);
+                shooter.fire(true);
 
                 // Wait 200ms
                 if (ellapsedStateTime() >= 200) {
@@ -72,19 +72,19 @@ public class FiveDiskAuto extends StateMachineAuto {
                 }
             } else if (state == kPreparingNextShot) {
                 // Reset and wait for the shooter to come back up to speed
-                Shooter.fire(false);
+                shooter.fire(false);
 
-                Logger.log("ShooterAtSpeed?", Shooter.atSpeed());
+                Logger.log("ShooterAtSpeed?", shooter.atSpeed());
                 if (ellapsedStateTime() >= 500 &&
-                        (Shooter.atSpeed() || ellapsedStateTime() >= 3500)) {
+                        (shooter.atSpeed() || ellapsedStateTime() >= 3500)) {
                     setState(kFiring);
                 }
             } else if (state == kLoweringPickup) {
                 // Lower the pickup
-                Shooter.fire(false);
-                Shooter.disable();
+                shooter.fire(false);
+                shooter.disable();
                 pickup.lower();
-                Shooter.moveToPosition(Shooter.kLoadPosition);
+                shooter.moveToPosition(Constants.ShooterLoadPosition.getValue());
 
                 Logger.log("Lowering Pickup");
                 if (ellapsedStateTime() >= 1000) {
@@ -113,7 +113,7 @@ public class FiveDiskAuto extends StateMachineAuto {
                 Subsystems.drivetrain.arcadeDrive(0.75, 0);
                 pickup.raise();
                 pickup.setBeltState(Pickup.BeltState.Off);
-                Shooter.moveToPosition(Shooter.kTopPosition);
+                shooter.moveToPosition(Constants.ShooterTopPosition.getValue());
 
                 Logger.log("Driving forward to the pyramid");
                 if (ellapsedStateTime() >= 1350) {
@@ -125,13 +125,13 @@ public class FiveDiskAuto extends StateMachineAuto {
                 if (ellapsedStateTime() >= 750) {
                     pickup.stop();
                     Subsystems.drivetrain.arcadeDrive(-0.10, 0);
-                    Shooter.enable();
+                    shooter.enable();
                     setState(kPreparingNextShot);
                 }
             } else if (state == kFinished) {
                 // Turn off the shooter
-                Shooter.disable();
-                Shooter.fire(false);
+                shooter.disable();
+                shooter.fire(false);
                 finished = true;
 
                 // We're done

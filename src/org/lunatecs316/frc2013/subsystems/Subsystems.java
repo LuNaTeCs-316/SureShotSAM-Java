@@ -8,11 +8,13 @@ package org.lunatecs316.frc2013.subsystems;
 public class Subsystems {
     public static Drivetrain drivetrain = new Drivetrain();
     public static Pickup pickup = new Pickup();
+    public static Shooter shooter = new Shooter();
     public static Climber climber = new Climber();
 
     public void init() {
         drivetrain.init();
         pickup.init();
+        shooter.init();
         climber.init();
     }
 }

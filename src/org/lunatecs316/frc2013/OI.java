@@ -98,36 +98,36 @@ public class OI extends Subsystems {
 
         // Angle control
         if (operatorJoystick.getRawButton(11)) {
-            Shooter.moveToPosition(Shooter.kTopPosition);
+            shooter.moveToPosition(Constants.ShooterTopPosition.getValue());
         } else if (operatorJoystick.getRawButton(10)) {
-            Shooter.moveToPosition(Shooter.kMidPosition);
+            shooter.moveToPosition(Constants.ShooterMidPosition.getValue());
         } else if (operatorJoystick.getRawButton(8)) {
-            Shooter.moveToPosition(Shooter.kLoadPosition);
+            shooter.moveToPosition(Constants.ShooterLoadPosition.getValue());
         } else {
-            Shooter.move(Util.deadband(operatorJoystick.getY(), 0.2));
+            shooter.move(Util.deadband(operatorJoystick.getY(), Constants.JoystickDeadband.getValue()));
         }
 
         // Motor control
         if (operatorJoystick.getRawButton(2)) {
-            Shooter.enable();
+            shooter.enable();
         } else if (operatorJoystick.getRawButton(5)) {
-            Shooter.setSpeed(-1.0);
+            shooter.setSpeed(-1.0);
         } else if (operatorJoystick.getRawButton(1)) {
-            Shooter.autoFire();
+            shooter.autoFire();
         } else {
-            Shooter.disable();
+            shooter.disable();
         }
 
         // Firing control
         if (operatorJoystick.getRawButton(2) || operatorJoystick.getRawButton(5))
-            Shooter.fire(operatorJoystick.getRawButton(1));
+            shooter.fire(operatorJoystick.getRawButton(1));
         else if (!operatorJoystick.getRawButton(1))
-            Shooter.fire(false);
+            shooter.fire(false);
 
         // Indicator lights
-        Shooter.indications();
+        shooter.indications();
 
-        Logger.log("shooterAngle", Shooter.getAngle());
+        Logger.log("shooterAngle", shooter.getAngle());
 
         //
         // Climbing

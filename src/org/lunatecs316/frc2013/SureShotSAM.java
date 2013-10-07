@@ -137,8 +137,8 @@ public class SureShotSAM extends IterativeRobot {
         Subsystems.drivetrain.arcadeDrive(0, 0);
         Subsystems.pickup.setBeltState(Pickup.BeltState.Off);
         Subsystems.pickup.stop();
-        Shooter.disable();
-        Shooter.fire(false);
+        Subsystems.shooter.disable();
+        Subsystems.shooter.fire(false);
         Subsystems.climber.retractHooks();
 
         Logger.run("DisabledInit");
