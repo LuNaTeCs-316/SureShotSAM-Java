@@ -44,25 +44,24 @@ public class OI extends Subsystems {
         //
         // Drivetrain
         //
-        boolean buttonAVal = driverController.getButtonA();
-        boolean buttonBVal = driverController.getButtonB();
-        boolean buttonXVal = driverController.getButtonX();
+        boolean buttonAPressed = driverController.getButtonA();
+        boolean buttonBPressed = driverController.getButtonB();
+        boolean buttonXPressed = driverController.getButtonX();
 
         // Driving
-        if (buttonAVal || buttonBVal) {
-            if (buttonALatch.risingEdge(buttonAVal))
-                drivetrain.setTargetDistance(48);
-            else if (buttonBLatch.risingEdge(buttonBVal))
-                drivetrain.setTargetDistance(24);
-            else
-                drivetrain.driveStraight();
-        } if (buttonXVal) {
-            if (buttonXLatch.risingEdge(buttonXVal))
-                drivetrain.setTargetAngle(90);
-            else
-                drivetrain.turn();
+        if (buttonAPressed) {
+            drivetrain.driveStraight(48, buttonALatch.risingEdge(buttonAPressed));
+        } else if (buttonBPressed) {
+            drivetrain.driveStraight(24, buttonBLatch.risingEdge(buttonBPressed));
+        } else if (buttonXPressed) {
+            drivetrain.turn(90, buttonXLatch.risingEdge(buttonXPressed));
         } else {
-            drivetrain.arcadeDrive(driverController);
+            double throttle = -driverController.getLeftY();
+            double turn = driverController.getRightX();
+
+            throttle = Util.deadband(throttle, Constants.JoystickDeadband.getValue());
+            turn = Util.deadband(turn, Constants.JoystickDeadband.getValue());
+            drivetrain.arcadeDrive(throttle, turn);
         }
 
         // Gyro reset

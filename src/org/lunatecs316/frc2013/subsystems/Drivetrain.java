@@ -2,14 +2,12 @@ package org.lunatecs316.frc2013.subsystems;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.lunatecs316.frc2013.Constants;
 import org.lunatecs316.frc2013.RobotMap;
 import org.lunatecs316.frc2013.lib.SimplePIDController;
 import org.lunatecs316.frc2013.lib.LuNaDrive;
-import org.lunatecs316.frc2013.lib.Util;
 
 /**
  * Drivetrain subsystem
@@ -95,20 +93,6 @@ public class Drivetrain extends Subsystem {
     }
 
     /**
-     * Arcade drive with a joystick
-     * @param stick the joystick
-     */
-    public void arcadeDrive(Joystick stick) {
-        double throttle = -stick.getY();
-        double turn = stick.getRawAxis(4);
-
-        throttle = Util.deadband(throttle, 0.2);
-        turn = Util.deadband(turn, 0.2);
-
-        driveMotors.drive(throttle, turn);
-    }
-
-    /**
      * Arcade drive with manual parameters
      * @param throttle forwards/reverse motion
      * @param turn turning value
@@ -127,45 +111,25 @@ public class Drivetrain extends Subsystem {
     }
 
     /**
-     * Setup the robot to drive straight to the specified distance. Negative numbers
-     * will drive the robot in reverse.
-     * @param inches the distance the robot should move
+     * Drive the robot straight to the specified distance.
+     * @param inches the distance the robot should move. + = forwards, - = reverse
+     * @param firstCall if this is the first call then setup
      */
-    public void setTargetDistance(double inches) {
-        double distancePerRotation = Constants.DriveWheelDiameter.getValue() / Math.PI;
+    public void driveStraight(double inches, boolean firstCall) {
+        if (firstCall) {
+            double distancePerRotation = Constants.DriveWheelDiameter.getValue() / Math.PI;
 
-        // Calculate the target encoder tick value
-        targetDistance = (inches * Constants.DriveEncoderTicksPerRot.getValue())
+            // Calculate the target encoder tick value
+            targetDistance = (inches * Constants.DriveEncoderTicksPerRot.getValue())
                                     / distancePerRotation;
 
-        // Reset encoders
-        leftEncoder.reset();
-        rightEncoder.reset();
+            // Reset encoders
+            leftEncoder.reset();
+            rightEncoder.reset();
 
-        driveMotors.drive(0, 0);
-    }
+            driveMotors.drive(0, 0);
+        }
 
-    /**
-     * Setup the robot to turn by the specified angle. Positive angles turn right,
-     * and negative angles left.
-     * @param degrees the amount by which to turn the robot
-     */
-    public void setTargetAngle(double angle) {
-       //test to fix that angle is off by 1/6
-        angle = angle + angle/6;
-
-        gyro.reset();
-        //turn ccw
-//        targetAngle = angle;
-
-        //turn to cw
-        targetAngle = - angle;
-    }
-
-    /**
-     * Drives the robot straight until the robot reaches the set target
-     */
-    public void driveStraight() {
         double power = distanceController.calculate(targetDistance, -rightEncoder.get());
         double turnVal = angleController.calculate(0, gyro.getAngle());
 
@@ -178,9 +142,24 @@ public class Drivetrain extends Subsystem {
     }
 
     /**
-     * Turn the robot the specified amount.
+     * Turn the robot by the specified angle. Positive angles turn right,
+     * and negative angles left.
+     * @param degrees the amount by which to turn the robot
+     * @param firstCall setup if it is the first call
      */
-    public void turn() {
+    public void turn(double angle, boolean firstCall) {
+        if (firstCall) {
+            //test to fix that angle is off by 1/6
+            angle = angle + angle/6;
+
+            gyro.reset();
+            //turn ccw
+            //targetAngle = angle;
+
+            //turn to cw
+            targetAngle = - angle;
+        }
+
         double turnVal = angleController.calculate(targetAngle, gyro.getAngle());
 
         driveMotors.drive(0.0, turnVal);
