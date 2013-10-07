@@ -37,6 +37,7 @@ public class Constants {
 
     public static final Constant ShooterTargetSpeed = new Constant("ShooterTargetSpeed", 3975.0);
     public static final Constant ShooterMinFiringSpeed = new Constant("ShooterMinFiringSpeed", 3600.0);
+    public static final Constant ShooterLightBlinkSpeed = new Constant("ShooterLightBlinkSpeed", 20);
 
     public static final Constant ShooterSpeedP = new Constant("ShooterSpeedP", -0.005);
     public static final Constant ShooterSpeedI = new Constant("ShooterSpeedI", 0.0);

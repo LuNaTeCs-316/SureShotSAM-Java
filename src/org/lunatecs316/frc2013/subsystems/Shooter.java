@@ -63,7 +63,7 @@ public class Shooter extends Subsystem {
     public void init() {
 
         // Configure the PIDController for the Shooter
-        speedController.setSetpoint(3975);
+        speedController.setSetpoint(Constants.ShooterTargetSpeed.getValue());
         speedController.setAbsoluteTolerance(350);
 
         // Start the Tachometer
@@ -142,7 +142,7 @@ public class Shooter extends Subsystem {
         speedController.disable();
 
         motor.set(-1.0);
-        solenoid.set(speedTach.getRPM() > 3600);
+        solenoid.set(speedTach.getRPM() > Constants.ShooterMinFiringSpeed.getValue());
     }
 
     public void setSpeed(double value) {
@@ -159,7 +159,7 @@ public class Shooter extends Subsystem {
         // Blue indicator light show if we are at the proper angle
         blueIndicator.set((anglePot.getOutput() >= Constants.ShooterTopPosition.getValue() - 0.1));
 
-        if (speedTach.getRPM() >= 3800) {
+        if (speedTach.getRPM() >= Constants.ShooterMinFiringSpeed.getValue()) {
             // Red indicator lights are solid when at speed,...
             redIndicator1.set(true);
             redIndicator2.set(true);
@@ -171,7 +171,7 @@ public class Shooter extends Subsystem {
             // ...and blink when the speed is in between stepints...
             if (lightIsOn) { // light was turned on last pass, turn it off now
                 onCounter++;
-                if (onCounter >= 20) {
+                if (onCounter >= Constants.ShooterLightBlinkSpeed.getValue()) {
                     redIndicator1.set(false);
                     redIndicator2.set(false);
                     lightIsOn = false;
@@ -179,7 +179,7 @@ public class Shooter extends Subsystem {
                 }
             } else { // light is off, check to see if it is time to turn it on
                 offCounter++;
-                if (offCounter >= 20) {
+                if (offCounter >= Constants.ShooterLightBlinkSpeed.getValue()) {
                     redIndicator1.set(true);
                     redIndicator2.set(true);
                     lightIsOn = true;
