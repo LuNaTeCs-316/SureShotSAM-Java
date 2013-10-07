@@ -83,7 +83,7 @@ public class FiveDiskAuto extends StateMachineAuto {
                 // Lower the pickup
                 Shooter.fire(false);
                 Shooter.disable();
-                Pickup.lower();
+                pickup.lower();
                 Shooter.moveToPosition(Shooter.kLoadPosition);
 
                 Logger.log("Lowering Pickup");
@@ -93,7 +93,7 @@ public class FiveDiskAuto extends StateMachineAuto {
             } else if (state == kBackingUp) {
                 // Backup to the center line
                 Subsystems.drivetrain.arcadeDrive(-0.75, 0);
-                Pickup.setBeltState(Pickup.BeltState.Reverse);
+                pickup.setBeltState(Pickup.BeltState.Reverse);
 
                 Logger.log("Backing up");
                 if (ellapsedStateTime() >= 1800) {
@@ -102,7 +102,7 @@ public class FiveDiskAuto extends StateMachineAuto {
             } else if (state == kWaitAtCenterLine) {
                 // Wait at the center line
                 Subsystems.drivetrain.arcadeDrive(0, 0);
-                Pickup.stop();
+                pickup.stop();
 
                 Logger.log("Waiting at the center line");
                 if (ellapsedStateTime() >= 2500) {
@@ -111,8 +111,8 @@ public class FiveDiskAuto extends StateMachineAuto {
             } else if (state == kDriveForward) {
                 // Wait at the center line
                 Subsystems.drivetrain.arcadeDrive(0.75, 0);
-                Pickup.raise();
-                Pickup.setBeltState(Pickup.BeltState.Off);
+                pickup.raise();
+                pickup.setBeltState(Pickup.BeltState.Off);
                 Shooter.moveToPosition(Shooter.kTopPosition);
 
                 Logger.log("Driving forward to the pyramid");
@@ -123,7 +123,7 @@ public class FiveDiskAuto extends StateMachineAuto {
             } else if (state == kWaitAtPyramid) {
                 // Wait to settle at the pyramid before firing
                 if (ellapsedStateTime() >= 750) {
-                    Pickup.stop();
+                    pickup.stop();
                     Subsystems.drivetrain.arcadeDrive(-0.10, 0);
                     Shooter.enable();
                     setState(kPreparingNextShot);

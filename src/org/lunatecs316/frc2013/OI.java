@@ -10,7 +10,7 @@ import org.lunatecs316.frc2013.subsystems.*;
  * The OI (Operator Interface) manages control of the robot during teleop
  * @author domenicpaul
  */
-public class OI {
+public class OI extends Subsystems {
 
     /* Joysticks */
     private XboxController driverController;
@@ -32,10 +32,14 @@ public class OI {
      * Initialize the Operator Interface
      */
     public void init() {
+        super.init();
         driverController = new XboxController(1);
         operatorJoystick = new Joystick(2);
     }
 
+    /**
+     * Run one iteration of teleop mode
+     */
     public void run() {
         //
         // Drivetrain
@@ -44,24 +48,26 @@ public class OI {
         boolean buttonBVal = driverController.getButtonB();
         boolean buttonXVal = driverController.getButtonX();
 
+        // Driving
         if (buttonAVal || buttonBVal) {
             if (buttonALatch.risingEdge(buttonAVal))
-                Subsystems.drivetrain.setTargetDistance(48);
+                drivetrain.setTargetDistance(48);
             else if (buttonBLatch.risingEdge(buttonBVal))
-                Subsystems.drivetrain.setTargetDistance(24);
+                drivetrain.setTargetDistance(24);
             else
-                Subsystems.drivetrain.driveStraight();
+                drivetrain.driveStraight();
         } if (buttonXVal) {
             if (buttonXLatch.risingEdge(buttonXVal))
-                Subsystems.drivetrain.setTargetAngle(90);
+                drivetrain.setTargetAngle(90);
             else
-                Subsystems.drivetrain.turn();
+                drivetrain.turn();
         } else {
-            Subsystems.drivetrain.arcadeDrive(driverController);
+            drivetrain.arcadeDrive(driverController);
         }
 
+        // Gyro reset
         if (driverController.getButtonY()) {
-            Subsystems.drivetrain.resetGyro();
+            drivetrain.resetGyro();
         }
 
         //
@@ -69,21 +75,21 @@ public class OI {
         //
 
         // Angle control
-        if (driverController.getRawButton(5)) {
-            Pickup.raise();
-        } else if (driverController.getRawButton(6)) {
-            Pickup.lower();
+        if (driverController.getLeftBumper()) {
+            pickup.raise();
+        } else if (driverController.getRightBumper()) {
+            pickup.lower();
         } else {
-            Pickup.stop();
+            pickup.stop();
         }
 
         // Belt control
         if (operatorJoystick.getRawButton(6)) {
-            Pickup.setBeltState(Pickup.BeltState.Reverse);
+            pickup.setBeltState(Pickup.BeltState.Reverse);
         } else if (operatorJoystick.getRawButton(7)) {
-            Pickup.setBeltState(Pickup.BeltState.Forwards);
+            pickup.setBeltState(Pickup.BeltState.Forwards);
         } else {
-            Pickup.setBeltState(Pickup.BeltState.Off);
+            pickup.setBeltState(Pickup.BeltState.Off);
         }
 
         //
@@ -127,8 +133,8 @@ public class OI {
         // Climbing
         //
         if (operatorJoystick.getRawButton(4))
-            Subsystems.climber.extendHooks();
+            climber.extendHooks();
         else
-            Subsystems.climber.retractHooks();
+            climber.retractHooks();
     }
 }

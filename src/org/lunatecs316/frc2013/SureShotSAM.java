@@ -46,7 +46,6 @@ public class SureShotSAM extends IterativeRobot {
      */
     public void robotInit() {
         // Call the OI and each subsystem's init method
-        Subsystems.init();
         oi.init();
 
         // Start the compressor
@@ -136,8 +135,8 @@ public class SureShotSAM extends IterativeRobot {
     public void disabledInit() {
         // Set robot subsystems to default
         Subsystems.drivetrain.arcadeDrive(0, 0);
-        Pickup.setBeltState(Pickup.BeltState.Off);
-        Pickup.stop();
+        Subsystems.pickup.setBeltState(Pickup.BeltState.Off);
+        Subsystems.pickup.stop();
         Shooter.disable();
         Shooter.fire(false);
         Subsystems.climber.retractHooks();
