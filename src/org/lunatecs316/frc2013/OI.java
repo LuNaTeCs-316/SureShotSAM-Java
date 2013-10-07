@@ -2,6 +2,7 @@ package org.lunatecs316.frc2013;
 
 import edu.wpi.first.wpilibj.Joystick;
 import org.lunatecs316.frc2013.lib.Util;
+import org.lunatecs316.frc2013.lib.XboxController;
 import org.lunatecs316.frc2013.subsystems.*;
 
 /**
@@ -11,22 +12,30 @@ import org.lunatecs316.frc2013.subsystems.*;
 public class OI {
 
     /* Joysticks */
-    private static Joystick driverController;
-    private static Joystick operatorJoystick;
+    private XboxController driverController;
+    private Joystick operatorJoystick;
 
-    private static boolean firstPressDB1 = true;
-    private static boolean firstPressDB2 = true;
-    private static boolean firstPressDB3 = true;
+    private boolean firstPressDB1 = true;
+    private boolean firstPressDB2 = true;
+    private boolean firstPressDB3 = true;
+
+    public XboxController getDriverController() {
+        return driverController;
+    }
+
+    public Joystick getOperatorJoystick() {
+        return operatorJoystick;
+    }
 
     /**
      * Initialize the Operator Interface
      */
-    public static void init(Joystick js1, Joystick js2) {
-        driverController = js1;
-        operatorJoystick = js2;
+    public void init() {
+        driverController = new XboxController(1);
+        operatorJoystick = new Joystick(2);
     }
 
-    public static void run() {
+    public void run() {
         //
         // Drivetrain
         //
@@ -125,6 +134,9 @@ public class OI {
         //
         // Climbing
         //
-        Climber.climb(operatorJoystick.getRawButton(4));
+        if (operatorJoystick.getRawButton(4))
+            Subsystems.climber.extendHooks();
+        else
+            Subsystems.climber.retractHooks();
     }
 }

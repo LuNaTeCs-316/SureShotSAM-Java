@@ -10,7 +10,6 @@ package org.lunatecs316.frc2013;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.lunatecs316.frc2013.subsystems.*;
 import org.lunatecs316.frc2013.auto.*;
@@ -29,20 +28,16 @@ import org.lunatecs316.frc2013.auto.*;
  */
 public class SureShotSAM extends IterativeRobot {
 
-    /* DriverStation */
     private DriverStation driverStation = DriverStation.getInstance();
-
-    /* Compressor */
     private Compressor compressor = new Compressor(RobotMap.COMPRESSOR_PRESSURE_SWITCH,
             RobotMap.COMPRESSOR_RELAY);
+
+    private OI oi;
 
     /* Autonomous Mode */
     private AutonomousMode autoMode;
 
-    /* Joysticks */
-    private Joystick driverController = new Joystick(1);
-    private Joystick operatorJoystick = new Joystick(2);
-
+    /* Data */
     private int teleopLoopCount = 0;
 
     /**
@@ -51,11 +46,8 @@ public class SureShotSAM extends IterativeRobot {
      */
     public void robotInit() {
         // Call the OI and each subsystem's init method
-        Drivetrain.init();
-        Pickup.init();
-        Shooter.init();
-        Climber.init();
-        OI.init(driverController, operatorJoystick);
+        Subsystems.init();
+        oi.init();
 
         // Start the compressor
         compressor.start();
@@ -118,7 +110,7 @@ public class SureShotSAM extends IterativeRobot {
      */
     public void teleopPeriodic() {
         // Run the OI
-        OI.run();
+        oi.run();
 
         // Update SmartDashboard every so often
         if (teleopLoopCount >= Constants.DashboardUpdateFrequency.getValue()) {
@@ -148,14 +140,14 @@ public class SureShotSAM extends IterativeRobot {
         Pickup.stop();
         Shooter.disable();
         Shooter.fire(false);
-        Climber.climb(false);
+        Subsystems.climber.retractHooks();
 
         Logger.run("DisabledInit");
     }
 
     public void disabledPeriodic() {
         // Reset gyro
-        if (driverController.getRawButton(4)) {
+        if (oi.getDriverController().getRawButton(4)) {
             Drivetrain.resetGyro();
         }
 
