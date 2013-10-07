@@ -1,7 +1,6 @@
 package org.lunatecs316.frc2013.auto;
 
 import org.lunatecs316.frc2013.Logger;
-import org.lunatecs316.frc2013.subsystems.*;
 
 /**
  * Three disk autonomous mode. Uses the StateMachineAuto template.
@@ -38,7 +37,7 @@ public class ThreeDiskAuto extends StateMachineAuto {
 
         if (!finished) {
             // Add the current state to debug output
-            Logger.log("Time", ellapsedStateTime());
+            Logger.log("Time", stateTimer.getCurrentMs());
 
             // Switch through the states
             if (state == kStart) {
@@ -46,7 +45,7 @@ public class ThreeDiskAuto extends StateMachineAuto {
                 shooter.enable();
 
                 Logger.log("ShooterAtSpeed?", shooter.atSpeed());
-                if (shooter.atSpeed() || ellapsedStateTime() >= 2000) {
+                if (shooter.atSpeed() || stateTimer.getCurrentMs() >= 2000) {
                     setState(kFiring);
                 }
             } else if (state == kFiring) {
@@ -54,7 +53,7 @@ public class ThreeDiskAuto extends StateMachineAuto {
                 shooter.fire(true);
 
                 // Wait 200ms
-                if (ellapsedStateTime() >= 200) {
+                if (stateTimer.getCurrentMs() >= 200) {
                     shotsFired++;
                     if (shotsFired >= 5) {
                         setState(kFinished);
@@ -67,8 +66,8 @@ public class ThreeDiskAuto extends StateMachineAuto {
                 shooter.fire(false);
 
                 Logger.log("ShooterAtSpeed?", shooter.atSpeed());
-                if (ellapsedStateTime() >= 500 &&
-                        (shooter.atSpeed() || ellapsedStateTime() >= 2000)) {
+                if (stateTimer.getCurrentMs() >= 500 &&
+                        (shooter.atSpeed() || stateTimer.getCurrentMs() >= 2000)) {
                     setState(kFiring);
                 }
             } else if (state == kFinished) {

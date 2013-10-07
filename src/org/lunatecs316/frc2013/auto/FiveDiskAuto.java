@@ -44,7 +44,7 @@ public class FiveDiskAuto extends StateMachineAuto {
 
         if (!finished) {
             // Add the current state to debug output
-            Logger.log("Time", ellapsedStateTime());
+            Logger.log("Time", stateTimer.getCurrentMs());
 
             // Switch through the states
             if (state == kStart) {
@@ -52,7 +52,7 @@ public class FiveDiskAuto extends StateMachineAuto {
                 shooter.enable();
 
                 Logger.log("ShooterAtSpeed?", shooter.atSpeed());
-                if (shooter.atSpeed() || ellapsedStateTime() >= 2000) {
+                if (shooter.atSpeed() || stateTimer.getCurrentMs() >= 2000) {
                     setState(kFiring);
                 }
             } else if (state == kFiring) {
@@ -60,7 +60,7 @@ public class FiveDiskAuto extends StateMachineAuto {
                 shooter.fire(true);
 
                 // Wait 200ms
-                if (ellapsedStateTime() >= 200) {
+                if (stateTimer.getCurrentMs() >= 200) {
                     shotsFired++;
                     if (shotsFired == 4) {
                         setState(kLoweringPickup);
@@ -75,8 +75,8 @@ public class FiveDiskAuto extends StateMachineAuto {
                 shooter.fire(false);
 
                 Logger.log("ShooterAtSpeed?", shooter.atSpeed());
-                if (ellapsedStateTime() >= 500 &&
-                        (shooter.atSpeed() || ellapsedStateTime() >= 3500)) {
+                if (stateTimer.getCurrentMs() >= 500 &&
+                        (shooter.atSpeed() || stateTimer.getCurrentMs() >= 3500)) {
                     setState(kFiring);
                 }
             } else if (state == kLoweringPickup) {
@@ -87,7 +87,7 @@ public class FiveDiskAuto extends StateMachineAuto {
                 shooter.moveToPosition(Constants.ShooterLoadPosition.getValue());
 
                 Logger.log("Lowering Pickup");
-                if (ellapsedStateTime() >= 1000) {
+                if (stateTimer.getCurrentMs() >= 1000) {
                     setState(kBackingUp);
                 }
             } else if (state == kBackingUp) {
@@ -96,7 +96,7 @@ public class FiveDiskAuto extends StateMachineAuto {
                 pickup.setBeltState(Pickup.BeltState.Reverse);
 
                 Logger.log("Backing up");
-                if (ellapsedStateTime() >= 1800) {
+                if (stateTimer.getCurrentMs() >= 1800) {
                     setState(kWaitAtCenterLine);
                 }
             } else if (state == kWaitAtCenterLine) {
@@ -105,7 +105,7 @@ public class FiveDiskAuto extends StateMachineAuto {
                 pickup.stop();
 
                 Logger.log("Waiting at the center line");
-                if (ellapsedStateTime() >= 2500) {
+                if (stateTimer.getCurrentMs() >= 2500) {
                     setState(kDriveForward);
                 }
             } else if (state == kDriveForward) {
@@ -116,13 +116,13 @@ public class FiveDiskAuto extends StateMachineAuto {
                 shooter.moveToPosition(Constants.ShooterTopPosition.getValue());
 
                 Logger.log("Driving forward to the pyramid");
-                if (ellapsedStateTime() >= 1350) {
+                if (stateTimer.getCurrentMs() >= 1350) {
                     Subsystems.drivetrain.arcadeDrive(-0.075, 0);
                     setState(kWaitAtPyramid);
                 }
             } else if (state == kWaitAtPyramid) {
                 // Wait to settle at the pyramid before firing
-                if (ellapsedStateTime() >= 750) {
+                if (stateTimer.getCurrentMs() >= 750) {
                     pickup.stop();
                     Subsystems.drivetrain.arcadeDrive(-0.10, 0);
                     shooter.enable();
