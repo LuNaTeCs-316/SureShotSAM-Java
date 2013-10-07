@@ -4,7 +4,7 @@ package org.lunatecs316.frc2013;
  * Helper class for logging debugging data
  * @author domenicpaul
  */
-public class Debugger {
+public class Logger {
     
     private static String m_output;
     

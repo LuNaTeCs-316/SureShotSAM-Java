@@ -1,6 +1,6 @@
 package org.lunatecs316.frc2013.auto;
 
-import org.lunatecs316.frc2013.Debugger;
+import org.lunatecs316.frc2013.Logger;
 import org.lunatecs316.frc2013.subsystems.*;
 
 /**
@@ -27,7 +27,7 @@ public class ThreeDiskAuto extends StateMachineAuto {
         state = kStart;
         finished = false;
         shotsFired = 0;
-        Debugger.log("ThreeDiskAuto: Initialized");
+        Logger.log("ThreeDiskAuto: Initialized");
     }
     
     /**
@@ -38,14 +38,14 @@ public class ThreeDiskAuto extends StateMachineAuto {
         
         if (!finished) {
             // Add the current state to debug output
-            Debugger.log("Time", ellapsedStateTime());
+            Logger.log("Time", ellapsedStateTime());
             
             // Switch through the states
             if (state == kStart) {
                 // Enable the shooter and wait for it to come up to speed
                 Shooter.enable();
                 
-                Debugger.log("ShooterAtSpeed?", Shooter.atSpeed());
+                Logger.log("ShooterAtSpeed?", Shooter.atSpeed());
                 if (Shooter.atSpeed() || ellapsedStateTime() >= 2000) {
                     setState(kFiring);
                 }
@@ -66,7 +66,7 @@ public class ThreeDiskAuto extends StateMachineAuto {
                 // Reset and wait for the shooter to come back up to speed
                 Shooter.fire(false);
 
-                Debugger.log("ShooterAtSpeed?", Shooter.atSpeed());
+                Logger.log("ShooterAtSpeed?", Shooter.atSpeed());
                 if (ellapsedStateTime() >= 500 &&
                         (Shooter.atSpeed() || ellapsedStateTime() >= 2000)) {
                     setState(kFiring);
@@ -79,7 +79,7 @@ public class ThreeDiskAuto extends StateMachineAuto {
             }
         } else {
             // We're done
-            Debugger.log("Finished");
+            Logger.log("Finished");
         }
     }
 }

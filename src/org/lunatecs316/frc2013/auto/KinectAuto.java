@@ -5,7 +5,7 @@
 package org.lunatecs316.frc2013.auto;
 
 import edu.wpi.first.wpilibj.KinectStick;
-import org.lunatecs316.frc2013.Debugger;
+import org.lunatecs316.frc2013.Logger;
 import org.lunatecs316.frc2013.subsystems.*;
 
 /**
@@ -28,8 +28,8 @@ public class KinectAuto extends AutonomousMode {
         double left = leftStick.getY();
         double right = rightStick.getY();
         Drivetrain.tankDrive(left, right);
-        Debugger.log("left", left);
-        Debugger.log("right", right);
+        Logger.log("left", left);
+        Logger.log("right", right);
     }
     
 }

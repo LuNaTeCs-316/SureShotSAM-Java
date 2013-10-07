@@ -1,6 +1,6 @@
 package org.lunatecs316.frc2013.auto;
 
-import org.lunatecs316.frc2013.Debugger;
+import org.lunatecs316.frc2013.Logger;
 import org.lunatecs316.frc2013.subsystems.Drivetrain;
 import org.lunatecs316.frc2013.subsystems.Pickup;
 import org.lunatecs316.frc2013.subsystems.Shooter;
@@ -33,7 +33,7 @@ public class FiveDiskAuto extends StateMachineAuto {
         state = kStart;
         finished = false;
         shotsFired = 0;
-        Debugger.log("FiveDiskAuto: Initialized");
+        Logger.log("FiveDiskAuto: Initialized");
     }
     
     /**
@@ -44,14 +44,14 @@ public class FiveDiskAuto extends StateMachineAuto {
         
         if (!finished) {
             // Add the current state to debug output
-            Debugger.log("Time", ellapsedStateTime());
+            Logger.log("Time", ellapsedStateTime());
             
             // Switch through the states
             if (state == kStart) {
                 // Enable the shooter and wait for it to come up to speed
                 Shooter.enable();
                 
-                Debugger.log("ShooterAtSpeed?", Shooter.atSpeed());
+                Logger.log("ShooterAtSpeed?", Shooter.atSpeed());
                 if (Shooter.atSpeed() || ellapsedStateTime() >= 2000) {
                     setState(kFiring);
                 }
@@ -74,7 +74,7 @@ public class FiveDiskAuto extends StateMachineAuto {
                 // Reset and wait for the shooter to come back up to speed
                 Shooter.fire(false);
 
-                Debugger.log("ShooterAtSpeed?", Shooter.atSpeed());
+                Logger.log("ShooterAtSpeed?", Shooter.atSpeed());
                 if (ellapsedStateTime() >= 500 &&
                         (Shooter.atSpeed() || ellapsedStateTime() >= 3500)) {
                     setState(kFiring);
@@ -86,7 +86,7 @@ public class FiveDiskAuto extends StateMachineAuto {
                 Pickup.lower();
                 Shooter.moveToPosition(Shooter.kLoadPosition);
                 
-                Debugger.log("Lowering Pickup");
+                Logger.log("Lowering Pickup");
                 if (ellapsedStateTime() >= 1000) {
                     setState(kBackingUp);
                 }
@@ -95,7 +95,7 @@ public class FiveDiskAuto extends StateMachineAuto {
                 Drivetrain.arcadeDrive(-0.75, 0);
                 Pickup.setBeltState(Pickup.BeltState.Reverse);
                 
-                Debugger.log("Backing up");
+                Logger.log("Backing up");
                 if (ellapsedStateTime() >= 1800) {
                     setState(kWaitAtCenterLine);
                 }
@@ -104,7 +104,7 @@ public class FiveDiskAuto extends StateMachineAuto {
                 Drivetrain.arcadeDrive(0, 0);
                 Pickup.stop();
                 
-                Debugger.log("Waiting at the center line");
+                Logger.log("Waiting at the center line");
                 if (ellapsedStateTime() >= 2500) {
                     setState(kDriveForward);
                 }
@@ -115,7 +115,7 @@ public class FiveDiskAuto extends StateMachineAuto {
                 Pickup.setBeltState(Pickup.BeltState.Off);
                 Shooter.moveToPosition(Shooter.kTopPosition);
                 
-                Debugger.log("Driving forward to the pyramid");
+                Logger.log("Driving forward to the pyramid");
                 if (ellapsedStateTime() >= 1350) {
                     Drivetrain.arcadeDrive(-0.075, 0);
                     setState(kWaitAtPyramid);
@@ -135,7 +135,7 @@ public class FiveDiskAuto extends StateMachineAuto {
                 finished = true;
                 
                 // We're done
-                Debugger.log("Finished");
+                Logger.log("Finished");
             }
         } else {
         }

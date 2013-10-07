@@ -17,32 +17,34 @@ import org.lunatecs316.frc2013.auto.*;
 
 /**
  * Main Robot class.
- * 
+ *
  * WPILib note:
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
  * documentation. If you change the name of this class or the package after
  * creating this project, you must also update the manifest file in the resource
  * directory.
- * 
+ *
  * @author domenicpaul
  */
 public class SureShotSAM extends IterativeRobot {
-    
+
     /* DriverStation */
     private DriverStation driverStation = DriverStation.getInstance();
-    
+
     /* Compressor */
     private Compressor compressor = new Compressor(RobotMap.COMPRESSOR_PRESSURE_SWITCH,
             RobotMap.COMPRESSOR_RELAY);
-    
+
     /* Autonomous Mode */
     private AutonomousMode autoMode;
-    
+
     /* Joysticks */
     private Joystick driverController = new Joystick(1);
     private Joystick operatorJoystick = new Joystick(2);
-    
+
+    private int teleopLoopCount = 0;
+
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -54,14 +56,14 @@ public class SureShotSAM extends IterativeRobot {
         Shooter.init();
         Climber.init();
         OI.init(driverController, operatorJoystick);
-        
+
         // Start the compressor
         compressor.start();
-      
-        // Print for debugging purposes
-        Debugger.log("robotInit() Done!");
 
-        Debugger.run("RobotInit");
+        // Print for debugging purposes
+        Logger.log("robotInit() Done!");
+
+        Logger.run("RobotInit");
     }
 
     /**
@@ -87,13 +89,13 @@ public class SureShotSAM extends IterativeRobot {
                 autoMode = new KinectAuto();
                 break;
         }
-        
+
         // Call the autoMode's init method
         autoMode.init();
 
-        Debugger.run("AutoInit");
+        Logger.run("AutoInit");
     }
-    
+
     /**
      * This function is called periodically during autonomous
      */
@@ -101,9 +103,16 @@ public class SureShotSAM extends IterativeRobot {
         // Run an iteration of the autoMode
         autoMode.run();
 
-        Debugger.run("AutoPeriodic");
+        Logger.run("AutoPeriodic");
     }
-    
+
+    /**
+     * This function is called at the start of the operator control period
+     */
+    public void teleopInit() {
+        teleopLoopCount = 0;
+    }
+
     /**
      * This function is called periodically during operator control
      */
@@ -111,9 +120,14 @@ public class SureShotSAM extends IterativeRobot {
         // Run the OI
         OI.run();
 
-        Debugger.run("TeleopPeriodic");
+        // Update SmartDashboard every so often
+        if (teleopLoopCount >= Constants.DashboardUpdateFrequency.getValue()) {
+            updateSmartDashboard();
+        }
+
+        Logger.run("TeleopPeriodic");
     }
-    
+
     /**
      * This function is called periodically during test mode
      */
@@ -121,9 +135,9 @@ public class SureShotSAM extends IterativeRobot {
         // Run LiveWindow
         LiveWindow.run();
 
-        Debugger.run("TestPeriodic");
+        Logger.run("TestPeriodic");
     }
-    
+
     /**
      * This function is called once at the start of disabled mode
      */
@@ -136,15 +150,22 @@ public class SureShotSAM extends IterativeRobot {
         Shooter.fire(false);
         Climber.climb(false);
 
-        Debugger.run("DisabledInit");
+        Logger.run("DisabledInit");
     }
-    
+
     public void disabledPeriodic() {
         // Reset gyro
         if (driverController.getRawButton(4)) {
             Drivetrain.resetGyro();
         }
 
-        Debugger.run("DisabledPeriodic");
+        Logger.run("DisabledPeriodic");
+    }
+
+    /**
+     * Send data to the SmartDashboard
+     */
+    public void updateSmartDashboard() {
+
     }
 }

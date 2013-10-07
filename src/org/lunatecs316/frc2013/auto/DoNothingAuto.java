@@ -1,6 +1,6 @@
 package org.lunatecs316.frc2013.auto;
 
-import org.lunatecs316.frc2013.Debugger;
+import org.lunatecs316.frc2013.Logger;
 
 /**
  * Blank auto mode that does nothing
@@ -14,7 +14,7 @@ public class DoNothingAuto extends AutonomousMode {
     public void init() {
         // Nothing to do
         name = "DoNothingAuto";
-        Debugger.log("DoNothingAuto: Automatically doing nothing");
+        Logger.log("DoNothingAuto: Automatically doing nothing");
     }
     
     /**
