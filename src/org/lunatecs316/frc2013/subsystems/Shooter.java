@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.lunatecs316.frc2013.Constants;
 import org.lunatecs316.frc2013.RobotMap;
 import org.lunatecs316.frc2013.lib.Potentiometer;
@@ -76,6 +77,11 @@ public class Shooter extends Subsystem {
         LiveWindow.addActuator("Shooter", "Solenoid", solenoid);
         LiveWindow.addSensor("Shooter", "AnglePot", anglePot);
         LiveWindow.addSensor("Shooter", "SpeedTach", speedTach);
+    }
+
+    public void updateSmartDashboard() {
+        SmartDashboard.putNumber("ShooterAngle", anglePot.getAverageVoltage());
+        SmartDashboard.putNumber("ShooterSpeed", speedTach.getRPM());
     }
 
     public double getAngle() {

@@ -17,4 +17,11 @@ public class Subsystems {
         shooter.init();
         climber.init();
     }
+
+    public static void updateSmartDashboard() {
+        drivetrain.updateSmartDashboard();
+        pickup.updateSmartDashboard();
+        shooter.updateSmartDashboard();
+        climber.updateSmartDashboard();
+    }
 }

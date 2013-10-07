@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.lunatecs316.frc2013.Constants;
 import org.lunatecs316.frc2013.RobotMap;
 import org.lunatecs316.frc2013.lib.SimplePIDController;
@@ -90,6 +91,12 @@ public class Drivetrain extends Subsystem {
         System.out.println("[Drivetrain][debug] gyro: " + gyro.getAngle()
                 + "; leftEncoder: " + leftEncoder.get()
                 + "; rightEncoder: " + rightEncoder.get());
+    }
+
+    public void updateSmartDashboard() {
+        SmartDashboard.putNumber("Gyro", gyro.getAngle());
+        SmartDashboard.putNumber("LeftDriveEncoder", leftEncoder.get());
+        SmartDashboard.putNumber("RightDriveEncoder", rightEncoder.get());
     }
 
     /**

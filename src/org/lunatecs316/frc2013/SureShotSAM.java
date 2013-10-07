@@ -113,7 +113,7 @@ public class SureShotSAM extends IterativeRobot {
 
         // Update SmartDashboard every so often
         if (teleopLoopCount >= Constants.DashboardUpdateFrequency.getValue()) {
-            updateSmartDashboard();
+            Subsystems.updateSmartDashboard();
         }
 
         Logger.run("TeleopPeriodic");
@@ -151,12 +151,5 @@ public class SureShotSAM extends IterativeRobot {
         }
 
         Logger.run("DisabledPeriodic");
-    }
-
-    /**
-     * Send data to the SmartDashboard
-     */
-    public void updateSmartDashboard() {
-
     }
 }
