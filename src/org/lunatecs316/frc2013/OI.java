@@ -9,11 +9,15 @@ import org.lunatecs316.frc2013.subsystems.*;
  * @author domenicpaul
  */
 public class OI {
-    
+
     /* Joysticks */
     private static Joystick driverController;
     private static Joystick operatorJoystick;
-    
+
+    private static boolean firstPressDB1 = true;
+    private static boolean firstPressDB2 = true;
+    private static boolean firstPressDB3 = true;
+
     /**
      * Initialize the Operator Interface
      */
@@ -21,26 +25,15 @@ public class OI {
         driverController = js1;
         operatorJoystick = js2;
     }
-    
+
     public static void run() {
-        // Run each subsystem's section
-        runDrivetrain();
-        runPickup();
-        runShooter();
-        runClimber();
-    }
-    
-    /**
-     * Run the drivetrain section
-     */
-    private static boolean firstPressDB1 = true;
-    private static boolean firstPressDB2 = true;
-    private static boolean firstPressDB3 = true;
-    private static void runDrivetrain() {
+        //
+        // Drivetrain
+        //
         if (driverController.getRawButton(1)) {
             if (firstPressDB1) {
                 Drivetrain.setTargetDistance(48);
-                firstPressDB1 = false; 
+                firstPressDB1 = false;
             } else {
                 Drivetrain.driveStraight();
             }
@@ -65,17 +58,15 @@ public class OI {
             firstPressDB3 = true;
             Drivetrain.arcadeDrive(driverController);
         }
-        
+
         if (driverController.getRawButton(4)) {
             Drivetrain.resetGyro();
         }
-    }
-    
-    /**
-     * Run the pickup section
-     */
-    private static void runPickup() {
-        
+
+        //
+        // Pickup
+        //
+
         // Angle control
         if (driverController.getRawButton(5)) {
             Pickup.raise();
@@ -84,7 +75,7 @@ public class OI {
         } else {
             Pickup.stop();
         }
-        
+
         // Belt control
         if (operatorJoystick.getRawButton(6)) {
             Pickup.setBeltState(Pickup.BeltState.Reverse);
@@ -93,13 +84,11 @@ public class OI {
         } else {
             Pickup.setBeltState(Pickup.BeltState.Off);
         }
-    }
-    
-    /**
-     * Run the shooter section
-     */
-    private static void runShooter() {
-        
+
+        //
+        // Shooter
+        //
+
         // Angle control
         if (operatorJoystick.getRawButton(11)) {
             Shooter.moveToPosition(Shooter.kTopPosition);
@@ -110,10 +99,10 @@ public class OI {
         } else {
             Shooter.move(Util.deadband(operatorJoystick.getY(), 0.2));
         }
-        
+
         // Motor control
         if (operatorJoystick.getRawButton(2)) {
-            Shooter.enable();    
+            Shooter.enable();
         } else if (operatorJoystick.getRawButton(5)) {
             Shooter.setSpeed(-1.0);
         } else if (operatorJoystick.getRawButton(1)) {
@@ -121,23 +110,21 @@ public class OI {
         } else {
             Shooter.disable();
         }
-        
+
         // Firing control
         if (operatorJoystick.getRawButton(2) || operatorJoystick.getRawButton(5))
             Shooter.fire(operatorJoystick.getRawButton(1));
         else if (!operatorJoystick.getRawButton(1))
             Shooter.fire(false);
-        
+
         // Indicator lights
         Shooter.indications();
-        
+
         Debugger.log("shooterAngle", Shooter.getAngle());
-    }
-    
-    /**
-     * Run the climber section
-     */
-    private static void runClimber() {
+
+        //
+        // Climbing
+        //
         Climber.climb(operatorJoystick.getRawButton(4));
     }
 }
