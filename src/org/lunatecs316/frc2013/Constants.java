@@ -14,39 +14,39 @@ public class Constants {
         constants = new Vector();
     }
 
-    public static final Constant kJoystickDeadband = new Constant("JoystickDeadband", 0.2);
+    public static final Constant JoystickDeadband = new Constant("JoystickDeadband", 0.2);
 
-    public static final Constant kDriveEncoderTicksPerRot = new Constant("DriveEncoderTicksPerRot", 360.0);
-    public static final Constant kDriveWheelDiameter = new Constant("DriveWheelDiameter", 6.0);
-    public static final Constant kDriveWheelBaseWidth = new Constant("DriveWheelBaseWidth", 20.0);
+    public static final Constant DriveEncoderTicksPerRot = new Constant("DriveEncoderTicksPerRot", 360.0);
+    public static final Constant DriveWheelDiameter = new Constant("DriveWheelDiameter", 6.0);
+    public static final Constant DriveWheelBaseWidth = new Constant("DriveWheelBaseWidth", 20.0);
 
-    public static final Constant kDriveGyroP = new Constant("DriveGyroP", 0.0);
-    public static final Constant kDriveGyroI = new Constant("DriveGyroI", 0.0);
-    public static final Constant kDriveGyroD = new Constant("DriveGyroD", 0.0);
+    public static final Constant DriveGyroP = new Constant("DriveGyroP", 0.0);
+    public static final Constant DriveGyroI = new Constant("DriveGyroI", 0.0);
+    public static final Constant DriveGyroD = new Constant("DriveGyroD", 0.0);
 
-    public static final Constant kDriveEncoderP = new Constant("DriveEncoderP", 0.0004);
-    public static final Constant kDriveEncoderI = new Constant("DriveEncoderI", 0.0);
-    public static final Constant kDriveEncoderD = new Constant("DriveEncoderD", 0.00005);
+    public static final Constant DriveEncoderP = new Constant("DriveEncoderP", 0.0004);
+    public static final Constant DriveEncoderI = new Constant("DriveEncoderI", 0.0);
+    public static final Constant DriveEncoderD = new Constant("DriveEncoderD", 0.00005);
 
-    public static final Constant kPickupArmSpeed = new Constant("PickupArmSpeed", 1.0);
-    public static final Constant kPickupBeltSpeed = new Constant("PickupBeltSpeed", 1.0);
+    public static final Constant PickupArmSpeed = new Constant("PickupArmSpeed", 1.0);
+    public static final Constant PickupBeltSpeed = new Constant("PickupBeltSpeed", 1.0);
 
-    public static final Constant kShooterTopPosition = new Constant("ShooterTopPosition", 3.2);
-    public static final Constant kShooterMidPosition = new Constant("ShooterMidPosition", 3.1);
-    public static final Constant kShooterLoadPosition = new Constant("ShooterLoadPosition", 1.85);
+    public static final Constant ShooterTopPosition = new Constant("ShooterTopPosition", 3.2);
+    public static final Constant ShooterMidPosition = new Constant("ShooterMidPosition", 3.1);
+    public static final Constant ShooterLoadPosition = new Constant("ShooterLoadPosition", 1.85);
 
-    public static final Constant kShooterTargetSpeed = new Constant("ShooterTargetSpeed", 3975.0);
-    public static final Constant kShooterMinFiringSpeed = new Constant("ShooterMinFiringSpeed", 3600.0);
+    public static final Constant ShooterTargetSpeed = new Constant("ShooterTargetSpeed", 3975.0);
+    public static final Constant ShooterMinFiringSpeed = new Constant("ShooterMinFiringSpeed", 3600.0);
 
-    public static final Constant kShooterSpeedP = new Constant("ShooterSpeedP", -0.005);
-    public static final Constant kShooterSpeedI = new Constant("ShooterSpeedI", 0.0);
-    public static final Constant kShooterSpeedD = new Constant("ShooterSpeedD", 0.0);
+    public static final Constant ShooterSpeedP = new Constant("ShooterSpeedP", -0.005);
+    public static final Constant ShooterSpeedI = new Constant("ShooterSpeedI", 0.0);
+    public static final Constant ShooterSpeedD = new Constant("ShooterSpeedD", 0.0);
 
-    public static final Constant kShooterAngleP = new Constant("ShooterAngleP", 21.5);
-    public static final Constant kShooterAngleI = new Constant("ShooterAngleI", 0.0);
-    public static final Constant kShooterAngleD = new Constant("ShooterAngleD", 0.0);
+    public static final Constant ShooterAngleP = new Constant("ShooterAngleP", 21.5);
+    public static final Constant ShooterAngleI = new Constant("ShooterAngleI", 0.0);
+    public static final Constant ShooterAngleD = new Constant("ShooterAngleD", 0.0);
 
-    public static final Constant kDashboardUpdateFrequency = new Constant("DashboardUpdateFrequency", 10);
+    public static final Constant DashboardUpdateFrequency = new Constant("DashboardUpdateFrequency", 10);
 
     public static Vector constants;
     private static Preferences prefs = Preferences.getInstance();
