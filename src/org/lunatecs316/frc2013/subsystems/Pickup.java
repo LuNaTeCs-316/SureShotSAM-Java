@@ -11,10 +11,8 @@ import org.lunatecs316.frc2013.RobotMap;
  */
 public class Pickup extends Subsystem {
 
-    // <editor-fold defaultstate="collapsed" desc="BeltState 'Enum'">
     /* Belt State "Enum" */
     public static class BeltState {
-
         public static final BeltState Forwards = new BeltState("Forwards");
         public static final BeltState Reverse = new BeltState("Reverse");
         public static final BeltState Off = new BeltState("Off");
@@ -34,10 +32,6 @@ public class Pickup extends Subsystem {
             return name;
         }
     }
-    // </editor-fold>
-
-    // <editor-fold desc="Subsystem Components">
-    // Place Subsystem Components in this section
 
     /* Motors */
     private Jaguar angleMotor = new Jaguar(RobotMap.PICKUP_ANGLE_MOTOR);
@@ -49,19 +43,7 @@ public class Pickup extends Subsystem {
     /* PID Controller */
     //private PIDController angleController = new PIDController(-5.0, -0.1,
     //        0.0, anglePot, angleMotor);
-    // </editor-fold>
 
-    // <editor-fold desc="Subsystem Data" defaultstate="collapsed">
-    // Place Subsystem Data in this section
-
-    // </editor-fold>
-
-    // <editor-fold desc="Subsystem Methods">
-    // Place Subsystem behavior in this section
-
-    /**
-     * Initialize the pickup subsystem
-     */
     public void init() {
         LiveWindow.addActuator("Pickup", "BeltMotor", beltMotor);
         LiveWindow.addActuator("Pickup", "AngleMotor", angleMotor);
@@ -105,5 +87,4 @@ public class Pickup extends Subsystem {
     public void stop() {
         angleMotor.set(0.0);
     }
-    // </editor-fold>
 }

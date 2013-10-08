@@ -2,7 +2,7 @@ package org.lunatecs316.frc2013.subsystems;
 
 /**
  * Holds a single static instance of each subsystem. Extended by OI and
- * Autonomous modes to gain access
+ * Autonomous modes to gain access to these variables.
  * @author domenicpaul
  */
 public class Subsystems {
@@ -23,5 +23,12 @@ public class Subsystems {
         pickup.updateSmartDashboard();
         shooter.updateSmartDashboard();
         climber.updateSmartDashboard();
+    }
+    
+    public static void updateConstants() {
+        drivetrain.updateConstants();
+        pickup.updateConstants();
+        shooter.updateConstants();
+        climber.updateConstants();
     }
 }

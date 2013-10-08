@@ -17,14 +17,6 @@ import org.lunatecs316.frc2013.lib.Tachometer;
  */
 public class Shooter extends Subsystem {
 
-    /* Shooter positions */
-    //public static double kTopPosition = 3.16;
-    //public static double kMidPosition = 3.05;
-    //public static double kLoadPosition = 1.75;
-
-    // <editor-fold desc="Subsystem Components">
-    // Place Subsystem Components in this section
-
     /* Shooter Motor */
     private Victor motor = new Victor(RobotMap.SHOOTER_MOTOR);
     private Tachometer speedTach = new Tachometer(RobotMap.SHOOTER_SPEED_TACH);
@@ -44,24 +36,12 @@ public class Shooter extends Subsystem {
     private Solenoid redIndicator1 = new Solenoid(RobotMap.RED_INDICATOR_1);
     private Solenoid redIndicator2 = new Solenoid(RobotMap.RED_INDICATOR_2);
     private Solenoid blueIndicator = new Solenoid(RobotMap.BLUE_INDICATOR);
-    // </editor-fold>
 
-    // <editor-fold desc="Subsystem Data">
-    // Place Subsystem Data in this section
+    private boolean lightIsOn = false;
+    private int offCounter = 0;
+    private int onCounter = 0;
 
-    private static boolean lightIsOn = false;
-    private static int offCounter = 0;
-    private static int onCounter = 0;
-    // </editor-fold>
-
-    // <editor-fold desc="Subsystem Behavior">
-    // Place Subsystem methods in this section
-
-    /**
-     * Initialize the shooter subsystem
-     */
     public void init() {
-
         // Configure the PIDController for the Shooter
         speedController.setSetpoint(Constants.ShooterTargetSpeed.getValue());
         speedController.setAbsoluteTolerance(350);
@@ -140,14 +120,12 @@ public class Shooter extends Subsystem {
 
     public void autoFire() {
         speedController.disable();
-
         motor.set(-1.0);
         solenoid.set(speedTach.getRPM() > Constants.ShooterMinFiringSpeed.getValue());
     }
 
     public void setSpeed(double value) {
         speedController.disable();
-
         motor.set(value);
     }
 
@@ -155,7 +133,6 @@ public class Shooter extends Subsystem {
      * Control the feedback lights for the shooter
      */
     public void indications() {
-
         // Blue indicator light show if we are at the proper angle
         blueIndicator.set((anglePot.getOutput() >= Constants.ShooterTopPosition.getValue() - 0.1));
 
@@ -188,5 +165,4 @@ public class Shooter extends Subsystem {
             }
 	}
     }
-    // </editor-fold>
 }

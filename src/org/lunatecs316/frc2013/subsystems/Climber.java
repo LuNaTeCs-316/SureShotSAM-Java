@@ -11,20 +11,6 @@ public class Climber extends Subsystem {
 
     private final Solenoid solenoid = new Solenoid(RobotMap.CLIMBING_SOLENOID);
 
-    /**
-     * Constructor
-     */
-    public Climber() {
-
-    }
-
-    /**
-     * Initialize the subsystem
-     */
-    public void init() {
-
-    }
-
     public void extendHooks() {
         solenoid.set(true);
     }

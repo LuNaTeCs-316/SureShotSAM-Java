@@ -16,9 +16,6 @@ import org.lunatecs316.frc2013.lib.LuNaDrive;
  */
 public class Drivetrain extends Subsystem {
 
-    // <editor-fold desc="Subsystem Components">
-    // Place Subsystem Components in this section
-
     /* Drive Motors */
     private Victor frontLeftMotor = new Victor(RobotMap.FRONT_LEFT_DRIVE_MOTOR);
     private Victor frontRightMotor = new Victor(RobotMap.FRONT_RIGHT_DRIVE_MOTOR);
@@ -26,7 +23,7 @@ public class Drivetrain extends Subsystem {
     private Victor rearRightMotor = new Victor(RobotMap.REAR_RIGHT_DRIVE_MOTOR);
 
     /* Drive Motor Controller */
-    private final LuNaDrive driveMotors = new LuNaDrive(frontLeftMotor,
+    private LuNaDrive driveMotors = new LuNaDrive(frontLeftMotor,
             frontRightMotor, rearLeftMotor, rearRightMotor);
 
     /* Sensors */
@@ -38,17 +35,9 @@ public class Drivetrain extends Subsystem {
 
 
     /* PID Controllers */
-    private SimplePIDController angleController =
-            new SimplePIDController(-0.05, -0.0, -0.0);
-
-    private SimplePIDController distanceController =
-            new SimplePIDController(0.001, 0.00000, 0.00005);
-//            new SimplePIDController(0.0004, 0.00000, 0.00005);
-
-    // </editor-fold>
-
-    // <editor-fold desc="Subsystem Data">
-    // Place Subsystem Data in this section
+    private SimplePIDController angleController = new SimplePIDController(-0.05, -0.0, -0.0);
+    private SimplePIDController distanceController = new SimplePIDController(0.001, 0.00000, 0.00005);
+    //new SimplePIDController(0.0004, 0.00000, 0.00005);
 
     //private static final int kEncoderTicksPerRot = 360;
     //private static final double kWheelDiameter = 6.25;           // in.
@@ -59,14 +48,6 @@ public class Drivetrain extends Subsystem {
     private double targetDistance;
     private double targetAngle;
 
-    // </editor-fold>
-
-    // <editor-fold desc="Subsystem Methods">
-    // Place Subsystem behavior in this section
-
-    /**
-     * Initialize the subsystem
-     */
     public void init() {
         // Configure the encoders
         leftEncoder.start();
@@ -85,12 +66,6 @@ public class Drivetrain extends Subsystem {
         LiveWindow.addSensor("Drivetrain", "LeftEncoder", leftEncoder);
         LiveWindow.addSensor("Drivetrain", "RightEncoder", rightEncoder);
         LiveWindow.addSensor("Drivetrain", "Gyro", gyro);
-    }
-
-    public void debug() {
-        System.out.println("[Drivetrain][debug] gyro: " + gyro.getAngle()
-                + "; leftEncoder: " + leftEncoder.get()
-                + "; rightEncoder: " + rightEncoder.get());
     }
 
     public void updateSmartDashboard() {
@@ -145,7 +120,6 @@ public class Drivetrain extends Subsystem {
         }
 
         driveMotors.drive(power, 0.0);
-        //driveMotors.drive(speed, turnVal);
     }
 
     /**
@@ -195,6 +169,4 @@ public class Drivetrain extends Subsystem {
     public void resetGyro() {
         gyro.reset();
     }
-
-    // </editor-fold>
 }

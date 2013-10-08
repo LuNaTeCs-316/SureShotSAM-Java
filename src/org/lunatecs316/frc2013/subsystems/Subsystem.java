@@ -19,7 +19,22 @@ public abstract class Subsystem {
         return name;
     }
 
-    public abstract void init();
+    /**
+     * Setup the subsystem for use
+     */
+    public void init() {
+    }
 
-    public void updateSmartDashboard() {}
+    /**
+     * Send subsystem data to the SmartDashboard
+     */
+    public void updateSmartDashboard() {
+    }
+    
+    /**
+     * Called when Constants are updated. Update values that don't read directly
+     * from a Constant
+     */
+    public void updateConstants() {
+    }
 }
