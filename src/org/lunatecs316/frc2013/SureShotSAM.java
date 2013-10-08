@@ -74,7 +74,7 @@ public class SureShotSAM extends IterativeRobot {
                 autoMode = new FiveDiskAutoDR();
                 break;
             case 4:
-                autoMode = new TestAuto();
+                autoMode = new FiveDiskCenterlineAuto();
                 break;
             case 5:
                 autoMode = new KinectAuto();
