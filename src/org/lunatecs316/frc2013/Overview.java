@@ -1,68 +1,73 @@
 /**
  * This file is one giant comment to help someone get started who is trying to 
- * understand team 316's code.
+ * understand Team 316's code.
  * 
- * This code is written in java using the iterative method and the code 
- * is broken down into classes that attempt to describe 
- * (objectify) subsystems of the robot.
- * Higher level code then calls functions in each particular subsystem.
+ * Our code is written in Java using the IterativeRobot style. The program is
+ * organized into subsystems, an Operator Interface (OI)/Teleop Controller, and
+ * Finite State Machine based Autonomous modes.
  * 
  ********************************************************************** 
  ********************************************************************** 
- * subsystems
+ * Subsystems
  ********************************************************************** 
  ********************************************************************** 
  * 
- * so, in general, there are files located in the subsystem folder 
- * that control and provide input and  output for the following:
+ * Subsystems are classes that group related robot sensors and actuators
+ * together and define actions that can be performed. All subsystems extend
+ * the base Subsystem class. A description of each subsystem follows:
  * 
- * climber - used to control climbing the pyramid.  for us it is
- * basically just two pistons that pull our robot up to the first level
+ * Drivetrain - controls the drive wheels and provides navigation with the gyro
+ * and encoders.
  * 
- * functions are:
- *	Climber.climb (true); //to retract piston and pull robot up
- *	Climber.climb (false); //to release piston and let robot down
- *
- *
- *
- * drivetrain - controls the wheels of the robot and also can 
- * provide indication of wheel rotations through encoders
- * mounted on the front two wheels.
+ * Methods:
+ * Drivetrain#arcadeDrive(double throttle, double turn) - arcade style driving
+ * Drivetrain#tankDrive(double left, double right) - tank style driving
+ * Drivetrain#driveStraight(double inches) - moves the robot straight to a distance
+ * Drivetrain#turn(double degrees) - turns the robot in place
  * 
- * functions are:
- * Drivetrain.arcadeDrive(Joystick) //-used in teleop
- * Drivetrain.arcadeDrive(throttle, turn) //autonomous
- * Drivetrain.tankDrive(left, right) //not used, for 2 joys
+ * Pickup - controls raising and lowering of the pickup arm and
+ * running the pickup motor in forward or reverse.
  * 
+ * Methods:
+ * Pickup#raise() - raise the pickup arm
+ * Pickup#lower() - lower the pickup arm
+ * Pickup#stop() - stop movement of the pickup arm
+ * Pickup#setBeltState(Pickup.BeltState state) - set the state of the pickup belts (forwards/reverse/off)
  * 
- * 
- * pickup - controls raising and lowering of the pickup arm and
- * running the pickup motor in forward or reverse.  no indications 
- * provided.
- * functions are:
- * Pickup.setBeltState (forward/reverse/off)
- * Pickup.raise ()
- * Pickup.lower ()
- * Pickup.stop ()
- * 
- * 
- * 
- * shooter - controls raising and lowering of the shooter and
- * running the shooter motor.  indications provided are shooter 
- * motor speed and height of the shoolter mech.  Lights on the rear 
+ * Shooter - controls raising and lowering of the shooter and
+ * running the shooter motor. Indications provided are shooter 
+ * motor speed and height of the shooter mech.  Lights on the rear 
  * of the pickup arm are also wired in to give indications to the
  * operators.
- * functions are:
- * Shooter.move () //move shooter mech up or down manually
- * Shooter.enable () //turn on shooter motor
- * Shooter.disable () //turn off shooter motor
- * Shooter.fire(true/false) //fire or retract firing piston
- * Shooter.indications () //provide led lights indications
- * Shooter.moveToPosition(position) //use speed controller to
- *	control speed of shooter wheel
- * Shooter.atSpeed ()  //return true if wheel is at speed
  * 
+ * Methods:
+ * Shooter#move(double val) - manually adjust the position of the shooter
+ * Shooter#enable() - turn on the shooter motor
+ * Shooter#disable() - turn off shooter motor
+ * Shooter#fire(boolean value) - fire or retract firing piston
+ * Shooter#indications() - provide led lights indications
+ * Shooter#moveToPosition(double position) - move the shooter to a position
+ * Shooter#atSpeed() - check if the shooter motor is up to speed
  * 
+ * Climber - manages the climbing piston.
+ * 
+ * Methods:
+ * Climber#extendHooks()
+ * Climber#retractHooks()
+ * 
+ * The Subsystems (plural) class contains a single shared instance of each
+ * subsystem. If working in a class that subclasses Subsystems (such as the OI
+ * or any Autonomous mode), the subsystems can be accessed as regular variables:
+ * 
+ * drivetrain.arcadeDrive(0,0);
+ * shooter.enable();
+ * climber.extendHooks();
+ * 
+ * Elsewhere, the subsystems can be accessed through the Subsystems class:
+ * 
+ * Subsystems.drivetrain.arcadeDrive(0,0);
+ * Subsystems.shooter.disable();
+ *
  ********************************************************************** 
  ********************************************************************** 
  * higher level control 
