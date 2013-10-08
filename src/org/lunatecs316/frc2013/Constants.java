@@ -2,6 +2,7 @@ package org.lunatecs316.frc2013;
 
 import edu.wpi.first.wpilibj.Preferences;
 import java.util.Vector;
+import org.lunatecs316.frc2013.subsystems.Subsystems;
 
 /**
  * Robot constants manager
@@ -10,26 +11,13 @@ import java.util.Vector;
  */
 public class Constants {
 
-    static {
-        constants = new Vector();
-    }
+    private static Vector constants;
+    private static Preferences prefs = Preferences.getInstance();
 
     public static final Constant JoystickDeadband = new Constant("JoystickDeadband", 0.2);
 
     public static final Constant DriveEncoderTicksPerRot = new Constant("DriveEncoderTicksPerRot", 360.0);
     public static final Constant DriveWheelDiameter = new Constant("DriveWheelDiameter", 6.0);
-    public static final Constant DriveWheelBaseWidth = new Constant("DriveWheelBaseWidth", 20.0);
-
-    public static final Constant DriveGyroP = new Constant("DriveGyroP", 0.0);
-    public static final Constant DriveGyroI = new Constant("DriveGyroI", 0.0);
-    public static final Constant DriveGyroD = new Constant("DriveGyroD", 0.0);
-
-    public static final Constant DriveEncoderP = new Constant("DriveEncoderP", 0.0004);
-    public static final Constant DriveEncoderI = new Constant("DriveEncoderI", 0.0);
-    public static final Constant DriveEncoderD = new Constant("DriveEncoderD", 0.00005);
-
-    public static final Constant PickupArmSpeed = new Constant("PickupArmSpeed", 1.0);
-    public static final Constant PickupBeltSpeed = new Constant("PickupBeltSpeed", 1.0);
 
     public static final Constant ShooterTopPosition = new Constant("ShooterTopPosition", 3.2);
     public static final Constant ShooterMidPosition = new Constant("ShooterMidPosition", 3.1);
@@ -39,19 +27,12 @@ public class Constants {
     public static final Constant ShooterMinFiringSpeed = new Constant("ShooterMinFiringSpeed", 3600.0);
     public static final Constant ShooterLightBlinkSpeed = new Constant("ShooterLightBlinkSpeed", 20);
 
-    public static final Constant ShooterSpeedP = new Constant("ShooterSpeedP", -0.005);
-    public static final Constant ShooterSpeedI = new Constant("ShooterSpeedI", 0.0);
-    public static final Constant ShooterSpeedD = new Constant("ShooterSpeedD", 0.0);
-
-    public static final Constant ShooterAngleP = new Constant("ShooterAngleP", 21.5);
-    public static final Constant ShooterAngleI = new Constant("ShooterAngleI", 0.0);
-    public static final Constant ShooterAngleD = new Constant("ShooterAngleD", 0.0);
-
     public static final Constant DashboardUpdateFrequency = new Constant("DashboardUpdateFrequency", 10);
 
-    public static Vector constants;
-    private static Preferences prefs = Preferences.getInstance();
-
+    static {
+        constants = new Vector();
+    }
+    
     public static class Constant {
         private String m_name;
         private double m_value;
@@ -60,7 +41,7 @@ public class Constants {
             m_name = name;
             m_value = value;
 
-            Constants.constants.addElement(this);
+            constants.addElement(this);
         }
 
         public void setValue(double value) {
@@ -117,5 +98,7 @@ public class Constants {
             System.out.println("Saving updated constants to disk");
             prefs.save();
         }
+        
+        Subsystems.updateConstants();
     }
 }
