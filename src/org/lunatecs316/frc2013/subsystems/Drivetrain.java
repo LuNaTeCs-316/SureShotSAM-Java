@@ -47,6 +47,8 @@ public class Drivetrain extends Subsystem {
 
     private double targetDistance;
     private double targetAngle;
+    private boolean turning = false;
+    private boolean drivingStraight = false;
 
     public void init() {
         // Configure the encoders
@@ -80,6 +82,8 @@ public class Drivetrain extends Subsystem {
      * @param turn turning value
      */
     public void arcadeDrive(double throttle, double turn) {
+        drivingStraight = false;
+        turning = false;
         driveMotors.drive(throttle, turn);
     }
 
@@ -89,6 +93,8 @@ public class Drivetrain extends Subsystem {
      * @param right the value for the right motors
      */
     public void tankDrive(double left, double right) {
+        drivingStraight = false;
+        turning = false;
         driveMotors.tankDrive(left, right);
     }
 
@@ -97,8 +103,10 @@ public class Drivetrain extends Subsystem {
      * @param inches the distance the robot should move. + = forwards, - = reverse
      * @param firstCall if this is the first call then setup
      */
-    public void driveStraight(double inches, boolean firstCall) {
-        if (firstCall) {
+    public void driveStraight(double inches) {
+        if (!drivingStraight) {
+            drivingStraight = true;
+            turning = false;
             double distancePerRotation = Constants.DriveWheelDiameter.getValue() / Math.PI;
 
             // Calculate the target encoder tick value
@@ -128,8 +136,10 @@ public class Drivetrain extends Subsystem {
      * @param degrees the amount by which to turn the robot
      * @param firstCall setup if it is the first call
      */
-    public void turn(double angle, boolean firstCall) {
-        if (firstCall) {
+    public void turn(double angle) {
+        if (!turning) {
+            turning = true;
+            drivingStraight = false;
             //test to fix that angle is off by 1/6
             angle = angle + angle/6;
 
@@ -152,7 +162,14 @@ public class Drivetrain extends Subsystem {
      * @return
      */
     public boolean atTarget() {
-        return (targetDistance == 0);
+        if (drivingStraight) {
+            return distanceController.atTarget();
+        } else if (turning) {
+            return angleController.atTarget();
+        }
+        
+        // No target set, can't be on a non-existant target
+        return false;
     }
 
     /**

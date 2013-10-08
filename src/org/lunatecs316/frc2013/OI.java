@@ -1,7 +1,6 @@
 package org.lunatecs316.frc2013;
 
 import edu.wpi.first.wpilibj.Joystick;
-import org.lunatecs316.frc2013.lib.Latch;
 import org.lunatecs316.frc2013.lib.Util;
 import org.lunatecs316.frc2013.lib.XboxController;
 import org.lunatecs316.frc2013.subsystems.*;
@@ -15,10 +14,6 @@ public class OI extends Subsystems {
     /* Joysticks */
     private XboxController driverController;
     private Joystick operatorJoystick;
-
-    private Latch buttonALatch = new Latch();
-    private Latch buttonBLatch = new Latch();
-    private Latch buttonXLatch = new Latch();
 
     public XboxController getDriverController() {
         return driverController;
@@ -44,17 +39,14 @@ public class OI extends Subsystems {
         //
         // Drivetrain
         //
-        boolean buttonAPressed = driverController.getButtonA();
-        boolean buttonBPressed = driverController.getButtonB();
-        boolean buttonXPressed = driverController.getButtonX();
-
+        
         // Driving
-        if (buttonAPressed) {
-            drivetrain.driveStraight(48, buttonALatch.risingEdge(buttonAPressed));
-        } else if (buttonBPressed) {
-            drivetrain.driveStraight(24, buttonBLatch.risingEdge(buttonBPressed));
-        } else if (buttonXPressed) {
-            drivetrain.turn(90, buttonXLatch.risingEdge(buttonXPressed));
+        if (driverController.getButtonA()) {
+            drivetrain.driveStraight(48);
+        } else if (driverController.getButtonB()) {
+            drivetrain.driveStraight(24);
+        } else if (driverController.getButtonX()) {
+            drivetrain.turn(90);
         } else {
             double throttle = -driverController.getLeftY();
             double turn = driverController.getRightX();

@@ -3,7 +3,6 @@ package org.lunatecs316.frc2013.auto;
 import org.lunatecs316.frc2013.Constants;
 import org.lunatecs316.frc2013.Logger;
 import org.lunatecs316.frc2013.subsystems.Pickup;
-import org.lunatecs316.frc2013.subsystems.Subsystems;
 
 /**
  * Five disk autonomous mode. Uses the StateMachineAuto template
@@ -92,7 +91,7 @@ public class FiveDiskAuto extends StateMachineAuto {
                 }
             } else if (state == kBackingUp) {
                 // Backup to the center line
-                Subsystems.drivetrain.arcadeDrive(-0.75, 0);
+                drivetrain.arcadeDrive(-0.75, 0);
                 pickup.setBeltState(Pickup.BeltState.Reverse);
 
                 Logger.log("Backing up");
@@ -101,7 +100,7 @@ public class FiveDiskAuto extends StateMachineAuto {
                 }
             } else if (state == kWaitAtCenterLine) {
                 // Wait at the center line
-                Subsystems.drivetrain.arcadeDrive(0, 0);
+                drivetrain.arcadeDrive(0, 0);
                 pickup.stop();
 
                 Logger.log("Waiting at the center line");
@@ -110,21 +109,21 @@ public class FiveDiskAuto extends StateMachineAuto {
                 }
             } else if (state == kDriveForward) {
                 // Wait at the center line
-                Subsystems.drivetrain.arcadeDrive(0.75, 0);
+                drivetrain.arcadeDrive(0.75, 0);
                 pickup.raise();
                 pickup.setBeltState(Pickup.BeltState.Off);
                 shooter.moveToPosition(Constants.ShooterTopPosition.getValue());
 
                 Logger.log("Driving forward to the pyramid");
                 if (stateTimer.getCurrentMs() >= 1350) {
-                    Subsystems.drivetrain.arcadeDrive(-0.075, 0);
+                    drivetrain.arcadeDrive(-0.075, 0);
                     setState(kWaitAtPyramid);
                 }
             } else if (state == kWaitAtPyramid) {
                 // Wait to settle at the pyramid before firing
                 if (stateTimer.getCurrentMs() >= 750) {
                     pickup.stop();
-                    Subsystems.drivetrain.arcadeDrive(-0.10, 0);
+                    drivetrain.arcadeDrive(-0.10, 0);
                     shooter.enable();
                     setState(kPreparingNextShot);
                 }
