@@ -8,7 +8,7 @@ import org.lunatecs316.frc2013.subsystems.Pickup;
  * Five disk autonomous mode. Uses the StateMachineAuto template
  * @author domenicpaul
  */
-public class FiveDiskAuto extends StateMachineAuto {
+public class FiveDiskAutoDR extends StateMachineAuto {
 
     // Declare states
     private final State kStart = new State("Start");

@@ -71,7 +71,7 @@ public class SureShotSAM extends IterativeRobot {
                 autoMode = new ThreeDiskAuto();
                 break;
             case 2:
-                autoMode = new FiveDiskAuto();
+                autoMode = new FiveDiskAutoDR();
                 break;
             case 4:
                 autoMode = new TestAuto();
