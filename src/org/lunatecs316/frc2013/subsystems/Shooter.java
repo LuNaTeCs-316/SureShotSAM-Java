@@ -76,6 +76,14 @@ public class Shooter extends Subsystem {
         angleController.setSetpoint(pos);
         angleController.enable();
     }
+    
+    public void moveToTopPosition() {
+        moveToPosition(Constants.ShooterTopPosition.getValue());
+    }
+    
+    public void moveToLoadPosition() {
+        moveToPosition(Constants.ShooterLoadPosition.getValue());
+    }
 
     /**
      * Manually control the angle

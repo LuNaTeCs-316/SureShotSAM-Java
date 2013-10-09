@@ -68,8 +68,10 @@ public class OI extends Subsystems {
         // Angle control
         if (driverController.getLeftBumper()) {
             pickup.raise();
+            shooter.moveToTopPosition();
         } else if (driverController.getRightBumper()) {
             pickup.lower();
+            shooter.moveToLoadPosition();
         } else {
             pickup.stop();
         }
@@ -88,14 +90,17 @@ public class OI extends Subsystems {
         //
 
         // Angle control
+        double shooterMoveValue = Util.deadband(operatorJoystick.getY(), Constants.JoystickDeadband.getValue());
         if (operatorJoystick.getRawButton(11)) {
-            shooter.moveToPosition(Constants.ShooterTopPosition.getValue());
+            shooter.moveToTopPosition();
         } else if (operatorJoystick.getRawButton(10)) {
             shooter.moveToPosition(Constants.ShooterMidPosition.getValue());
         } else if (operatorJoystick.getRawButton(8)) {
-            shooter.moveToPosition(Constants.ShooterLoadPosition.getValue());
+            shooter.moveToLoadPosition();
+        } else if (shooterMoveValue == 0) {
+            // Do nothing; let the shooter move to position
         } else {
-            shooter.move(Util.deadband(operatorJoystick.getY(), Constants.JoystickDeadband.getValue()));
+            shooter.move(shooterMoveValue);
         }
 
         // Motor control

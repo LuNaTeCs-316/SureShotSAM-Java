@@ -1,6 +1,5 @@
 package org.lunatecs316.frc2013.auto;
 
-import org.lunatecs316.frc2013.Constants;
 import org.lunatecs316.frc2013.Logger;
 import org.lunatecs316.frc2013.subsystems.Pickup;
 
@@ -83,7 +82,7 @@ public class FiveDiskAutoDR extends StateMachineAuto {
                 shooter.fire(false);
                 shooter.disable();
                 pickup.lower();
-                shooter.moveToPosition(Constants.ShooterLoadPosition.getValue());
+                shooter.moveToLoadPosition();
 
                 Logger.log("Lowering Pickup");
                 if (stateTimer.getCurrentMs() >= 1000) {
@@ -112,7 +111,7 @@ public class FiveDiskAutoDR extends StateMachineAuto {
                 drivetrain.arcadeDrive(0.75, 0);
                 pickup.raise();
                 pickup.setBeltState(Pickup.BeltState.Off);
-                shooter.moveToPosition(Constants.ShooterTopPosition.getValue());
+                shooter.moveToTopPosition();
 
                 Logger.log("Driving forward to the pyramid");
                 if (stateTimer.getCurrentMs() >= 1350) {
