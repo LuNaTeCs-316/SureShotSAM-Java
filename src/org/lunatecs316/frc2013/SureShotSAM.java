@@ -32,7 +32,7 @@ public class SureShotSAM extends IterativeRobot {
     private Compressor compressor = new Compressor(RobotMap.COMPRESSOR_PRESSURE_SWITCH,
             RobotMap.COMPRESSOR_RELAY);
 
-    private OI oi;
+    private OI oi = new OI();
 
     /* Autonomous Mode */
     private AutonomousMode autoMode;

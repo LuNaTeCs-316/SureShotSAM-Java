@@ -11,7 +11,11 @@ import org.lunatecs316.frc2013.subsystems.Subsystems;
  */
 public class Constants {
 
-    private static Vector constants;
+    static {
+        constants = new Vector();
+    }
+    
+    public static Vector constants;
     private static Preferences prefs = Preferences.getInstance();
 
     public static final Constant JoystickDeadband = new Constant("JoystickDeadband", 0.2);
@@ -29,10 +33,6 @@ public class Constants {
 
     public static final Constant DashboardUpdateFrequency = new Constant("DashboardUpdateFrequency", 10);
 
-    static {
-        constants = new Vector();
-    }
-    
     public static class Constant {
         private String m_name;
         private double m_value;
@@ -41,7 +41,7 @@ public class Constants {
             m_name = name;
             m_value = value;
 
-            constants.addElement(this);
+            Constants.constants.addElement(this);
         }
 
         public void setValue(double value) {
