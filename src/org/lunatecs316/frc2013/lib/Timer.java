@@ -6,16 +6,26 @@ package org.lunatecs316.frc2013.lib;
  */
 public class Timer {
     private double startTime;
+    private double target;
 
     public Timer() {
-        startTime = System.currentTimeMillis();
+        reset();
     }
 
     public double getCurrentMs() {
         return System.currentTimeMillis() - startTime;
     }
 
-    public void reset() {
+    public final void reset() {
         startTime = System.currentTimeMillis();
+    }
+    
+    public void setTarget(double target) {
+        reset();
+        this.target = target;
+    }
+    
+    public boolean isExpired() {
+        return getCurrentMs() > target;
     }
 }

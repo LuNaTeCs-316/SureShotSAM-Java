@@ -12,7 +12,7 @@ public class SimplePIDController {
     private double kD;
     
     // Deadband
-    private double deadband;
+    private double tolerance;
     private boolean atTarget = false;
     
     // Data
@@ -35,13 +35,25 @@ public class SimplePIDController {
      * @param kP proportional gain
      * @param kI integral gain
      * @param kD derivative gain
-     * @param db deadband
+     * @param tolerance deadband
      */
-    public SimplePIDController(double kP, double kI, double kD, double db) {
+    public SimplePIDController(double kP, double kI, double kD, double tolerance) {
         this.kP = kP;
         this.kI = kI;
         this.kD = kD;
-        this.deadband = db;
+        this.tolerance = tolerance;
+    }
+    
+    /**
+     * Set new values for the kP, kI, and kD
+     * @param kP new proportional constant
+     * @param kI new integral constant
+     * @param kD new derivative constant
+     */
+    public void setPID(double kP, double kI, double kD) {
+        this.kP = kP;
+        this.kI = kI;
+        this.kD = kD;
     }
     
     /**
@@ -59,7 +71,7 @@ public class SimplePIDController {
         
         double correction = error * kP + integral * kI + derivative * kD;
         
-        atTarget = (Util.deadband(correction, deadband) == 0);
+        atTarget = (Util.deadband(correction, tolerance) == 0);
         
         return correction;
     }

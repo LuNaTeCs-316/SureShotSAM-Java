@@ -23,6 +23,13 @@ public class Constants {
     public static final Constant DriveEncoderTicksPerRot = new Constant("DriveEncoderTicksPerRot", 360.0);
     public static final Constant DriveWheelDiameter = new Constant("DriveWheelDiameter", 6.0);
 
+    public static final Constant DriveDistanceP = new Constant("DriveDistanceP", 0.001);
+    public static final Constant DriveDistanceI = new Constant("DriveDistanceI", 0.0);
+    public static final Constant DriveDistanceD = new Constant("DriveDistanceD", 0.0);
+    public static final Constant DriveAngleP = new Constant("DriveAngleP", -0.05);
+    public static final Constant DriveAngleI = new Constant("DriveAngleI", 0.0);
+    public static final Constant DriveAngleD = new Constant("DriveAngleD", 0.0);
+    
     public static final Constant ShooterTopPosition = new Constant("ShooterTopPosition", 3.2);
     public static final Constant ShooterMidPosition = new Constant("ShooterMidPosition", 3.1);
     public static final Constant ShooterLoadPosition = new Constant("ShooterLoadPosition", 1.85);

@@ -75,6 +75,16 @@ public class Drivetrain extends Subsystem {
         SmartDashboard.putNumber("LeftDriveEncoder", leftEncoder.get());
         SmartDashboard.putNumber("RightDriveEncoder", rightEncoder.get());
     }
+    
+    public void updateConstants() {
+        distanceController.setPID(Constants.DriveDistanceP.getValue(),
+                                  Constants.DriveDistanceI.getValue(),
+                                  Constants.DriveDistanceD.getValue());
+        
+        angleController.setPID(Constants.DriveAngleP.getValue(), 
+                               Constants.DriveAngleI.getValue(),
+                               Constants.DriveAngleD.getValue());
+    }
 
     /**
      * Arcade drive with manual parameters
