@@ -91,6 +91,7 @@ public class Constants {
                 double newValue = prefs.getDouble(key, oldValue);
                 if (oldValue != newValue) {
                     // Update the value, use the old one if we fail
+                    System.out.println("Updating " + key + " from '" + oldValue + "' to '" + newValue + "'");
                     constant.setValue(prefs.getDouble(key, oldValue));
                     modified = true;
                 }

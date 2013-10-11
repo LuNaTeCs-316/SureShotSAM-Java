@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.lunatecs316.frc2013.Constants;
+import org.lunatecs316.frc2013.Logger;
 import org.lunatecs316.frc2013.RobotMap;
 import org.lunatecs316.frc2013.lib.SimplePIDController;
 import org.lunatecs316.frc2013.lib.LuNaDrive;
@@ -117,16 +118,17 @@ public class Drivetrain extends Subsystem {
         if (!drivingStraight) {
             drivingStraight = true;
             turning = false;
-            double distancePerRotation = Constants.DriveWheelDiameter.getValue() / Math.PI;
+            double distancePerRotation = Constants.DriveWheelDiameter.getValue() * Math.PI;
 
             // Calculate the target encoder tick value
             targetDistance = (inches * Constants.DriveEncoderTicksPerRot.getValue())
                                     / distancePerRotation;
-
+        
             // Reset encoders
             leftEncoder.reset();
             rightEncoder.reset();
 
+            Logger.log("targetDistance", targetDistance);
             driveMotors.drive(0, 0);
         }
 
@@ -135,6 +137,8 @@ public class Drivetrain extends Subsystem {
 
         if (power > 0.75) {
             power = 0.75;
+        } else if (power < -0.75) {
+            power = -0.75;
         }
 
         driveMotors.drive(power, 0.0);

@@ -6,7 +6,7 @@ package org.lunatecs316.frc2013;
  */
 public class Logger {
 
-    private static String m_output;
+    private static String m_output = "";
 
     /**
      * Add a string to the debug output

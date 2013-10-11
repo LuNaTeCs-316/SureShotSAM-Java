@@ -44,7 +44,7 @@ public class OI extends Subsystems {
         if (driverController.getButtonA()) {
             drivetrain.driveStraight(48);
         } else if (driverController.getButtonB()) {
-            drivetrain.driveStraight(24);
+            drivetrain.driveStraight(-108);
         } else if (driverController.getButtonX()) {
             drivetrain.turn(90);
         } else {
@@ -68,10 +68,8 @@ public class OI extends Subsystems {
         // Angle control
         if (driverController.getLeftBumper()) {
             pickup.raise();
-            shooter.moveToTopPosition();
         } else if (driverController.getRightBumper()) {
             pickup.lower();
-            shooter.moveToLoadPosition();
         } else {
             pickup.stop();
         }
@@ -97,8 +95,6 @@ public class OI extends Subsystems {
             shooter.moveToPosition(Constants.ShooterMidPosition.getValue());
         } else if (operatorJoystick.getRawButton(8)) {
             shooter.moveToLoadPosition();
-        } else if (shooterMoveValue == 0) {
-            // Do nothing; let the shooter move to position
         } else {
             shooter.move(shooterMoveValue);
         }
@@ -122,8 +118,6 @@ public class OI extends Subsystems {
 
         // Indicator lights
         shooter.indications();
-
-        Logger.log("shooterAngle", shooter.getAngle());
 
         //
         // Climbing

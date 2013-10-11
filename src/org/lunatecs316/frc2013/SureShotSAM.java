@@ -50,6 +50,8 @@ public class SureShotSAM extends IterativeRobot {
 
         // Start the compressor
         compressor.start();
+        
+        Constants.init();
 
         // Print for debugging purposes
         Logger.log("robotInit() Done!");
@@ -114,8 +116,10 @@ public class SureShotSAM extends IterativeRobot {
         // Update SmartDashboard every so often
         if (teleopLoopCount >= Constants.DashboardUpdateFrequency.getValue()) {
             Subsystems.updateSmartDashboard();
+            teleopLoopCount = 0;
         }
 
+        teleopLoopCount++;
         Logger.run("TeleopPeriodic");
     }
 
@@ -141,6 +145,8 @@ public class SureShotSAM extends IterativeRobot {
         Subsystems.shooter.fire(false);
         Subsystems.climber.retractHooks();
 
+        Constants.update();
+        
         Logger.run("DisabledInit");
     }
 

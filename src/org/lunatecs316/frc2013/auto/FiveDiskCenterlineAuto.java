@@ -92,11 +92,11 @@ public class FiveDiskCenterlineAuto extends StateMachineAuto {
                 }
             } else if (state == kBackingUp) {
                 // Backup to the center line
-                drivetrain.driveStraight(-50.0);
+                drivetrain.driveStraight(-108);
                 pickup.setBeltState(Pickup.BeltState.Reverse);
 
                 Logger.log("Backing up");
-                if (drivetrain.atTarget()) {
+                if (drivetrain.atTarget() || stateTimer.getCurrentMs() >= 3000) {
                     setState(kWaitAtCenterLine);
                 }
             } else if (state == kWaitAtCenterLine) {
@@ -110,7 +110,7 @@ public class FiveDiskCenterlineAuto extends StateMachineAuto {
                 }
             } else if (state == kDriveForward) {
                 // Wait at the center line
-                drivetrain.driveStraight(50.0);
+                drivetrain.driveStraight(108.0);
                 pickup.raise();
                 pickup.setBeltState(Pickup.BeltState.Off);
                 shooter.moveToPosition(Constants.ShooterTopPosition.getValue());

@@ -117,6 +117,10 @@ public class Shooter extends Subsystem {
         return speedController.onTarget();
         //return speedTach.getRPM() > 3700;
     }
+    
+    public boolean moving() {
+        return angleController.isEnable();
+    }
 
     /**
      * Fire the shot
