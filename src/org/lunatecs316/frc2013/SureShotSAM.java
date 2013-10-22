@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.lunatecs316.frc2013.subsystems.*;
 import org.lunatecs316.frc2013.auto.*;
+import org.lunatecs316.frc2013.lib.Latch;
 
 /**
  * Main Robot class.
@@ -150,10 +151,15 @@ public class SureShotSAM extends IterativeRobot {
         Logger.run("DisabledInit");
     }
 
+    Latch buttonXLatch = new Latch();
     public void disabledPeriodic() {
         // Reset gyro
         if (oi.getDriverController().getRawButton(4)) {
             Subsystems.drivetrain.resetGyro();
+        }
+        
+        if (buttonXLatch.risingEdge(oi.getDriverController().getButtonX())) {
+            Constants.update();
         }
 
         Logger.run("DisabledPeriodic");

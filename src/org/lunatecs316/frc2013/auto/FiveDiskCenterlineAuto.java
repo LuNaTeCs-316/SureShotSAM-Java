@@ -87,12 +87,12 @@ public class FiveDiskCenterlineAuto extends StateMachineAuto {
                 shooter.moveToPosition(Constants.ShooterLoadPosition.getValue());
 
                 Logger.log("Lowering Pickup");
-                if (stateTimer.getCurrentMs() >= 1000) {
+                if (stateTimer.getCurrentMs() >= 900) {
                     setState(kBackingUp);
                 }
             } else if (state == kBackingUp) {
                 // Backup to the center line
-                drivetrain.driveStraight(-108);
+                drivetrain.driveStraight(-125.0);
                 pickup.setBeltState(Pickup.BeltState.Reverse);
 
                 Logger.log("Backing up");
@@ -105,12 +105,12 @@ public class FiveDiskCenterlineAuto extends StateMachineAuto {
                 pickup.stop();
 
                 Logger.log("Waiting at the center line");
-                if (stateTimer.getCurrentMs() >= 2500) {
+                if (stateTimer.getCurrentMs() >= 1000) {
                     setState(kDriveForward);
                 }
             } else if (state == kDriveForward) {
                 // Wait at the center line
-                drivetrain.driveStraight(108.0);
+                drivetrain.driveStraight(125.0);
                 pickup.raise();
                 pickup.setBeltState(Pickup.BeltState.Off);
                 shooter.moveToPosition(Constants.ShooterTopPosition.getValue());
