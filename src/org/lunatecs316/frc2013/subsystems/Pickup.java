@@ -3,6 +3,7 @@ package org.lunatecs316.frc2013.subsystems;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import org.lunatecs316.frc2013.Constants;
 import org.lunatecs316.frc2013.RobotMap;
 
 /**
@@ -57,9 +58,9 @@ public class Pickup extends Subsystem {
      */
     public void setBeltState(BeltState state) {
         if (state == BeltState.Forwards) {
-            beltMotor.set(1.0);
+            beltMotor.set(Constants.PickupBeltSpeed.getValue());
         } else if (state == BeltState.Reverse) {
-            beltMotor.set(-1.0);
+            beltMotor.set(-Constants.PickupBeltSpeed.getValue());
         } else if (state == BeltState.Off) {
             beltMotor.set(0.0);
         } else {

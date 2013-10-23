@@ -10,7 +10,7 @@ import org.lunatecs316.frc2013.subsystems.Subsystems;
  * @author domenicpaul
  */
 public class Constants {
-
+    
     static {
         constants = new Vector();
     }
@@ -37,6 +37,8 @@ public class Constants {
     public static final Constant ShooterTargetSpeed = new Constant("ShooterTargetSpeed", 3975.0);
     public static final Constant ShooterMinFiringSpeed = new Constant("ShooterMinFiringSpeed", 3600.0);
     public static final Constant ShooterLightBlinkSpeed = new Constant("ShooterLightBlinkSpeed", 20);
+    
+    public static final Constant PickupBeltSpeed = new Constant("PickupBeltSpeed", 1.0);
 
     public static final Constant DashboardUpdateFrequency = new Constant("DashboardUpdateFrequency", 10);
 
