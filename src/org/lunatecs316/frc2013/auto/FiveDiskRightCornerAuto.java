@@ -9,7 +9,7 @@ import org.lunatecs316.frc2013.subsystems.Pickup;
  * of dead reckoning.
  * @author domenicpaul
  */
-public class FiveDiskCenterlineAuto extends StateMachineAuto {
+public class FiveDiskRightCornerAuto extends StateMachineAuto {
 
     // Declare states
     private final State kStart = new State("Start");

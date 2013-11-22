@@ -37,6 +37,8 @@ public class Shooter extends Subsystem {
     private Solenoid redIndicator2 = new Solenoid(RobotMap.RED_INDICATOR_2);
     private Solenoid blueIndicator = new Solenoid(RobotMap.BLUE_INDICATOR);
 
+    private boolean autoMode = false;
+    
     private boolean lightIsOn = false;
     private int offCounter = 0;
     private int onCounter = 0;
@@ -98,6 +100,7 @@ public class Shooter extends Subsystem {
      * Enable the shooter wheel
      */
     public void enable() {
+        autoMode = false;
         speedController.enable();
     }
 
@@ -105,6 +108,7 @@ public class Shooter extends Subsystem {
      * Disable the shooter wheel
      */
     public void disable() {
+        autoMode = false;
         speedController.disable();
         motor.set(0);
     }
@@ -127,6 +131,7 @@ public class Shooter extends Subsystem {
      * @param value whether to shoot or not
      */
     public void fire(boolean value) {
+        autoMode = false;
         solenoid.set(value);
     }
 
